@@ -1,0 +1,1 @@
+export { default as AuthByLoginForm } from './UI/AuthByLoginForm.vue';

@@ -1,0 +1,11 @@
+@mixin font-face($font-family, $url, $weight: normal, $style: normal) {
+  @layer base {
+    @font-face {
+      font-weight: $weight;
+      font-family: $font-family;
+      font-style: $style;
+      src: url('@shared/assets/fonts/#{$url}.woff2') format('woff2'),
+      url('@shared/assets/fonts/#{$url}.ttf') format('truetype');
+    }
+  }
+}

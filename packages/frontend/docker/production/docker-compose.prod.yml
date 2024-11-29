@@ -1,0 +1,35 @@
+services:
+  frontend:
+    container_name: frontend
+    image: frontend:latest
+    build:
+      context: ../..
+      dockerfile: docker/production/Dockerfile
+    volumes:
+      - static:/srv/app/dist
+
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    networks:
+      - nginx_net
+    volumes:
+      - static:/var/www/html
+      - ./nginx/famsy.ru.conf:/etc/nginx/sites-enabled/famsy.ru.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/lib/letsencrypt:/var/lib/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - frontend
+    restart: unless-stopped
+    command: /bin/sh -c "while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g 'daemon off;'"
+
+networks:
+  nginx_net:
+    name: nginx_net
+
+volumes:
+  static:

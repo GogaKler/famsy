@@ -1,0 +1,8 @@
+services:
+  api:
+    build:
+      context: ../
+      dockerfile: docker/production/Dockerfile
+      target: production
+    env_file:
+      - ../.env.production.local

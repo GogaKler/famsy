@@ -1,0 +1,1 @@
+export { FsPluginFontawesome } from './fontawesome';
