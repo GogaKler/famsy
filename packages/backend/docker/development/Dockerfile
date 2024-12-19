@@ -1,4 +1,4 @@
-FROM node:lts As development
+FROM node:22 As development
 
 RUN apt-get update && apt-get install -y openssl
 
@@ -11,6 +11,8 @@ RUN npm i
 COPY --chown=node:node . .
 
 RUN npm run prisma:generate
+
+RUN chown -R node:node /usr/src/app
 
 USER node
 

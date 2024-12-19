@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, type Router } from 'vue-router';
 import { authRouter } from '@pages/auth';
-import { clientRouter } from '@pages/client';
+import { getMainRouter } from '@pages/main';
 
 
 const router: Router = createRouter({
@@ -9,8 +9,8 @@ const router: Router = createRouter({
     {
       path: '/',
       name: 'root',
-      redirect: { name: 'client-root' },
-      children: [...clientRouter, ...authRouter],
+      redirect: { name: 'main-root' },
+      children: [...getMainRouter(), ...authRouter],
     },
   ],
 });

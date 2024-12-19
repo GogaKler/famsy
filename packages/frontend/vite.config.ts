@@ -32,7 +32,7 @@ export default defineConfig((config): UserConfig => {
       devSourcemap: isDev,
       preprocessorOptions: {
         scss: {
-          additionalData: '@import "@app/styles/_globals.scss";',
+          additionalData: '@use "@app/styles/_globals.scss" as *;',
         },
       },
     },

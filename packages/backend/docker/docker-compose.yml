@@ -22,7 +22,7 @@ services:
       - /usr/src/app/node_modules/
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
-#      DATABASE_URL: ${DATABASE_URL}
+    #  DATABASE_URL: ${DATABASE_URL}
     ports:
       - ${APP_PORT}:${APP_PORT}
     links:

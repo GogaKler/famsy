@@ -46,6 +46,12 @@ export class AuthController {
     request.res.setHeader('Set-Cookie', [accessToken, refreshToken]);
   }
 
+  @ApiOkResponse({ type: Boolean })
+  @Get('checkAuth')
+  async checkAuth(): Promise<{ isAuthenticated: boolean }> {
+    return { isAuthenticated: true };
+  }
+
   @UseGuards(JwtRefreshGuard)
   @Public()
   @Post('refresh')

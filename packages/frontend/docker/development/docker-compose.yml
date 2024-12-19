@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  web:
+  frontend:
     build:
       context: ../..
       dockerfile: docker/development/Dockerfile

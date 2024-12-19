@@ -1,0 +1,1 @@
+export { type UserEntity } from './model/types';
