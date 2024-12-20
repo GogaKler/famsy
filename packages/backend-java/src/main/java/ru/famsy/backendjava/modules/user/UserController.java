@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import ru.famsy.backendjava.modules.user.dto.UserCreateDTO;
 import ru.famsy.backendjava.modules.user.dto.UserDTO;
-import ru.famsy.backendjava.modules.user.dto.UserMapper;
+import ru.famsy.backendjava.modules.user.mapper.UserMapper;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-    private final UserMapper userMapper;
+    private final ru.famsy.backendjava.modules.user.mapper.UserMapper userMapper;
 
     public UserController(
             UserService userService,

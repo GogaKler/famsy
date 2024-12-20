@@ -1,9 +1,11 @@
-package ru.famsy.backendjava.modules.user.dto;
+package ru.famsy.backendjava.modules.user.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import ru.famsy.backendjava.modules.user.UserEntity;
+import ru.famsy.backendjava.modules.user.dto.UserCreateDTO;
+import ru.famsy.backendjava.modules.user.dto.UserDTO;
 
 import java.util.List;
 

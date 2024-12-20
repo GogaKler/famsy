@@ -4,14 +4,14 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.famsy.backendjava.modules.user.dto.UserMapper;
+import ru.famsy.backendjava.modules.user.mapper.UserMapper;
 
 import java.util.List;
 
 @Service
 public class UserService {
 
-    private final UserMapper userMapper;
+    private final ru.famsy.backendjava.modules.user.mapper.UserMapper userMapper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
