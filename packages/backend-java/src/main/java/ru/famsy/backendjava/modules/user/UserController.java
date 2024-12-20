@@ -2,6 +2,7 @@ package ru.famsy.backendjava.modules.user;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+import ru.famsy.backendjava.modules.user.dto.UserCreateDTO;
 import ru.famsy.backendjava.modules.user.dto.UserDTO;
 import ru.famsy.backendjava.modules.user.dto.UserMapper;
 
@@ -22,29 +23,29 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public UserDTO createUser(@RequestBody @Valid UserDTO userDTO) {
-        UserEntity userEntity = userMapper.userDTOToUserEntity(userDTO);
+    public UserDTO createUser(@RequestBody @Valid UserCreateDTO userCreateDTO) {
+        UserEntity userEntity = userMapper.userCreateDTOToUserEntity(userCreateDTO);
         UserEntity createdUserEntity = userService.saveUser(userEntity);
-        return userMapper.userToUserDTO(createdUserEntity);
+        return userMapper.userEntityToUserDTO(createdUserEntity);
     }
 
     @GetMapping
     public List<UserDTO> findAllUsers() {
         List<UserEntity> users = userService.findAllUsers();
-        return userMapper.usersToUserDTOs(users);
+        return userMapper.userEntitiesToUserDTOs(users);
     }
 
     @PostMapping("/{id}")
     public UserDTO findUserById(@PathVariable("id") Long id) {
         UserEntity userEntity = userService.findUserById(id);
-        return userMapper.userToUserDTO(userEntity);
+        return userMapper.userEntityToUserDTO(userEntity);
     }
 
     @PutMapping("/update/{id}")
     public UserDTO updateUser(@PathVariable("id") Long id, @RequestBody @Valid UserDTO userDTO) {
         UserEntity userEntity = userMapper.userDTOToUserEntity(userDTO);
         UserEntity updatedUserEntity = userService.updateUser(id, userEntity);
-        return userMapper.userToUserDTO(updatedUserEntity);
+        return userMapper.userEntityToUserDTO(updatedUserEntity);
     }
 
     @DeleteMapping("/{id}")
