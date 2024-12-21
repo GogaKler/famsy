@@ -1,8 +1,0 @@
-services:
-  api:
-    build:
-      context: ../
-      dockerfile: docker/development/Dockerfile
-      target: development
-    env_file:
-      - ../.env.development.local
