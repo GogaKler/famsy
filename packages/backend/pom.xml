@@ -127,7 +127,7 @@
                     <execution>
                         <goals>
                             <goal>compile</goal>
-                            <goal>test-compile</goal>
+                            <goal>testCompile</goal>
                         </goals>
                         <configuration>
                             <source>21</source>
