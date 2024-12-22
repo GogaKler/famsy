@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-    private final ru.famsy.backend.modules.user.mapper.UserMapper userMapper;
+    private final UserMapper userMapper;
 
     public UserController(
             UserService userService,
