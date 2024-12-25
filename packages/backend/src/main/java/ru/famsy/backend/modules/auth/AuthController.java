@@ -3,15 +3,17 @@ package ru.famsy.backend.modules.auth;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.antlr.v4.runtime.atn.SemanticContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.famsy.backend.config.SecurityConstants;
+import ru.famsy.backend.modules.auth.config.SecurityConstants;
 import ru.famsy.backend.modules.auth.dto.AuthServiceResult;
 import ru.famsy.backend.modules.auth.dto.LoginDTO;
 import ru.famsy.backend.modules.auth.dto.RegisterDTO;
 import ru.famsy.backend.modules.auth.dto.TokenPairDTO;
+import ru.famsy.backend.modules.auth.exception.AuthAlreadyException;
 import ru.famsy.backend.modules.device.DeviceInfo;
 import ru.famsy.backend.modules.device.DeviceService;
 import ru.famsy.backend.modules.user.dto.UserDTO;
@@ -30,14 +32,15 @@ public class AuthController {
     this.userMapper = userMapper;
   }
 
+  // TODO: Убирать пробелы в login и email вначале и конце
   @PostMapping("/register")
-  public ResponseEntity<?> register(
+  public ResponseEntity<UserDTO> register(
           @RequestBody @Valid RegisterDTO registerDTO,
           HttpServletRequest request,
           HttpServletResponse response
   ) {
     if (authService.isAlreadyUserAuth()) {
-      return ResponseEntity.badRequest().body("Пользователь уже авторизован");
+      throw new AuthAlreadyException();
     }
 
     DeviceInfo deviceInfo = deviceService.getOrCreateDeviceInfo(request, response);
@@ -47,14 +50,15 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<?> login(
+  public ResponseEntity<UserDTO> login(
           @RequestBody @Valid LoginDTO loginDTO,
           HttpServletRequest request,
           HttpServletResponse response) {
     if (authService.isAlreadyUserAuth()) {
-      return ResponseEntity.badRequest().body("Пользователь уже авторизован");
+      throw new AuthAlreadyException();
     }
 
+    // TODO: Сетать в куки DeviceId только после всех валидаций
     DeviceInfo deviceInfo = deviceService.getOrCreateDeviceInfo(request, response);
     AuthServiceResult authServiceResult = authService.login(loginDTO, deviceInfo);
     addTokenCookies(response, authServiceResult.tokenPairDTO());
@@ -63,12 +67,13 @@ public class AuthController {
   }
 
   @PostMapping("/logout")
-  public ResponseEntity<?> logout(
+  public ResponseEntity<SemanticContext.Empty> logout(
           @CookieValue("refresh_token") String refreshToken,
           HttpServletResponse response
   ) {
     authService.revokeRefreshToken(refreshToken);
     removeTokenCookies(response);
+    // TODO: Удалять еще и DeviceID Cookie
     return ResponseEntity.ok().build();
   }
 

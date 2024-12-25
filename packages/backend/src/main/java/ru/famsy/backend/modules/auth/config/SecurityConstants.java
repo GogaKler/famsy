@@ -1,4 +1,4 @@
-package ru.famsy.backend.config;
+package ru.famsy.backend.modules.auth.config;
 
 public class SecurityConstants {
     public static final long ACCESS_TOKEN_EXPIRATION = 300000;

@@ -1,4 +1,4 @@
-package ru.famsy.backend.config;
+package ru.famsy.backend.modules.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,19 +15,25 @@ import ru.famsy.backend.modules.auth.filter.JwtAuthFilter;
 @Configuration
 public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
+    private final JwtAuthEntryPoint jwtAuthEntryPoint;
 
-    SecurityConfig(JwtAuthFilter jwtAuthFilter) {
+    SecurityConfig(JwtAuthFilter jwtAuthFilter, JwtAuthEntryPoint jwtAuthEntryPoint) {
         this.jwtAuthFilter = jwtAuthFilter;
+        this.jwtAuthEntryPoint = jwtAuthEntryPoint;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(CsrfConfigurer::disable)
+                .cors(cors -> cors.configure(http))
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exception ->
+                        exception.authenticationEntryPoint(jwtAuthEntryPoint)
+                )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**", "/error").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

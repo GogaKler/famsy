@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
-import ru.famsy.backend.config.SecurityConstants;
+import ru.famsy.backend.modules.auth.config.SecurityConstants;
 import ru.famsy.backend.modules.auth.dto.TokenPairDTO;
 import ru.famsy.backend.modules.refresh_token.RefreshTokenEntity;
 import ru.famsy.backend.modules.refresh_token.RefreshTokenRepository;

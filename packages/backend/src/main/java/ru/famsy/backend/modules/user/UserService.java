@@ -1,9 +1,9 @@
 package ru.famsy.backend.modules.user;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.famsy.backend.modules.user.exception.UserNotFoundException;
 import ru.famsy.backend.modules.user.mapper.UserMapper;
 
 import java.util.List;
@@ -33,17 +33,17 @@ public class UserService {
 
   public UserEntity findUserById(Long id) {
     return userRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Пользватель с таким id не найден:" + id));
+            .orElseThrow(() -> UserNotFoundException.byId(id));
   }
 
   public UserEntity findUserByEmail(String email) {
     return userRepository.findByEmail(email)
-            .orElseThrow(() -> new EntityNotFoundException("Пользватель с таким email не найден:" + email));
+            .orElseThrow(() -> UserNotFoundException.notFound());
   }
 
   public UserEntity findUserByUsername(String username) {
     return userRepository.findByUsername(username)
-            .orElseThrow(() -> new EntityNotFoundException("Пользватель с таким username не найден:" + username));
+            .orElseThrow(() -> UserNotFoundException.notFound());
   }
 
   public UserEntity updateUser(Long id, UserEntity user) {

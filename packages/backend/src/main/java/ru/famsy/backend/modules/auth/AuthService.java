@@ -13,6 +13,7 @@ import ru.famsy.backend.modules.auth.dto.AuthServiceResult;
 import ru.famsy.backend.modules.auth.dto.LoginDTO;
 import ru.famsy.backend.modules.auth.dto.RegisterDTO;
 import ru.famsy.backend.modules.auth.dto.TokenPairDTO;
+import ru.famsy.backend.modules.auth.exception.AuthValidationException;
 import ru.famsy.backend.modules.auth.provider.JwtTokenProvider;
 import ru.famsy.backend.modules.device.DeviceInfo;
 import ru.famsy.backend.modules.refresh_token.RefreshTokenEntity;
@@ -38,11 +39,11 @@ public class AuthService {
 
   public AuthServiceResult register(RegisterDTO registerDTO, DeviceInfo deviceInfo) {
     if (userRepository.findByEmail(registerDTO.getEmail()).isPresent()) {
-      throw new IllegalArgumentException("Пользователь с таким email уже существует");
+      throw new AuthValidationException("Пользователь с таким email уже существует");
     }
 
     if (userRepository.findByUsername(registerDTO.getUsername()).isPresent()) {
-      throw new IllegalArgumentException("Пользователь с таким email уже существует");
+      throw new AuthValidationException("Пользователь с таким username уже существует");
     }
 
     UserEntity userEntity = new UserEntity();
@@ -62,14 +63,13 @@ public class AuthService {
             .or(() -> this.userRepository.findByUsername(loginDTO.getLogin()));
 
     if (userEntityOptional.isEmpty()) {
-      // TODO: Написать корректную валидацию. Зарегистрировать в GlobalException
-      throw new IllegalArgumentException("Неверный логин или пароль");
+      throw new AuthValidationException("Неверный логин или пароль");
     }
 
     UserEntity userEntity = userEntityOptional.get();
 
     if (!passwordEncoder.matches(loginDTO.getPassword(), userEntity.getPassword())) {
-      throw new IllegalArgumentException("Неверный логин или пароль");
+      throw new AuthValidationException("Неверный логин или пароль");
     }
 
     // TODO: Сломается при логине с одного устройства, но с разных браузеров. Добавить поддержку браузера в DeviceService
