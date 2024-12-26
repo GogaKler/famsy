@@ -3,6 +3,9 @@ package ru.famsy.backend.modules.user;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.famsy.backend.modules.user.dto.UserCreateDTO;
+import ru.famsy.backend.modules.user.dto.UserDTO;
+import ru.famsy.backend.modules.user.dto.UserUpdateDTO;
 import ru.famsy.backend.modules.user.exception.UserNotFoundException;
 import ru.famsy.backend.modules.user.mapper.UserMapper;
 
@@ -22,13 +25,30 @@ public class UserService {
     this.passwordEncoder = new BCryptPasswordEncoder();
   }
 
-  public UserEntity saveUser(UserEntity user) {
-    user.setPassword(hashPassword(user.getPassword()));
-    return this.userRepository.save(user);
+  public UserDTO saveUser(UserCreateDTO user) {
+    UserEntity userEntity = userMapper.toCreateEntity(user);
+
+    userEntity.setPassword(hashPassword(user.getPassword()));
+    userRepository.save(userEntity);
+    return userMapper.toDTO(userEntity);
   }
 
-  public List<UserEntity> findAllUsers() {
-    return userRepository.findAll();
+  public UserDTO updateUser(Long id, UserUpdateDTO userUpdateDTO) {
+    UserEntity userEntity = findUserById(id);
+    userMapper.updateUser(userUpdateDTO, userEntity);
+    userRepository.save(userEntity);
+    return userMapper.toDTO(userEntity);
+  }
+
+  public UserDTO patchUser(Long id, UserUpdateDTO userUpdateDTO) {
+    UserEntity userEntity = findUserById(id);
+    userMapper.patchUser(userUpdateDTO, userEntity);
+    return userMapper.toDTO(userEntity);
+  }
+
+  public List<UserDTO> findAllUsers() {
+    List<UserEntity> userEntities =  userRepository.findAll();
+    return userMapper.toDTOs(userEntities);
   }
 
   public UserEntity findUserById(Long id) {
@@ -44,12 +64,6 @@ public class UserService {
   public UserEntity findUserByUsername(String username) {
     return userRepository.findByUsername(username)
             .orElseThrow(() -> UserNotFoundException.notFound());
-  }
-
-  public UserEntity updateUser(Long id, UserEntity user) {
-    UserEntity userEntity = findUserById(id);
-    userMapper.updateUserEntity(user, userEntity);
-    return userRepository.save(userEntity);
   }
 
   public void deleteUser(Long id) {

@@ -46,7 +46,7 @@ public class AuthController {
     DeviceInfo deviceInfo = deviceService.getOrCreateDeviceInfo(request, response);
     AuthServiceResult authServiceResult = this.authService.register(registerDTO, deviceInfo);
     addTokenCookies(response, authServiceResult.tokenPairDTO());
-    return ResponseEntity.ok(userMapper.userEntityToUserDTO(authServiceResult.userEntity()));
+    return ResponseEntity.ok(userMapper.toDTO(authServiceResult.userEntity()));
   }
 
   @PostMapping("/login")
@@ -62,7 +62,7 @@ public class AuthController {
     DeviceInfo deviceInfo = deviceService.getOrCreateDeviceInfo(request, response);
     AuthServiceResult authServiceResult = authService.login(loginDTO, deviceInfo);
     addTokenCookies(response, authServiceResult.tokenPairDTO());
-    UserDTO userDTO = userMapper.userEntityToUserDTO(authServiceResult.userEntity());
+    UserDTO userDTO = userMapper.toDTO(authServiceResult.userEntity());
     return ResponseEntity.ok(userDTO);
   }
 

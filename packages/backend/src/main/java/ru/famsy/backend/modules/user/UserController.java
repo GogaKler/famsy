@@ -1,9 +1,12 @@
 package ru.famsy.backend.modules.user;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.famsy.backend.modules.user.dto.UserCreateDTO;
 import ru.famsy.backend.modules.user.dto.UserDTO;
+import ru.famsy.backend.modules.user.dto.UserUpdateDTO;
 import ru.famsy.backend.modules.user.mapper.UserMapper;
 
 import java.util.List;
@@ -23,32 +26,36 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public UserDTO createUser(@RequestBody @Valid UserCreateDTO userCreateDTO) {
-        UserEntity userEntity = userMapper.userCreateDTOToUserEntity(userCreateDTO);
-        UserEntity createdUserEntity = userService.saveUser(userEntity);
-        return userMapper.userEntityToUserDTO(createdUserEntity);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserCreateDTO userCreateDTO) {
+      return ResponseEntity.ok(userService.saveUser(userCreateDTO));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long id, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
+        UserDTO updatedUserEntity = userService.updateUser(id, userUpdateDTO);
+        return ResponseEntity.ok(updatedUserEntity);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UserDTO> patchUser(@PathVariable("id") Long id, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
+        UserDTO updatedUserEntity = userService.patchUser(id, userUpdateDTO);
+        return ResponseEntity.ok(updatedUserEntity);
     }
 
     @GetMapping
-    public List<UserDTO> findAllUsers() {
-        List<UserEntity> users = userService.findAllUsers();
-        return userMapper.userEntitiesToUserDTOs(users);
+    public ResponseEntity<List<UserDTO>> findAllUsers() {
+        return ResponseEntity.ok(userService.findAllUsers());
     }
 
-    @PostMapping("/{id}")
-    public UserDTO findUserById(@PathVariable("id") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> findUserById(@PathVariable("id") Long id) {
         UserEntity userEntity = userService.findUserById(id);
-        return userMapper.userEntityToUserDTO(userEntity);
-    }
-
-    @PutMapping("/update/{id}")
-    public UserDTO updateUser(@PathVariable("id") Long id, @RequestBody @Valid UserDTO userDTO) {
-        UserEntity userEntity = userMapper.userDTOToUserEntity(userDTO);
-        UserEntity updatedUserEntity = userService.updateUser(id, userEntity);
-        return userMapper.userEntityToUserDTO(updatedUserEntity);
+        return ResponseEntity.ok(userMapper.toDTO(userEntity));
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUserById(@PathVariable("id") Long id) {
         userService.deleteUser(id);
     }

@@ -1,31 +1,34 @@
 package ru.famsy.backend.modules.user.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 import ru.famsy.backend.modules.user.UserEntity;
 import ru.famsy.backend.modules.user.dto.UserCreateDTO;
 import ru.famsy.backend.modules.user.dto.UserDTO;
+import ru.famsy.backend.modules.user.dto.UserUpdateDTO;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    @Named("userEntityToUserDTO")
-    UserDTO userEntityToUserDTO(UserEntity user);
+    @Named("toDTO")
+    UserDTO toDTO(UserEntity user);
+    UserEntity toEntity(UserDTO userDTO);
 
-    UserEntity userDTOToUserEntity(UserDTO userDTO);
+    List<UserDTO> toDTOs(List<UserEntity> users);
+    List<UserEntity> toEntities(List<UserDTO> userDTOs);
 
-    @Named("userEntitiesToUserDTOs")
-    List<UserDTO> userEntitiesToUserDTOs(List<UserEntity> users);
+    @Named("toCreateDTO")
+    UserCreateDTO toCreateDTO(UserEntity user);
+    UserEntity toCreateEntity(UserCreateDTO userCreateDTO);
 
-    List<UserEntity> userDTOsToUserEntities(List<UserDTO> userDTOs);
+    @Named("toUpdateDTO")
+    UserUpdateDTO toUpdateDTO(UserEntity user);
+    UserEntity toUpdateEntity(UserUpdateDTO userUpdateDTO);
 
-    @Named("userEntityToUserCreateDTO")
-    UserCreateDTO userEntityToUserCreateDTO(UserEntity user);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void patchUser(UserUpdateDTO userUpdateDTO, @MappingTarget UserEntity userEntity);
 
-    UserEntity userCreateDTOToUserEntity(UserCreateDTO userCreateDTO);
-
-    void updateUserEntity(UserEntity user, @MappingTarget UserEntity userEntity);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL)
+    void updateUser(UserUpdateDTO userUpdateDTO, @MappingTarget UserEntity userEntity);
 }
