@@ -1,4 +1,4 @@
-package ru.famsy.backend.exception.base;
+package ru.famsy.backend.common.exception.base;
 
 public class ForbiddenException extends RuntimeException {
   public ForbiddenException(String message) {

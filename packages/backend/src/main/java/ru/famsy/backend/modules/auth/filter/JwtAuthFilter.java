@@ -1,6 +1,5 @@
 package ru.famsy.backend.modules.auth.filter;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -10,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import ru.famsy.backend.common.exception.base.NotFoundException;
 import ru.famsy.backend.modules.auth.provider.JwtTokenProvider;
 import ru.famsy.backend.modules.user.UserEntity;
 import ru.famsy.backend.modules.user.UserService;
@@ -45,7 +45,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                   Collections.emptyList()
           );
           SecurityContextHolder.getContext().setAuthentication(authentication);
-      } catch (EntityNotFoundException e) {
+      } catch (NotFoundException e) {
         response.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
         return;
       } catch (Exception e) {

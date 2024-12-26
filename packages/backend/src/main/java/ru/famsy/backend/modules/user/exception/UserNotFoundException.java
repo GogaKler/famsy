@@ -1,6 +1,6 @@
 package ru.famsy.backend.modules.user.exception;
 
-import ru.famsy.backend.exception.base.NotFoundException;
+import ru.famsy.backend.common.exception.base.NotFoundException;
 
 public class UserNotFoundException extends NotFoundException {
   public UserNotFoundException(String message) {
