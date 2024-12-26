@@ -1,18 +1,14 @@
 package ru.famsy.backend.modules.refresh_token;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import ru.famsy.backend.common.entity.BaseEntity;
 import ru.famsy.backend.modules.user.UserEntity;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "refresh_tokens")
-public class RefreshTokenEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class RefreshTokenEntity extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String token;
@@ -26,14 +22,6 @@ public class RefreshTokenEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
-
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
 
     public void setToken(String token) {
         this.token = token;
@@ -61,16 +49,5 @@ public class RefreshTokenEntity {
     }
     public void setUser(UserEntity user) {
         this.user = user;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
     }
 }

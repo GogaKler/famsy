@@ -3,18 +3,8 @@ package ru.famsy.backend.modules.user;
 import jakarta.persistence.*;
 
 @Entity
-public class UserEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    public UserEntity() {}
-
-    public Long getId() {
-        return id;
-    }
-
+@Table(name = "users")
+public class UserEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String username;
 
