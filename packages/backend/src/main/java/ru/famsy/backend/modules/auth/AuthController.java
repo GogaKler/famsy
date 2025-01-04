@@ -1,5 +1,7 @@
 package ru.famsy.backend.modules.auth;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -15,6 +17,7 @@ import ru.famsy.backend.modules.user.UserEntity;
 import ru.famsy.backend.modules.user.dto.UserDTO;
 import ru.famsy.backend.modules.user.mapper.UserMapper;
 
+@Tag(name = "auth", description = "API аутентификации и авторизации")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -26,8 +29,12 @@ public class AuthController {
     this.userMapper = userMapper;
   }
 
-  // TODO: Убирать пробелы в login и email вначале и конце -> TRIM
+  @Operation(
+          summary = "Регистрация нового пользователя",
+          description = "Создает нового пользователя и возвращает информацию о нем. Устанавливает JWT токены в cookies."
+  )
   @PostMapping("/register")
+  // TODO: Убирать пробелы в login и email вначале и конце -> TRIM
   public ResponseEntity<UserDTO> register(
           @RequestBody @Valid RegisterDTO registerDTO,
           HttpServletRequest request,
@@ -37,6 +44,10 @@ public class AuthController {
     return ResponseEntity.ok(userMapper.toDTO(userEntity));
   }
 
+  @Operation(
+          summary = "Авторизация пользователя",
+          description = "Авторизует пользователя и возвращает информацию о нем. Устанавливает JWT токены в cookies."
+  )
   @PostMapping("/login")
   public ResponseEntity<UserDTO> login(
           @RequestBody @Valid LoginDTO loginDTO,
@@ -46,6 +57,11 @@ public class AuthController {
     return ResponseEntity.ok(userMapper.toDTO(userEntity));
   }
 
+
+  @Operation(
+          summary = "Выход из системы",
+          description = "Удаляет текущую сессию пользователя и очищает JWT токены"
+  )
   @PostMapping("/logout")
   public ResponseEntity<SemanticContext.Empty> logout(
           HttpServletRequest request,
