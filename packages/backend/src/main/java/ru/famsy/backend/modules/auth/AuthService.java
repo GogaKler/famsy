@@ -1,43 +1,54 @@
 package ru.famsy.backend.modules.auth;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.famsy.backend.modules.auth.dto.AuthServiceResult;
 import ru.famsy.backend.modules.auth.dto.LoginDTO;
 import ru.famsy.backend.modules.auth.dto.RegisterDTO;
 import ru.famsy.backend.modules.auth.dto.TokenPairDTO;
+import ru.famsy.backend.modules.auth.exception.AuthAlreadyException;
 import ru.famsy.backend.modules.auth.exception.AuthValidationException;
-import ru.famsy.backend.modules.auth.provider.JwtTokenProvider;
-import ru.famsy.backend.modules.device.DeviceInfo;
-import ru.famsy.backend.modules.refresh_token.RefreshTokenEntity;
-import ru.famsy.backend.modules.refresh_token.RefreshTokenRepository;
+import ru.famsy.backend.modules.jwt.JwtCookieService;
+import ru.famsy.backend.modules.jwt.JwtTokenService;
 import ru.famsy.backend.modules.user.UserEntity;
 import ru.famsy.backend.modules.user.UserRepository;
+import ru.famsy.backend.modules.user_session.UserSessionEntity;
+import ru.famsy.backend.modules.user_session.UserSessionService;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 public class AuthService {
-  private final RefreshTokenRepository refreshTokenRepository;
   private final UserRepository userRepository;
-  private final JwtTokenProvider jwtTokenProvider;
   private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+  private final UserSessionService userSessionService;
+  private final JwtTokenService jwtTokenService;
+  private final JwtCookieService jwtCookieService;
 
-  AuthService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider, RefreshTokenRepository refreshTokenRepository) {
+  AuthService(
+          UserRepository userRepository,
+          UserSessionService userSessionService,
+          JwtTokenService jwtTokenService,
+          JwtCookieService jwtCookieService) {
     this.userRepository = userRepository;
-    this.jwtTokenProvider = jwtTokenProvider;
-    this.refreshTokenRepository = refreshTokenRepository;
+    this.userSessionService = userSessionService;
+    this.jwtTokenService = jwtTokenService;
+    this.jwtCookieService = jwtCookieService;
   }
 
-  public AuthServiceResult register(RegisterDTO registerDTO, DeviceInfo deviceInfo) {
+  @Transactional
+  public UserEntity register(RegisterDTO registerDTO, HttpServletRequest request, HttpServletResponse response) {
+    if (isAlreadyUserAuth()) {
+      throw new AuthAlreadyException();
+    }
+
     if (userRepository.findByEmail(registerDTO.getEmail()).isPresent()) {
       throw new AuthValidationException("Пользователь с таким email уже существует");
     }
@@ -53,12 +64,20 @@ public class AuthService {
 
     userRepository.save(userEntity);
 
-    TokenPairDTO tokenPairDTO = jwtTokenProvider.generateTokenPair(userEntity, deviceInfo.deviceId());
+    UserSessionEntity userSession = userSessionService.createOrUpdateSession(userEntity, request);
 
-    return new AuthServiceResult(userEntity, tokenPairDTO);
+    TokenPairDTO tokenPairDTO = jwtTokenService.generateTokenPair(userSession);
+
+    jwtCookieService.addTokenCookies(tokenPairDTO, response);
+
+    return userEntity;
   }
 
-  public AuthServiceResult login(@NotNull LoginDTO loginDTO, DeviceInfo deviceInfo) {
+  public UserEntity login(@NotNull LoginDTO loginDTO, HttpServletRequest request, HttpServletResponse response) {
+    if (isAlreadyUserAuth()) {
+      throw new AuthAlreadyException();
+    }
+
     Optional<UserEntity> userEntityOptional = this.userRepository.findByEmail(loginDTO.getLogin())
             .or(() -> this.userRepository.findByUsername(loginDTO.getLogin()));
 
@@ -72,32 +91,32 @@ public class AuthService {
       throw new AuthValidationException("Неверный логин или пароль");
     }
 
-    // TODO: Сломается при логине с одного устройства, но с разных браузеров. Добавить поддержку браузера в DeviceService
-    Optional<RefreshTokenEntity> refreshTokenEntity = refreshTokenRepository.findByDeviceIdAndUser(deviceInfo.deviceId(), userEntity);
+    UserSessionEntity userSession = userSessionService.createOrUpdateSession(userEntity, request);
 
-    if (refreshTokenEntity.isPresent()) {
-      UserEntity userEntityFromToken = refreshTokenEntity.get().getUser();
-      if (userEntityFromToken.getId().equals(userEntity.getId())) {
-        refreshTokenRepository.delete(refreshTokenEntity.get());
-      }
-    }
+    TokenPairDTO tokenPairDTO = jwtTokenService.generateTokenPair(userSession);
 
-    TokenPairDTO tokenPairDTO = jwtTokenProvider.generateTokenPair(userEntity, deviceInfo.deviceId());
-    return new AuthServiceResult(userEntity, tokenPairDTO);
+    jwtCookieService.addTokenCookies(tokenPairDTO, response);
+
+    return userEntity;
   }
 
   @Transactional
-  public void revokeRefreshToken(String refreshToken) {
-    refreshTokenRepository.deleteByToken(refreshToken);
+  public void logout(HttpServletRequest request, HttpServletResponse response) {
+    try {
+      String refreshToken = jwtCookieService.extractTokenFromCookie(request, "refresh_token");
+      if (refreshToken != null) {
+        String sessionId = jwtTokenService.extractSessionIdFromToken(refreshToken);
+        userSessionService.deleteUserSessionBySessionId(sessionId);
+      }
+      // TODO: Обработать catch для логирования
+    } finally {
+      jwtCookieService.clearTokenCookies(response);
+      SecurityContextHolder.clearContext();
+    }
   }
 
   public boolean isAlreadyUserAuth() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     return authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken);
-  }
-
-  @Scheduled(cron = "0 0 0 * * *")
-  public void cleanupExpiredTokens() {
-    refreshTokenRepository.deleteByExpiryDateTimeBefore(LocalDateTime.now());
   }
 }

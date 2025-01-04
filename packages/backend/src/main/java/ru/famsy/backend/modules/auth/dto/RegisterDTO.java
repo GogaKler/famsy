@@ -2,6 +2,7 @@ package ru.famsy.backend.modules.auth.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import ru.famsy.backend.errors.ErrorMessages;
 
@@ -14,7 +15,9 @@ public class RegisterDTO {
     private String email;
 
     @NotBlank(message = ErrorMessages.REQUIRED_FIELD)
-    @Size(min = 6, message = "Пароль должен содержать минимум 6 символов")
+    @Size(max = 20, message = "Пароль не должен превышать 20 символа")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",
+            message = "Пароль должен содержать минимум 8 символов, включая буквы и цифры")
     private String password;
 
     public String getUsername() {

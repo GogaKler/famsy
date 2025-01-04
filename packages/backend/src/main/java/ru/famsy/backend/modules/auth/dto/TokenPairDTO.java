@@ -1,8 +1,8 @@
 package ru.famsy.backend.modules.auth.dto;
 
 public class TokenPairDTO {
-    String accessToken;
-    String refreshToken;
+    private String accessToken;
+    private String refreshToken;
 
     public TokenPairDTO(String accessToken, String refreshToken) {
         this.accessToken = accessToken;

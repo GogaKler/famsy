@@ -8,17 +8,18 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.famsy.backend.modules.auth.filter.JwtAuthFilter;
+import ru.famsy.backend.modules.auth.constants.SecurityConstants;
+import ru.famsy.backend.modules.jwt.JwtFilter;
 
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-    private final JwtAuthFilter jwtAuthFilter;
+    private final JwtFilter jwtFilter;
     private final JwtAuthEntryPoint jwtAuthEntryPoint;
 
-    SecurityConfig(JwtAuthFilter jwtAuthFilter, JwtAuthEntryPoint jwtAuthEntryPoint) {
-        this.jwtAuthFilter = jwtAuthFilter;
+    SecurityConfig(JwtFilter jwtFilter, JwtAuthEntryPoint jwtAuthEntryPoint) {
+        this.jwtFilter = jwtFilter;
         this.jwtAuthEntryPoint = jwtAuthEntryPoint;
     }
 
@@ -33,10 +34,10 @@ public class SecurityConfig {
                         exception.authenticationEntryPoint(jwtAuthEntryPoint)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/error").permitAll()
+                        .requestMatchers(SecurityConstants.PUBLIC_PATHS).permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
