@@ -25,30 +25,29 @@ public class UserService {
     this.passwordEncoder = new BCryptPasswordEncoder();
   }
 
-  public UserDTO saveUser(UserCreateDTO user) {
+  public UserEntity saveUser(UserCreateDTO user) {
     UserEntity userEntity = userMapper.toCreateEntity(user);
 
     userEntity.setPassword(hashPassword(user.getPassword()));
-    userRepository.save(userEntity);
-    return userMapper.toDTO(userEntity);
+    userEntity = userRepository.save(userEntity);
+    return userEntity;
   }
 
-  public UserDTO updateUser(Long id, UserUpdateDTO userUpdateDTO) {
+  public UserEntity updateUser(Long id, UserUpdateDTO userUpdateDTO) {
     UserEntity userEntity = findUserById(id);
     userMapper.updateUser(userUpdateDTO, userEntity);
-    userRepository.save(userEntity);
-    return userMapper.toDTO(userEntity);
+    userEntity = userRepository.save(userEntity);
+    return userEntity;
   }
 
-  public UserDTO patchUser(Long id, UserUpdateDTO userUpdateDTO) {
+  public UserEntity patchUser(Long id, UserUpdateDTO userUpdateDTO) {
     UserEntity userEntity = findUserById(id);
     userMapper.patchUser(userUpdateDTO, userEntity);
-    return userMapper.toDTO(userEntity);
+    return userEntity;
   }
 
-  public List<UserDTO> findAllUsers() {
-    List<UserEntity> userEntities =  userRepository.findAll();
-    return userMapper.toDTOs(userEntities);
+  public List<UserEntity> findAllUsers() {
+    return userRepository.findAll();
   }
 
   public UserEntity findUserById(Long id) {

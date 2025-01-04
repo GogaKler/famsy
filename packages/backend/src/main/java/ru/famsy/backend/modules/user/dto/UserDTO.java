@@ -1,18 +1,18 @@
 package ru.famsy.backend.modules.user.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import ru.famsy.backend.errors.ErrorMessages;
-
 public class UserDTO {
-    @NotBlank(message = ErrorMessages.REQUIRED_FIELD)
-    @Size(min = 3, max = 50, message = "Не должно быть меньше 3 и больше 50")
+    private Long id;
+
     private String username;
 
-    @NotBlank(message = ErrorMessages.REQUIRED_FIELD)
-    @Email(message = ErrorMessages.NOT_VALID)
     private String email;
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;

@@ -28,24 +28,26 @@ public class UserController {
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserCreateDTO userCreateDTO) {
-      return ResponseEntity.ok(userService.saveUser(userCreateDTO));
+        UserEntity userEntity = userService.saveUser(userCreateDTO);
+        return ResponseEntity.ok(userMapper.toDTO(userEntity));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long id, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
-        UserDTO updatedUserEntity = userService.updateUser(id, userUpdateDTO);
-        return ResponseEntity.ok(updatedUserEntity);
+        UserEntity updatedUserEntity = userService.updateUser(id, userUpdateDTO);
+        return ResponseEntity.ok(userMapper.toDTO(updatedUserEntity));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<UserDTO> patchUser(@PathVariable("id") Long id, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
-        UserDTO updatedUserEntity = userService.patchUser(id, userUpdateDTO);
-        return ResponseEntity.ok(updatedUserEntity);
+        UserEntity updatedUserEntity = userService.patchUser(id, userUpdateDTO);
+        return ResponseEntity.ok(userMapper.toDTO(updatedUserEntity));
     }
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> findAllUsers() {
-        return ResponseEntity.ok(userService.findAllUsers());
+        List<UserEntity> userEntities = userService.findAllUsers();
+        return ResponseEntity.ok(userMapper.toDTOs(userEntities));
     }
 
     @GetMapping("/{id}")
