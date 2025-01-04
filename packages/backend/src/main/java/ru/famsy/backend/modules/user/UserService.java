@@ -4,7 +4,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.famsy.backend.modules.user.dto.UserCreateDTO;
-import ru.famsy.backend.modules.user.dto.UserDTO;
 import ru.famsy.backend.modules.user.dto.UserUpdateDTO;
 import ru.famsy.backend.modules.user.exception.UserNotFoundException;
 import ru.famsy.backend.modules.user.mapper.UserMapper;
