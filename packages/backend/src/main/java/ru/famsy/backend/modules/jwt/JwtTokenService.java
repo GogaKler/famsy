@@ -3,7 +3,9 @@ package ru.famsy.backend.modules.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SecurityException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Service;
 import ru.famsy.backend.modules.auth.constants.SecurityConstants;
 import ru.famsy.backend.modules.auth.dto.TokenPairDTO;
 import ru.famsy.backend.modules.jwt.exception.TokenExpiredException;
+import ru.famsy.backend.modules.jwt.exception.TokenMalformedException;
+import ru.famsy.backend.modules.jwt.exception.TokenSignatureException;
 import ru.famsy.backend.modules.jwt.exception.TokenValidationException;
 import ru.famsy.backend.modules.user.UserEntity;
 import ru.famsy.backend.modules.user_session.UserSessionEntity;
@@ -68,7 +72,7 @@ public class JwtTokenService {
             .subject(user.getId().toString())
             .claim("sessionId", userSession.getSessionId())
             .claim("lastActivityAt", userSession.getLastActivityAt().toString())
-            .issuedAt(new Date())
+            .issuedAt(now)
             .expiration(expiryDate)
             .signWith(key)
             .compact();
@@ -101,28 +105,25 @@ public class JwtTokenService {
       userSessionService.getUserSessionBySessionId(sessionId);
       return claims;
     } catch (ExpiredJwtException e) {
-      throw new TokenExpiredException("Access Token истёк: " + e.getMessage());
-    } catch (Exception e) {
-      throw new TokenValidationException("Ошибка Access Token: " + e.getMessage());
+      throw new TokenExpiredException();
     }
   }
 
   private Claims validateRefreshToken(String token, HttpServletRequest request) {
-    try {
-      Claims claims = validateToken(token);
-      String sessionId = claims.get("sessionId", String.class);
-      LocalDateTime lastActivityAt = LocalDateTime.parse(claims.get("lastActivityAt", String.class));
+    Claims claims = validateToken(token);
+    String sessionId = claims.get("sessionId", String.class);
+    LocalDateTime lastActivityAt = LocalDateTime.parse(claims.get("lastActivityAt", String.class));
 
-      UserSessionEntity userSession = userSessionService.getUserSessionBySessionId(sessionId);
+    UserSessionEntity userSession = userSessionService.getUserSessionBySessionId(sessionId);
 
-      if (userSession.getLastActivityAt().plus(SecurityConstants.SESSION_EXPIRATION).isBefore(LocalDateTime.now())) {
-        userSessionService.deleteUserSessionBySessionId(sessionId);
-        throw new SessionExpiredException("Сессия истекла");
-      }
+    if (userSession.getLastActivityAt().plus(SecurityConstants.SESSION_EXPIRATION).isBefore(LocalDateTime.now())) {
+      userSessionService.deleteUserSessionBySessionId(sessionId);
+      throw new SessionExpiredException("Сессия истекла");
+    }
 
-      if (!userSession.getLastActivityAt().equals(lastActivityAt)) {
-        throw new SessionExpiredException("Сессия используется другим пользователем");
-      }
+    if (!userSession.getLastActivityAt().equals(lastActivityAt)) {
+      throw new SessionExpiredException("Сессия используется другим пользователем");
+    }
 
 //      String deviceFingerprint = userSessionService.generateDeviceFingerprint(request);
 //
@@ -130,14 +131,7 @@ public class JwtTokenService {
 //        throw new SessionExpiredException("Сессия была создана другим пользователем");
 //      }
 
-      return claims;
-    } catch (ExpiredJwtException e) {
-      String sessionId = e.getClaims().get("sessionId", String.class);
-      userSessionService.getUserSessionBySessionId(sessionId);
-      throw new TokenExpiredException("Refresh Token истёк: " + e.getMessage());
-    } catch (Exception e) {
-      throw new TokenValidationException("Ошибка Refresh Token: " + e.getMessage());
-    }
+    return claims;
   }
 
   private Claims validateToken(String token) {
@@ -160,7 +154,11 @@ public class JwtTokenService {
               .parseSignedClaims(token)
               .getPayload();
     } catch (ExpiredJwtException e) {
-      throw e;
+      throw new TokenExpiredException();
+    } catch (SecurityException e) {
+      throw new TokenSignatureException();
+    } catch (MalformedJwtException e) {
+      throw new TokenMalformedException();
     } catch (Exception e) {
       throw new TokenValidationException("Ошибка валидации токена: " + e.getMessage());
     }

@@ -48,21 +48,17 @@ public class JwtFilter extends OncePerRequestFilter {
       String accessToken = jwtCookieService.extractTokenFromCookie(request, "access_token");
 
       if (accessToken == null || accessToken.isEmpty()) {
-        try {
-          handleTokenRefresh(request, response);
-        } catch (Exception e) {
-          filterChain.doFilter(request, response);
-          return;
-        }
-      } else {
-        try {
-          Claims tokenClaims = jwtTokenService.validateAccessToken(accessToken);
-          UserEntity userEntity = userService.findUserById(Long.parseLong(tokenClaims.getSubject()));
-          Authentication authentication = createSecurityAuthentication(userEntity);
-          SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (TokenExpiredException e) {
-          handleTokenRefresh(request, response);
-        }
+        filterChain.doFilter(request, response);
+        return;
+      }
+
+      try {
+        Claims tokenClaims = jwtTokenService.validateAccessToken(accessToken);
+        UserEntity userEntity = userService.findUserById(Long.parseLong(tokenClaims.getSubject()));
+        Authentication authentication = createSecurityAuthentication(userEntity);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+      } catch (TokenExpiredException e) {
+        handleTokenRefresh(request, response);
       }
 
       filterChain.doFilter(request, response);
