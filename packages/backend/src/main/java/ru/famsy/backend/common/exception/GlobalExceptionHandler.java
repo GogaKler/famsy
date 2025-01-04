@@ -7,10 +7,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.famsy.backend.common.exception.base.ConflictException;
-import ru.famsy.backend.common.exception.base.ForbiddenException;
-import ru.famsy.backend.common.exception.base.NotFoundException;
-import ru.famsy.backend.common.exception.base.ValidationException;
+import ru.famsy.backend.common.exception.base.*;
+import ru.famsy.backend.common.exception.dto.ErrorResponse;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,27 +30,26 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<Map<String, String>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         String message = ex.getMostSpecificCause().getMessage();
-        Map<String, String> errors = new HashMap<>();
 
         // TODO: Написать нормальную логику обработки.
         if (message.contains("violates foreign key constraint")) {
-            errors.put("error", "Foreign Key Violation");
-            errors.put("message", "Невозможно удалить запись, так как существуют связанные данные");
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(errors);
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(new ErrorResponse("Foreign key violation", "Невозможно удалить запись, так как существуют связанные данные"));
         }
 
         if (message.contains("unique constraint") || message.contains("duplicate key")) {
             String fieldName = extractFieldNameFromMessage(message);
-            errors.put("error", "Unique Constraint Violation");
-            errors.put("message", "Поле '" + fieldName + "' должно быть уникальным");
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(errors);
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(new ErrorResponse("UniqueConstraintViolation", "Поле '" + fieldName + "' должно быть уникальным"));
         }
 
-        errors.put("error", "Data Integrity Violation");
-        errors.put("message", "Нарушение целостности данных");
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errors);
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorResponse("Data Integrity Violation", "Нарушение целостности данных"));
     }
 
     private String extractFieldNameFromMessage(String message) {
@@ -63,37 +60,36 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Map<String, String>> handleValidationException(ValidationException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put("error", "Validation exception");
-        errors.put("message", ex.getMessage());
-        return ResponseEntity.badRequest().body(errors);
+    public ResponseEntity<ErrorResponse> handleValidationException(ValidationException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("Validation exception", ex.getMessage());
+        return ResponseEntity.badRequest().body(errorResponse);
     }
 
     @ExceptionHandler(ConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<Map<String, String>> handleConflictException(ConflictException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put("error", "Conflict");
-        errors.put("message", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errors);
+    public ResponseEntity<ErrorResponse> handleConflictException(ConflictException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("Conflict", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<Map<String, String>> handleNotFoundException(NotFoundException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put("error", ex.getClass().getSimpleName());
-        errors.put("message", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(ex.getClass().getSimpleName(), ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
     @ExceptionHandler(ForbiddenException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ResponseEntity<Map<String, String>> handleForbiddenException(ForbiddenException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put("error", "Forbidden");
-        errors.put("message", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errors);
+    public ResponseEntity<ErrorResponse> handleForbiddenException(ForbiddenException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("Forbidden", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("Unauthorized", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 }

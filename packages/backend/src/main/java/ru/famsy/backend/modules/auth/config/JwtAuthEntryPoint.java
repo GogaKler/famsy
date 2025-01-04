@@ -8,10 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import ru.famsy.backend.common.exception.dto.ErrorResponse;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
@@ -23,25 +22,16 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
           HttpServletRequest request,
           HttpServletResponse response,
           AuthenticationException authException
-  ) {
+  ) throws IOException {
     try {
       response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       response.setContentType("application/json");
 
-      Map<String, String> error = new HashMap<>();
-      error.put("error", "Unauthorized");
-      error.put("message", authException.getMessage());
-
-      String json = objectMapper.writeValueAsString(error);
-
-      response.getWriter().write(json);
+      ErrorResponse errorResponse = new ErrorResponse("Unauthorized", authException.getMessage());
+      objectMapper.writeValue(response.getWriter(), errorResponse);
     } catch (IOException e) {
       logger.error("Ошибка при отправке ответа об ошибке аутентификации", e);
-      try {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-      } catch (IOException exception) {
-        logger.error("Неизвестная ошибка при отправке ответа", exception);
-      }
+      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
     }
   }
 }
