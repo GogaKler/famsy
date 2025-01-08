@@ -6,15 +6,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
-import ru.famsy.backend.modules.auth.constants.SecurityConstants;
+import ru.famsy.backend.common.config.SecurityConfigProperties;
 import ru.famsy.backend.modules.auth.dto.TokenPairDTO;
 
-
-// TODO: Написать корректные exceptions для JWT.
 @Service
 public class JwtCookieService {
+  private final SecurityConfigProperties securityConfigProperties;
 
-  public JwtCookieService() {
+  public JwtCookieService(SecurityConfigProperties securityConfigProperties) {
+    this.securityConfigProperties = securityConfigProperties;
   }
 
   public void addTokenCookies(TokenPairDTO tokenPairDTO, HttpServletResponse response) {
@@ -22,14 +22,14 @@ public class JwtCookieService {
             .httpOnly(true)
             .secure(true)
             .path("/")
-            .maxAge(-1)
+            .maxAge(securityConfigProperties.getAccessTokenExpiration().getSeconds())
             .build();
 
     ResponseCookie refreshCookie = ResponseCookie.from("refresh_token", tokenPairDTO.getRefreshToken())
             .httpOnly(true)
             .secure(true)
             .path("/")
-            .maxAge(SecurityConstants.REFRESH_TOKEN_EXPIRATION.getSeconds())
+            .maxAge(securityConfigProperties.getRefreshTokenExpiration().getSeconds())
             .build();
 
     response.addHeader(HttpHeaders.SET_COOKIE, accessCookie.toString());

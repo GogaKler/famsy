@@ -4,9 +4,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
+import ru.famsy.backend.common.config.SecurityConfigProperties;
 import ru.famsy.backend.common.exception.base.ForbiddenException;
 import ru.famsy.backend.common.exception.base.NotFoundException;
-import ru.famsy.backend.modules.auth.constants.SecurityConstants;
 import ru.famsy.backend.modules.device_detection.DeviceDetectionService;
 import ru.famsy.backend.modules.device_detection.dto.DeviceInfoDTO;
 import ru.famsy.backend.modules.geo_location.GeoLocationService;
@@ -65,7 +65,7 @@ public class UserSessionService {
   public void deleteUserSession(Long id, UserEntity user) {
     UserSessionEntity userSession = getUserSessionById(id);
 
-    if (!userSession.getUser().equals(user)) {
+    if (!userSession.getUser().getId().equals(user.getId())) {
       throw new ForbiddenException("Вы не можете удалять чужие сессии");
     }
 
@@ -122,7 +122,7 @@ public class UserSessionService {
   private void checkSessionsLimit(UserEntity user) {
     List<UserSessionEntity> sessions = userSessionRepository.findAllByUser(user);
 
-    if (sessions.size() >= SecurityConstants.MAX_SESSIONS_PER_USER) {
+    if (sessions.size() >= SecurityConfigProperties.MAX_SESSIONS_PER_USER) {
       UserSessionEntity oldestSession = sessions.stream()
               .min(Comparator.comparing(UserSessionEntity::getLastActivityAt))
               .orElseThrow();

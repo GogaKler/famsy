@@ -32,7 +32,9 @@ public class JwtFilter extends OncePerRequestFilter {
   JwtFilter(
           UserService userService,
           JwtTokenService jwtTokenService,
-          ObjectMapper objectMapper, JwtCookieService jwtCookieService) {
+          ObjectMapper objectMapper,
+          JwtCookieService jwtCookieService
+  ) {
     super();
     this.jwtTokenService = jwtTokenService;
     this.jwtCookieService = jwtCookieService;
@@ -77,7 +79,7 @@ public class JwtFilter extends OncePerRequestFilter {
     TokenPairDTO tokenPairDTO = jwtTokenService.refreshTokens(refreshToken, request);
     jwtCookieService.addTokenCookies(tokenPairDTO, response);
 
-    Claims claims = jwtTokenService.getTokenPayload(tokenPairDTO.getAccessToken());
+    Claims claims = jwtTokenService.getTokenPayload(tokenPairDTO.getRefreshToken());
     UserEntity userEntity = userService.findUserById(Long.parseLong(claims.getSubject()));
     Authentication authentication = createSecurityAuthentication(userEntity);
     SecurityContextHolder.getContext().setAuthentication(authentication);

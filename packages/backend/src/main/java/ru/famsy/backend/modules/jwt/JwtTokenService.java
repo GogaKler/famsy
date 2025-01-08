@@ -6,11 +6,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ru.famsy.backend.modules.auth.constants.SecurityConstants;
+import ru.famsy.backend.common.config.SecurityConfigProperties;
 import ru.famsy.backend.modules.auth.dto.TokenPairDTO;
 import ru.famsy.backend.modules.jwt.exception.TokenExpiredException;
 import ru.famsy.backend.modules.jwt.exception.TokenMalformedException;
@@ -27,23 +28,32 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-
-// TODO: Написать корректные exceptions для JWT.
 @Service
 @Transactional
 public class JwtTokenService {
-  private final Key key = Keys.hmacShaKeyFor(SecurityConstants.JWT_SECRET.getBytes());
+  private Key key;
   private final UserSessionService userSessionService;
   private final UserSessionRepository userSessionRepository;
+  private final SecurityConfigProperties securityConfigProperties;
 
-  public JwtTokenService(UserSessionService userSessionService, UserSessionRepository userSessionRepository) {
+  public JwtTokenService(
+          UserSessionService userSessionService,
+          UserSessionRepository userSessionRepository,
+          SecurityConfigProperties securityConfigProperties
+  ) {
     this.userSessionService = userSessionService;
     this.userSessionRepository = userSessionRepository;
+    this.securityConfigProperties = securityConfigProperties;
+  }
+
+  @PostConstruct
+  public void init() {
+    this.key = Keys.hmacShaKeyFor(securityConfigProperties.getJwtSecret().getBytes());
   }
 
   @Scheduled(cron = "0 0 0 * * *")
   public void deleteExpiredUserSessions() {
-    LocalDateTime expirationThreshold = LocalDateTime.now().minus(SecurityConstants.SESSION_EXPIRATION);
+    LocalDateTime expirationThreshold = LocalDateTime.now().minus(securityConfigProperties.getSessionExpiration());
     List<UserSessionEntity> expiredSessions = userSessionRepository.findAllByLastActivityAtBefore(expirationThreshold);
     userSessionRepository.deleteAll(expiredSessions);
   }
@@ -51,7 +61,7 @@ public class JwtTokenService {
   public String generateAccessToken(UserSessionEntity userSession) {
     UserEntity user = userSession.getUser();
     Date now = new Date();
-    Date expiryDate = new Date(now.getTime() + SecurityConstants.ACCESS_TOKEN_EXPIRATION.toMillis());
+    Date expiryDate = new Date(now.getTime() + securityConfigProperties.getAccessTokenExpiration().toMillis());
 
     return Jwts.builder()
             .subject(user.getId().toString())
@@ -66,7 +76,7 @@ public class JwtTokenService {
   public String generateRefreshToken(UserSessionEntity userSession) {
     UserEntity user = userSession.getUser();
     Date now = new Date();
-    Date expiryDate = new Date(now.getTime() + SecurityConstants.REFRESH_TOKEN_EXPIRATION.toMillis());
+    Date expiryDate = new Date(now.getTime() + securityConfigProperties.getRefreshTokenExpiration().toMillis());
 
     return Jwts.builder()
             .subject(user.getId().toString())
@@ -116,7 +126,7 @@ public class JwtTokenService {
 
     UserSessionEntity userSession = userSessionService.getUserSessionBySessionId(sessionId);
 
-    if (userSession.getLastActivityAt().plus(SecurityConstants.SESSION_EXPIRATION).isBefore(LocalDateTime.now())) {
+    if (userSession.getLastActivityAt().plus(securityConfigProperties.getSessionExpiration()).isBefore(LocalDateTime.now())) {
       userSessionService.deleteUserSessionBySessionId(sessionId);
       throw new SessionExpiredException("Сессия истекла");
     }

@@ -43,3 +43,20 @@ logging:
   level:
     root: INFO
     org.springframework.web: DEBUG
+
+famsy:
+  security:
+    jwt:
+      access-token:
+        expiration: 15m
+      refresh-token:
+        expiration: 10d
+      session:
+        expiration: 30d
+      issuer: famsy
+      secret: ${JWT_SECRET:5e9366349290a82f53e81b2c359f9554a3c291b284e482ab3c3aab98d3e044b9}
+      cookie:
+        secure: true
+        http-only: true
+        same-site: Lax
+        domain: localhost
