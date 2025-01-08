@@ -39,17 +39,16 @@ public class UserSessionController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public ResponseEntity<Void> terminateSession(
+  public void terminateSession(
           @AuthenticationPrincipal UserEntity user,
           @PathVariable("id") Long id
   ) {
     userSessionService.deleteUserSession(id, user);
-    return ResponseEntity.ok().build();
   }
 
   @DeleteMapping
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public ResponseEntity<Void> terminateAllSessions(
+  public void terminateAllSessions(
           @AuthenticationPrincipal UserEntity user,
           HttpServletRequest request
   ) {
@@ -59,6 +58,5 @@ public class UserSessionController {
       throw new UnauthorizedException("Такой сессии не существует");
     }
     userSessionService.terminateOtherSessions(user, sessionId);
-    return ResponseEntity.ok().build();
   }
 }
