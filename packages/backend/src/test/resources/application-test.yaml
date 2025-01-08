@@ -1,0 +1,23 @@
+# application-test.yml (общие настройки)
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    root: INFO
+    ru.famsy.backend: DEBUG
+
+
+api:
+  prefix: /api/v1
+
+test:
+  admin:
+    email: admin@test.com
+    username: admin
+    password: Admin123
+  user:
+    email: user@test.com
+    username: user
+    password: User123
