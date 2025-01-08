@@ -104,10 +104,11 @@ public class AuthService {
   public void logout(HttpServletRequest request, HttpServletResponse response) {
     try {
       String refreshToken = jwtCookieService.extractTokenFromCookie(request, "refresh_token");
-      if (refreshToken != null) {
+      if (refreshToken != null && !refreshToken.isEmpty()) {
         String sessionId = jwtTokenService.extractSessionIdFromToken(refreshToken);
         userSessionService.deleteUserSessionBySessionId(sessionId);
       }
+
       // TODO: Обработать catch для логирования
     } finally {
       jwtCookieService.clearTokenCookies(response);
