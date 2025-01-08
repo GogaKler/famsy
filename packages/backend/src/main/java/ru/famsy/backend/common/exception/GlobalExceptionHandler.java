@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -26,7 +25,6 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.badRequest().body(errors);
     }
-
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
