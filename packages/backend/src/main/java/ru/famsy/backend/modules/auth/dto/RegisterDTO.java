@@ -15,6 +15,7 @@ public class RegisterDTO {
             requiredMode = Schema.RequiredMode.REQUIRED
     )
     @NotBlank(message = ErrorMessages.REQUIRED_FIELD)
+    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Username может содержать только буквы, цифры и знак подчеркивания")
     private String username;
 
     @Schema(
