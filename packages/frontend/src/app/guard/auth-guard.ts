@@ -4,7 +4,7 @@ import type { Router } from 'vue-router';
 
 
 export function useAuthGuard(router: Router) {
-  router.beforeEach(async (to, from) => {
+  router.beforeEach(async (to) => {
     const authService: AuthService = container.resolve(AuthService);
     if (authService.authStore.isAuth && to.name === 'auth-login') {
       return { name: 'main-root' };

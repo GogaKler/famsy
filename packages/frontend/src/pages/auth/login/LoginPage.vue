@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import LoginForm from './LoginForm.vue';
+import { FamsyButton } from '@shared/ui';
 import { useBreakpoint } from '@shared/lib';
-import { FamsyButton, useTheme } from '@shared/ui';
 
 const { isMobile } = useBreakpoint();
-const { toggleTheme } = useTheme();
 </script>
 
 <template>
