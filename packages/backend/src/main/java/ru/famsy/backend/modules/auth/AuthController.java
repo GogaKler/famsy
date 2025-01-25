@@ -7,10 +7,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.antlr.v4.runtime.atn.SemanticContext;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import ru.famsy.backend.common.exception.base.UnauthorizedException;
 import ru.famsy.backend.modules.auth.dto.LoginDTO;
 import ru.famsy.backend.modules.auth.dto.RegisterDTO;
 import ru.famsy.backend.modules.user.UserEntity;
@@ -69,5 +68,17 @@ public class AuthController {
   ) {
     authService.logout(request, response);
     return ResponseEntity.ok().build();
+  }
+
+
+  @GetMapping("/check-auth")
+  public ResponseEntity<?> checkAuth(
+          @AuthenticationPrincipal UserEntity userEntity
+  ) {
+    // TODO: Разобраться, чтобы возвращать ошибку. Сейчас на фронте будет падать в цикл checkAuth
+    if (userEntity == null) {
+      return ResponseEntity.ok(null);
+    }
+    return ResponseEntity.ok(userMapper.toDTO(userEntity));
   }
 }

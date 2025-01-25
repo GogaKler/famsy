@@ -13,10 +13,16 @@
     "composite": true,
     "noEmit": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
 
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "types": ["node"],
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["src/shared/*"]
+    }
   }
 }

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, type Router } from 'vue-router';
-import { authRouter } from '@pages/auth';
+import { getAuthRouter } from '@pages/auth';
 import { getMainRouter } from '@pages/main';
+import { useAuthGuard } from '@app/guard';
 
 
 const router: Router = createRouter({
@@ -10,9 +11,11 @@ const router: Router = createRouter({
       path: '/',
       name: 'root',
       redirect: { name: 'main-root' },
-      children: [...getMainRouter(), ...authRouter],
+      children: [...getMainRouter(), ...getAuthRouter()],
     },
   ],
 });
+
+useAuthGuard(router);
 
 export default router;

@@ -1,16 +1,16 @@
-const SignInPage = () => import('./sign-in/SignInPage.vue');
+const LoginPage = () => import('./login/LoginPage.vue');
 
 
-export const authRouter = [
+export const getAuthRouter = () => [
   {
     path: '/auth',
     name: 'auth-root',
-    redirect: { name: 'auth-sign-in' },
+    redirect: { name: 'auth-login' },
     children: [
       {
-        path: 'sign-in',
-        name: 'auth-sign-in',
-        component: SignInPage,
+        path: 'login',
+        name: 'auth-login',
+        component: LoginPage,
       },
     ],
   },
