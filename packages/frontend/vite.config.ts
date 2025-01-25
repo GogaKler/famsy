@@ -1,7 +1,6 @@
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig, loadEnv, UserConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import VueDevTools from 'vite-plugin-vue-devtools';
 
 const setPath = (path: string): string => fileURLToPath(new URL(path, import.meta.url));
 
@@ -13,11 +12,9 @@ export default defineConfig((config): UserConfig => {
   return {
     server: {
       port: port,
+      host: '0.0.0.0',
     },
-    plugins: [
-      vue(),
-      VueDevTools(),
-    ],
+    plugins: [vue()],
     resolve: {
       alias: [
         { find: '@', replacement: setPath('./src') },
@@ -32,9 +29,12 @@ export default defineConfig((config): UserConfig => {
       devSourcemap: isDev,
       preprocessorOptions: {
         scss: {
-          additionalData: '@use "@app/styles/_globals.scss" as *;',
+          quietDeps: true,
+          additionalData: `
+            @use "@/shared/ui/mixins" as *;
+          `,
         },
-      },
+      },  
     },
   };
 });

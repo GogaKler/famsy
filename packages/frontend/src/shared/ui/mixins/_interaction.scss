@@ -1,0 +1,15 @@
+@mixin interactive {
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@mixin focusable {
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+}

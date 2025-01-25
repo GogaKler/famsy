@@ -1,0 +1,62 @@
+@use 'sass:map';
+@use '../tokens' as tokens;
+@use './base' as base;
+
+[data-theme="contrast"] {
+  @include base.base-theme;
+
+  // Actions - максимальный контраст для интерактивных элементов
+  --action-default: #{map.get(tokens.$color-palette, 'primary', '900')};
+  --action-hover: #{map.get(tokens.$color-palette, 'primary', '800')};
+  --action-active: #{map.get(tokens.$color-palette, 'primary', '700')};
+  --action-focus: #{map.get(tokens.$color-palette, 'primary', '900')};
+  --action-disabled: #{map.get(tokens.$color-palette, 'neutral', '400')};
+  
+  --action-secondary: #{map.get(tokens.$color-palette, 'secondary', '900')};
+  --action-secondary-hover: #{map.get(tokens.$color-palette, 'secondary', '800')};
+  --action-secondary-active: #{map.get(tokens.$color-palette, 'secondary', '700')};
+  --action-secondary-disabled: #{map.get(tokens.$color-palette, 'neutral', '400')};
+
+  // Surfaces - чёткие различия между поверхностями
+  --surface-primary: #{map.get(tokens.$color-palette, 'neutral', '999')};
+  --surface-secondary: #{map.get(tokens.$color-palette, 'neutral', '900')};
+  --surface-tertiary: #{map.get(tokens.$color-palette, 'neutral', '800')};
+  --surface-elevated: #{map.get(tokens.$color-palette, 'neutral', '700')};
+  --surface-overlay: #{map.get(tokens.$color-palette, 'neutral', '100'), 0.95};
+  --surface-inverse: #{map.get(tokens.$color-palette, 'neutral', '100')};
+
+  // Text - максимальная читаемость
+  --text-primary: #{map.get(tokens.$color-palette, 'neutral', '100')};
+  --text-secondary: #{map.get(tokens.$color-palette, 'neutral', '200')};
+  --text-tertiary: #{map.get(tokens.$color-palette, 'neutral', '300')};
+  --text-disabled: #{map.get(tokens.$color-palette, 'neutral', '400')};
+  --text-inverse: #{map.get(tokens.$color-palette, 'neutral', '999')};
+
+  // Borders - чёткие границы
+  --border-primary: #{map.get(tokens.$color-palette, 'neutral', '100')};
+  --border-hover: #{map.get(tokens.$color-palette, 'neutral', '200')};
+  --border-focus: #{map.get(tokens.$color-palette, 'primary', '900')};
+  --border-error: #{map.get(tokens.$color-palette, 'error', '900')};
+  --border-success: #{map.get(tokens.$color-palette, 'success', '900')};
+  --border-disabled: #{map.get(tokens.$color-palette, 'neutral', '300')};
+
+  // Status - яркие индикаторы
+  --status-success: #{map.get(tokens.$color-palette, 'success', '900')};
+  --status-warning: #{map.get(tokens.$color-palette, 'warning', '900')};
+  --status-error: #{map.get(tokens.$color-palette, 'error', '900')};
+  --status-info: #{map.get(tokens.$color-palette, 'secondary', '900')};
+
+  // Finance specific - контрастные финансовые индикаторы
+  --finance-income: #{map.get(tokens.$color-palette, 'success', '900')};
+  --finance-expense: #{map.get(tokens.$color-palette, 'error', '900')};
+  --finance-neutral: #{map.get(tokens.$color-palette, 'secondary', '900')};
+
+  // Charts - максимально различимые цвета
+  --chart-primary: #{map.get(tokens.$color-palette, 'secondary', '900')};
+  --chart-secondary: #{map.get(tokens.$color-palette, 'primary', '900')};
+  --chart-tertiary: #{map.get(tokens.$color-palette, 'warning', '900')};
+
+  // Shadows - более заметные
+  --shadow-focus: 0 0 0 4px #{rgba(map.get(tokens.$color-palette, 'primary', '900'), 0.4)};
+  --shadow-elevated: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+}

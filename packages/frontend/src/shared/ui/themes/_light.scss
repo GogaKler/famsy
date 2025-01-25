@@ -1,0 +1,69 @@
+@use 'sass:map';
+@use '../tokens' as tokens;
+@use './base' as base;
+
+[data-theme="light"] {
+  @include base.base-theme;
+
+  // Actions
+  --action-default: #{map.get(tokens.$color-palette, 'primary', 'default')};
+  --action-hover: #{map.get(tokens.$color-palette, 'primary', '600')};
+  --action-active: #{map.get(tokens.$color-palette, 'primary', '700')};
+  --action-focus: #{map.get(tokens.$color-palette, 'primary', '500')};
+  --action-disabled: #{map.get(tokens.$color-palette, 'neutral', '300')};
+  
+  // Neutral Actions
+  --action-neutral: #{map.get(tokens.$color-palette, 'neutral', '500')};
+  --action-neutral-hover: #{map.get(tokens.$color-palette, 'neutral', '400')};
+  --action-neutral-active: #{map.get(tokens.$color-palette, 'neutral', '300')};
+  --action-neutral-disabled: #{map.get(tokens.$color-palette, 'neutral', '600')};
+
+  // Secondary Actions
+  --action-secondary: #{map.get(tokens.$color-palette, 'secondary', 'default')};
+  --action-secondary-hover: #{map.get(tokens.$color-palette, 'secondary', '600')};
+  --action-secondary-active: #{map.get(tokens.$color-palette, 'secondary', '700')};
+  --action-secondary-disabled: #{map.get(tokens.$color-palette, 'neutral', '300')};
+
+  // Surfaces
+  --surface-primary: #{map.get(tokens.$color-palette, 'neutral', '50')};
+  --surface-secondary: #{map.get(tokens.$color-palette, 'neutral', '100')};
+  --surface-tertiary: #{map.get(tokens.$color-palette, 'neutral', '200')};
+  --surface-elevated: #{map.get(tokens.$color-palette, 'neutral', '50')};
+  --surface-overlay: #{map.get(tokens.$color-palette, 'neutral', '900'), 0.4};
+  --surface-inverse: #{map.get(tokens.$color-palette, 'neutral', '900')};
+
+  // Text
+  --text-primary: #{map.get(tokens.$color-palette, 'neutral', '900')};
+  --text-secondary: #{map.get(tokens.$color-palette, 'neutral', '700')};
+  --text-tertiary: #{map.get(tokens.$color-palette, 'neutral', '500')};
+  --text-disabled: #{map.get(tokens.$color-palette, 'neutral', '400')};
+  --text-inverse: #{map.get(tokens.$color-palette, 'neutral', '50')};
+
+  // Borders
+  --border-primary: #{map.get(tokens.$color-palette, 'neutral', '200')};
+  --border-hover: #{map.get(tokens.$color-palette, 'neutral', '300')};
+  --border-focus: #{map.get(tokens.$color-palette, 'primary', '500')};
+  --border-error: #{map.get(tokens.$color-palette, 'error', '500')};
+  --border-success: #{map.get(tokens.$color-palette, 'success', '500')};
+  --border-disabled: #{map.get(tokens.$color-palette, 'neutral', '200')};
+
+  // Status
+  --status-success: #{map.get(tokens.$color-palette, 'success', '600')};
+  --status-warning: #{map.get(tokens.$color-palette, 'warning', '500')};
+  --status-error: #{map.get(tokens.$color-palette, 'error', '500')};
+  --status-info: #{map.get(tokens.$color-palette, 'secondary', '500')};
+
+  // Finance specific
+  --finance-income: #{map.get(tokens.$color-palette, 'success', '600')};
+  --finance-expense: #{map.get(tokens.$color-palette, 'error', '500')};
+  --finance-neutral: #{map.get(tokens.$color-palette, 'secondary', '500')};
+
+  // Charts
+  --chart-primary: #{map.get(tokens.$color-palette, 'secondary', '500')};
+  --chart-secondary: #{map.get(tokens.$color-palette, 'primary', '500')};
+  --chart-tertiary: #{map.get(tokens.$color-palette, 'warning', '500')};
+
+  // Shadows
+  --shadow-focus: 0 0 0 4px #{rgba(map.get(tokens.$color-palette, 'primary', '500'), 0.2)};
+  --shadow-elevated: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}

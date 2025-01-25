@@ -5,26 +5,23 @@ import {
   faArrowLeft,
   faArrowRightFromBracket,
   faBars,
+  faChartPie,
   faChevronDown,
   faCircleExclamation,
   faEllipsis,
   faExclamation,
   faHome,
+  faLock,
   faPencil,
   faSpinner,
   faTriangleExclamation,
+  faUser,
   faUserSecret,
+  faWallet,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 // REGULAR
-import {
-  faLightbulb,
-  faMessage,
-  faMoon,
-  faSquare,
-  faSun,
-  faUser,
-} from '@fortawesome/free-regular-svg-icons';
+import { faLightbulb, faMessage, faMoon, faSquare, faSun } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 
@@ -46,7 +43,8 @@ export const FsPluginFontawesome: Plugin = {
       faPencil,
     );
 
-    library.add(faLightbulb, faMoon, faSun, faMessage, faSquare, faUser);
+    
+    library.add(faLightbulb, faMoon, faSun, faMessage, faSquare, faUser, faChartPie, faWallet, faUser, faLock);
     
     app.component('FontAwesomeIcon', FontAwesomeIcon);
   },

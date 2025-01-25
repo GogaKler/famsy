@@ -1,0 +1,56 @@
+// Семантические токены для цветов
+$colors: (
+  // Actions
+  action: (
+    default: var(--action-default),
+    hover: var(--action-hover),
+    active: var(--action-active),
+    focus: var(--action-focus),
+    disabled: var(--action-disabled),
+  ),
+  action-secondary: (
+    default: var(--action-secondary),
+    hover: var(--action-secondary-hover),
+    active: var(--action-secondary-active),
+    disabled: var(--action-secondary-disabled),
+  ),
+
+  // Surfaces
+  surface: (
+    primary: var(--surface-primary),
+    secondary: var(--surface-secondary),
+    tertiary: var(--surface-tertiary),
+    elevated: var(--surface-elevated),
+    overlay: var(--surface-overlay),
+    inverse: var(--surface-inverse),
+  ),
+
+  // Text
+  text: (
+    primary: var(--text-primary),
+    secondary: var(--text-secondary),
+    tertiary: var(--text-tertiary),
+    disabled: var(--text-disabled),
+    inverse: var(--text-inverse),
+    on-dark: var(--text-on-dark),
+    on-light: var(--text-on-light),
+  ),
+
+  // Borders
+  border: (
+    primary: var(--border-primary),
+    hover: var(--border-hover),
+    focus: var(--border-focus),
+    error: var(--border-error),
+    success: var(--border-success),
+    disabled: var(--border-disabled),
+  ),
+
+  // Status
+  status: (
+    success: var(--status-success),
+    warning: var(--status-warning),
+    error: var(--status-error),
+    info: var(--status-info),
+  ),
+);

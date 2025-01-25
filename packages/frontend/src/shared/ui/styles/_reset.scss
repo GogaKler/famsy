@@ -1,0 +1,65 @@
+/* Базовый сброс стилей */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Убираем стандартные стили списков и ссылок */
+ul,
+ol,
+a {
+  list-style: none;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Делаем медиа элементы отзывчивыми */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Наследование шрифтов для форм */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Убираем стили для кнопок */
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Убираем outline только при использовании мыши */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Улучшаем доступность для скринридеров */
+//[aria-hidden="true"] {
+//  display: none;
+//}
+
+/* Улучшение рендеринга шрифтов */
+html {
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+}
+
+/* Улучшение скролла на iOS */
+body {
+  -webkit-overflow-scrolling: touch;
+}
