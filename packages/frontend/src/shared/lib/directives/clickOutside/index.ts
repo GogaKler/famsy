@@ -8,7 +8,7 @@ const toggleEventListeners = (action: ActionType, eventHandler: EventHandler): v
   document.addEventListener('click', eventHandler, true);
 };
 
-const onClickOutside = ({ event, el, handler}: { event: MouseEvent, el: HTMLElement, handler: Handler; }): void => {
+const onClickOutside = ({ event, el, handler }: { event: MouseEvent, el: HTMLElement, handler: Handler; }): void => {
   const isClickOutside = event.target !== el && !el.contains(event.target as Node);
 
   if (isClickOutside) {

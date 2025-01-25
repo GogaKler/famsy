@@ -1,0 +1,25 @@
+@use '../tokens' as tokens;
+@use "sass:color";
+@use "sass:map";
+
+// Вспомогательная функция для конвертации HEX в RGBA
+@function hex-to-rgb($color, $alpha: 1) {
+  @if $color == null {
+    @error "Color is null! Check if the color token exists in the palette.";
+  }
+  
+  @if type-of($color) != "color" {
+    @error "Expected a color, got: #{$color}";
+  }
+
+  @if $alpha != 1 {
+    @return rgba($color, $alpha);
+  }
+
+  @return $color;
+}
+
+@mixin base-theme {
+  // Базовая структура переменных
+  // Значения определяются в конкретных темах
+} 

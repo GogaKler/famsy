@@ -1,1 +1,2 @@
-export { type UserEntity } from './model/types';
+export { UserEntity } from './entity/user-entity';
+export { type UserDTO } from './dto/user-dto';

@@ -1,15 +1,17 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": [
-    "env.d.ts",
+    "src/types/env.d.ts",
     "src/**/*",
     "src/**/*.vue",
-    "electron/**/*"
+    "./formkit.config.ts",
   ],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
 
     "baseUrl": ".",
     "paths": {
@@ -19,6 +21,6 @@
       "@features*": ["src/features*"],
       "@entities*": ["src/entities*"],
       "@shared*": ["src/shared*"],
-    }
+    },
   }
 }

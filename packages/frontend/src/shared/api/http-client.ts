@@ -1,82 +1,87 @@
-import { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
-import type { Router } from 'vue-router';
-import router from '@app/router';
-import { useAuthStore } from '@entities/auth';
-import { axiosInstance } from '@shared/api/axios-instance';
+import axios, { AxiosError, type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
+import { injectable } from 'tsyringe';
+import { ApiError, type ApiErrorResponse, ApiFieldError, type ApiFieldErrorsResponse } from '@shared/api';
 
 interface IHttpClient {
-  get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
-  post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
-  put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
-  delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  get<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>;
+  post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>;
+  put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>;
+  delete<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>;
 }
 
-class HttpClient implements IHttpClient {
-  private isRefreshing = false;
+@injectable()
+export class HttpClient implements IHttpClient {
+  private static instance: HttpClient;
+  private readonly axiosInstance: AxiosInstance;
 
   constructor(
-    private readonly axiosInstance: AxiosInstance,
-    private readonly router: Router,
+    private readonly backendUrl: string,
   ) {
-    this.router = router;
+    this.axiosInstance = axios.create({
+      baseURL: this.backendUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': true,
+      },
+      withCredentials: true,
+    });
+    this.setupInterceptors();
+  }
 
+  public static getInstance(baseURL: string): HttpClient {
+    if (!HttpClient.instance) {
+      HttpClient.instance = new HttpClient(baseURL);
+    }
+    return HttpClient.instance;
+  }
+
+  private setupInterceptors() {
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => response,
-      this.handleError.bind(this),
+      (error: AxiosError<ApiErrorResponse | ApiFieldErrorsResponse>) => {
+        throw this.handleError(error);
+      },
     );
   }
 
-  private async handleError(error: any): Promise<any> {
-    const { response, config } = error;
-    const authStore = useAuthStore();
+  private handleError(error: AxiosError<ApiErrorResponse | ApiFieldErrorsResponse>) {
+    const { response } = error;
 
     if (!response) {
-      console.error('**Network/Server error');
-      return Promise.reject(error);
+      return new Error('Ошибка соединения с сервером');
     }
 
-    if (response.status === 401 && !this.isRefreshing) {
-      this.isRefreshing = true;
-      try {
-        await this.post('auth/refresh');
-        return this.axiosInstance(config);
-      } catch (e) {
-        console.error(e);
-        authStore.setAuth(false);
-        await this.router.push({ name: 'auth-sign-in' });
-      } finally {
-        this.isRefreshing = false;
-      }
+    if (ApiFieldError.isFieldErrors(response.data)) {
+      return new ApiFieldError(response.data);
     }
 
-    if (response.status === 404) {
-      await this.router.push('/404');
-    } else {
-      console.error(response.statusText);
+    switch (response.status) {
+      case 401:
+        localStorage.removeItem('isAuth');
+        window.location.href = '/auth/login';
+        return new ApiError(response.data);
+      case 404:
+        // window.location.href = '/404';
+        return new ApiError(response.data);
+      default:
+        return new ApiError(response.data);
     }
-
-    return Promise.reject(error);
   }
 
-  async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.get(url, config);
-    return response.data;
+  async get<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    return this.axiosInstance.get(url, config);
   }
 
-  async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.post(url, data, config);
-    return response.data;
+  async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    return this.axiosInstance.post(url, data, config);
   }
 
-  async put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.put(url, data, config);
-    return response.data;
+  async put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    return this.axiosInstance.put(url, data, config);
   }
 
-  async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.delete(url, config);
-    return response.data;
+  async delete<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    return this.axiosInstance.delete(url, config);
   }
 }
 
-export const httpClient = new HttpClient(axiosInstance, router);

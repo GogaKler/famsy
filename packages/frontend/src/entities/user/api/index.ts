@@ -1,4 +1,5 @@
+import { BaseApi } from '@shared/api';
 
-export class UserAPI {
+export class UserAPI extends BaseApi {
   
 }
