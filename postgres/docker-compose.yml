@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   postgres:
-    image: postgres
+    image: postgres:17-alpine
     environment:
       POSTGRES_DB: famsy
       POSTGRES_USER: famsyUser
@@ -11,6 +9,13 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend_net
+
+networks:
+  backend_net:
+    name: backend_net
+    external: true
 
 volumes:
   postgres_data:

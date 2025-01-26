@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/famsy
+      - SPRING_DATASOURCE_USERNAME=famsyUser
+      - SPRING_DATASOURCE_PASSWORD=famsyPass
+      - SPRING_DATA_REDIS_HOST=redis
+      - SERVER_SERVLET_CONTEXT_PATH=/api/v1
+      - FAMSY_SECURITY_JWT_COOKIE_DOMAIN=localhost
+      - SERVER_SHUTDOWN=graceful
+    networks:
+      - backend_net
+    stop_signal: SIGTERM
+    stop_grace_period: 30s
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/v1/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  backend_net:
+    name: backend_net
