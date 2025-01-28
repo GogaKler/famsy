@@ -18,8 +18,8 @@ export class AuthApi extends BaseApi {
     return this.post<UserDTO>('register', payload);
   }
 
-  async logout(): Promise<void> {
-    await this.post<void>('logout');
+  async logout(): Promise<AxiosResponse<void>> {
+    return this.post<void>('logout');
   }
 
   async checkAuth(): Promise<AxiosResponse<UserDTO>> {

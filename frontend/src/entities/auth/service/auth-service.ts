@@ -47,9 +47,9 @@ export class AuthService extends BaseService<TAuthEntityName, AuthStateActions> 
     );
   }
 
-  async logout(): Promise<void> {
+  async logout(id: number): Promise<void> {
     return this.executeAction(
-      this.unAuthUserIdentifier,
+      id,
       AuthStateActions.LOGOUT,
       async () => {
         await this.authApi.logout();
@@ -79,5 +79,8 @@ export class AuthService extends BaseService<TAuthEntityName, AuthStateActions> 
   
   get isLoginLoading() {
     return this.entityActionStateStore.isLoading(this.unAuthUserIdentifier, AuthStateActions.LOGIN);
+  }
+  isLogoutLoading(id: number) {
+    return this.entityActionStateStore.isLoading(id, AuthStateActions.LOGOUT);
   }
 }
