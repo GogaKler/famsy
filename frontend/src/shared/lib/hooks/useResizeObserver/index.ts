@@ -65,7 +65,7 @@ export function useResizeObserver(
         observer.observe(el, observerOptions);
       }
     },
-    { immediate: true, flush: 'post' }
+    { immediate: true, flush: 'post' },
   );
 
   const stop = () => {
