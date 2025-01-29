@@ -32,8 +32,8 @@ const { isMobile } = useBreakpoint();
           </p>
 
           <div class="space-y-4 max-w-xl">
-            <div class="p-4 sm:p-6 flex items-center gap-4 rounded-xl bg-surface-overlay/60 hover:bg-surface-overlay/80 transition-colors">
-              <div class="p-3 rounded-lg">
+            <div class="p-4 sm:p-6 flex items-center gap-4 rounded-xl hover:bg-surface-secondary transition-colors">
+              <div class="p-3 bg-action-default/10 rounded-lg">
                 <FontAwesomeIcon icon="chart-pie" class="w-5 h-5 sm:w-6 sm:h-6 text-action-default" />
               </div>
               <div>
