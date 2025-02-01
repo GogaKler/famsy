@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import router from '@app/router';
+import { router } from '@pages';
 import { App } from '@app/ui';
 import { AuthService } from '@entities/auth';
 import { defaultConfig, plugin } from '@formkit/vue';

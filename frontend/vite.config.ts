@@ -22,6 +22,7 @@ export default defineConfig((config): UserConfig => {
         { find: '@pages', replacement: setPath('./src/pages') },
         { find: '@features', replacement: setPath('./src/features') },
         { find: '@entities', replacement: setPath('./src/entities') },
+        { find: '@widgets', replacement: setPath('./src/widgets') },
         { find: '@shared', replacement: setPath('./src/shared') },
       ],
     },
