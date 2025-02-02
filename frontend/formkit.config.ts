@@ -17,7 +17,7 @@ export default defaultConfig({
         label: 'text-base block text-text-primary font-medium',
         inner: 'relative',
         help: 'text-text-tertiary text-xs',
-        messages: 'list-none text-center',
+        messages: 'list-none my-2',
         message: 'text-status-error text-xs',
         prefixIcon: 'absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary',
         suffixIcon: 'absolute right-3 top-1/2 -translate-y-1/2 text-text-tertiary',

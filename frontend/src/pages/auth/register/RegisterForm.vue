@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AuthService, AuthStateActions, type LoginDTO } from '@entities/auth';
+import { AuthService, AuthStateActions, type RegisterDTO } from '@entities/auth';
 import { container } from 'tsyringe';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -10,11 +10,11 @@ import { useFormKitErrors } from '@shared/lib';
 const router = useRouter();
 const authService: AuthService = container.resolve(AuthService);
 const isLoading = computed(() => authService.isLoginLoading);
-useFormKitErrors(authService, authService.unAuthUserIdentifier, AuthStateActions.LOGIN);
+useFormKitErrors(authService, authService.unAuthUserIdentifier, AuthStateActions.REGISTER);
 
-const auth = async (fields: LoginDTO): Promise<void> => {
+const auth = async (fields: RegisterDTO): Promise<void> => {
   try {
-    await authService.login(fields);
+    await authService.register(fields);
     await router.push({ name: 'main-root' });
   } catch {}
 };
@@ -22,7 +22,7 @@ const auth = async (fields: LoginDTO): Promise<void> => {
 
 <template>
   <FormKit
-    :id="AuthStateActions.LOGIN"
+    :id="AuthStateActions.REGISTER"
     type="form"
     form-class="w-full space-y-5"
     :actions="false"
@@ -31,11 +31,20 @@ const auth = async (fields: LoginDTO): Promise<void> => {
       <FormKitMessages />
       <FormKit
         type="text"
-        name="login"
-        label="Логин"
+        name="username"
+        label="Имя пользователя"
         autocomplete="username"
         validation="required"
-        placeholder="Email или имя пользователя"
+        placeholder="Введите имя пользователя"
+      />
+
+      <FormKit
+        type="email"
+        name="email"
+        label="Email"
+        autocomplete="email"
+        validation="required|email"
+        placeholder="Введите email"
       />
 
       <FormKit
@@ -43,19 +52,17 @@ const auth = async (fields: LoginDTO): Promise<void> => {
         name="password"
         label="Пароль"
         autocomplete="current-password"
-        validation="required"
         placeholder="Введите пароль"
+        validation="required"
       />
 
-      <div class="flex items-center justify-between">
-        <FormKit id="remember" type="checkbox" name="remember" label="Запомнить меня" />
-        <a
-          href="#"
-          class="text-sm text-action-default hover:text-action-hover"
-        >
-          Забыли пароль?
-        </a>
-      </div>
+      <FormKit
+        type="password"
+        name="password_confirm"
+        label="Подтверждение пароля"
+        placeholder="Введите пароль еще раз"
+        validation="required|confirm"
+      />
 
       <FamsyButton
         type="submit"
@@ -63,7 +70,7 @@ const auth = async (fields: LoginDTO): Promise<void> => {
         :loading="isLoading"
         :disabled="isLoading || !valid"
       >
-        Войти
+        Зарегистрироваться
       </FamsyButton>
     </template>
   </FormKit>
