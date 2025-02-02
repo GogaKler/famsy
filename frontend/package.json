@@ -8,8 +8,8 @@
   "license": "MIT",
   "scripts": {
     "dev:web": "vite --host",
-    "docker:dev": "docker compose -f docker/development/docker-compose.yml --env-file .env.development.local up --build -V",
-    "docker:dev:build": "docker compose -f docker/development/docker-compose.yml --env-file .env.development.local build --no-cache",
+    "docker:dev": "docker compose -f docker/development/docker-compose.yml up --build",
+    "docker:dev:build": "docker compose -f docker/development/docker-compose.yml build --no-cache",
     "vue-devtools": "../../node_modules/.bin/vue-devtools",
     "build": "run-p type-check \"build-only {@}\" --",
     "build-only": "vite build",
