@@ -9,10 +9,10 @@ import { useFormKitErrors } from '@shared/lib';
 
 const router = useRouter();
 const authService: AuthService = container.resolve(AuthService);
-const isLoading = computed(() => authService.isLoginLoading);
+const isLoading = computed(() => authService.isRegisterLoading);
 useFormKitErrors(authService, authService.unAuthUserIdentifier, AuthStateActions.REGISTER);
 
-const auth = async (fields: RegisterDTO): Promise<void> => {
+const register = async (fields: RegisterDTO): Promise<void> => {
   try {
     await authService.register(fields);
     await router.push({ name: 'main-root' });
@@ -26,7 +26,7 @@ const auth = async (fields: RegisterDTO): Promise<void> => {
     type="form"
     form-class="w-full space-y-5"
     :actions="false"
-    @submit="auth">
+    @submit="register">
     <template #default="{ state: { valid } }">
       <FormKitMessages />
       <FormKit
