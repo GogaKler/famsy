@@ -1,12 +1,10 @@
-version: '3.8'
-
 services:
   frontend:
     build:
       context: ../..
       dockerfile: docker/development/Dockerfile
     ports:
-      - "${VITE_PORT}:${VITE_PORT}"
+      - "8069:8069"
     volumes:
       - ../../:/srv/app
       - /srv/app/node_modules
