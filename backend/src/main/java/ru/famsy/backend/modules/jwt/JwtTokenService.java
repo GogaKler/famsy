@@ -25,6 +25,7 @@ import ru.famsy.backend.modules.user_session.exception.SessionExpiredException;
 
 import java.security.Key;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class JwtTokenService {
     return Jwts.builder()
             .subject(user.getId().toString())
             .claim("sessionId", userSession.getSessionId())
-            .claim("lastActivityAt", userSession.getLastActivityAt().toString())
+            .claim("lastActivityAt", userSession.getLastActivityAt().atZone(ZoneOffset.UTC).toEpochSecond())
             .issuedAt(now)
             .expiration(expiryDate)
             .signWith(key)
@@ -81,7 +82,7 @@ public class JwtTokenService {
     return Jwts.builder()
             .subject(user.getId().toString())
             .claim("sessionId", userSession.getSessionId())
-            .claim("lastActivityAt", userSession.getLastActivityAt().toString())
+            .claim("lastActivityAt", userSession.getLastActivityAt().atZone(ZoneOffset.UTC).toEpochSecond())
             .issuedAt(now)
             .expiration(expiryDate)
             .signWith(key)
@@ -122,7 +123,7 @@ public class JwtTokenService {
   private Claims validateRefreshToken(String token, HttpServletRequest request) {
     Claims claims = validateToken(token);
     String sessionId = claims.get("sessionId", String.class);
-    LocalDateTime lastActivityAt = LocalDateTime.parse(claims.get("lastActivityAt", String.class));
+    Long lastActivityAtTimestamp = claims.get("lastActivityAt", Long.class);
 
     UserSessionEntity userSession = userSessionService.getUserSessionBySessionId(sessionId);
 
@@ -131,7 +132,8 @@ public class JwtTokenService {
       throw new SessionExpiredException("Сессия истекла");
     }
 
-    if (!userSession.getLastActivityAt().equals(lastActivityAt)) {
+    if (!Long.valueOf(userSession.getLastActivityAt().atZone(ZoneOffset.UTC).toEpochSecond())
+            .equals(lastActivityAtTimestamp)) {
       throw new SessionExpiredException("Сессия используется другим пользователем");
     }
 
@@ -147,7 +149,7 @@ public class JwtTokenService {
   private Claims validateToken(String token) {
     Claims claims = getTokenPayload(token);
     String sessionId = claims.get("sessionId", String.class);
-    String lastActivityAt = claims.get("lastActivityAt", String.class);
+    Long lastActivityAt = claims.get("lastActivityAt", Long.class);
 
     if (sessionId == null || lastActivityAt == null) {
       throw new TokenValidationException("Не действительный токен");
