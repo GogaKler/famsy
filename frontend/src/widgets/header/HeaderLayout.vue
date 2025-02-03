@@ -2,14 +2,12 @@
 </script>
 
 <template>
-  <header class="flex justify-between items-center p-2 bg-surface-secondary text-text-primary">
-    <div class="flex items-center">
+  <header class="flex justify-between items-center p-3 bg-surface-secondary text-text-primary">
+    <div class="flex items-center gap-4">
       <slot name="left" />
     </div>
-    <div class="flex-1 text-center">
-      <slot name="center" />
-    </div>
-    <div class="flex justify-end items-center">
+   
+    <div class="flex items-center gap-4">
       <slot name="right" />
     </div>
   </header>
