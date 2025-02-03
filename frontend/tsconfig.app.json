@@ -19,6 +19,7 @@
       "@app*": ["src/app*"],
       "@pages*": ["src/pages*"],
       "@features*": ["src/features*"],
+      "@widgets*": ["src/widgets*"],
       "@entities*": ["src/entities*"],
       "@widgets*": ["src/widgets*"],
       "@shared*": ["src/shared*"],

@@ -7,7 +7,7 @@ export function useAuthGuard(router: Router) {
   router.beforeEach(async (to) => {
     const authService: AuthService = container.resolve(AuthService);
     if (authService.authStore.isAuth && to.name === 'auth-login') {
-      return { name: 'main-root' };
+      return { name: 'dashboard' };
     }
 
     if (!authService.authStore.isAuth && to.name !== 'auth-login') {

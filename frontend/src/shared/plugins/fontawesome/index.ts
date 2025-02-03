@@ -19,6 +19,7 @@ import {
   faUserSecret,
   faWallet,
   faXmark,
+  faTableColumns,
   faBell,
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
@@ -45,6 +46,7 @@ export const FsPluginFontawesome: Plugin = {
       faPencil,
       faBell,
       faPlus,
+      faTableColumns,
     );
 
     
