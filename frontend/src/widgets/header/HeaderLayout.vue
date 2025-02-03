@@ -1,7 +1,3 @@
-<script lang="ts" setup>
-
-</script>
-
 <template>
   <div class="flex items-center justify-between">
     <div class="flex items-center gap-4">
