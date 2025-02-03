@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
         <div class="flex items-center gap-2 pl-2.5 text-sm">
           <a href="#" class="text-text-secondary hover:text-action-default transition-colors duration-200">Личный кабинет</a>
-          <span class="text-text-tertiary">></span>
+          <span class="text-text-tertiary"> ></span>
           <a href="#" class="text-text-secondary hover:text-action-default transition-colors duration-200">Семейный бюджет</a>
         </div>
       </template> 
