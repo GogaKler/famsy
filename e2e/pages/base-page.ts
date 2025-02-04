@@ -5,8 +5,8 @@ export abstract class BasePage {
     this.page = page;
   }
 
-  async navigateTo(page: string) {
-    await this.page.goto(page);
+  async navigateTo(url: string) {
+    await this.page.goto(url);
   }
 
 }

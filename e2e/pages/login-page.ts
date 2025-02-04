@@ -2,12 +2,14 @@ import { BasePage } from "./base-page";
 import { type Page, type Locator } from "@playwright/test";
 
 export class LoginPage extends BasePage {
-  private readonly loginInputID = "loginInput";
-  private readonly passwordInputID = "passwordInput";
-  private readonly loginButtonID = "loginButton";
-  private readonly emptyLoginInputWarningID= "#input_0-";
-  private readonly emptyPasswordInputWarningID = "#input_1-";
-  private readonly invalidCredsWarningID = "Неверный логин или пароль";
+  static readonly baseUrl: string = "/login";
+
+  private readonly loginInputID: string = "loginInput";
+  private readonly passwordInputID: string = "passwordInput";
+  private readonly loginButtonID: string = "loginButton";
+  private readonly emptyLoginInputWarningID: string= "Поле Логин обязательно для заполнения";
+  private readonly emptyPasswordInputWarningID: string = "Поле Пароль обязательно для заполнения";
+  private readonly invalidCredsWarningID: string = "Неверный логин или пароль";
 
   constructor(page: Page) {
     super(page);
@@ -22,10 +24,10 @@ export class LoginPage extends BasePage {
     return this.page.getByTestId(this.loginButtonID);
   }
   get emptyLoginInputWarning(): Locator {
-    return this.page.locator(this.emptyLoginInputWarningID);
+    return this.page.getByText(this.emptyLoginInputWarningID);
   }
   get emptyPasswordInputWarning(): Locator {
-    return this.page.locator(this.emptyPasswordInputWarningID);
+    return this.page.getByText(this.emptyPasswordInputWarningID);
   }
   get invalidCredsWarning(): Locator {
     return this.page.getByText(this.invalidCredsWarningID);
@@ -34,6 +36,10 @@ export class LoginPage extends BasePage {
   async login(login: string, password: string) {
     await this.loginInput.fill(login);
     await this.passwordInput.fill(password);
-    await this.loginButton.click({ timeout: 10000 });
+    await this.loginButton.click();
+  }
+
+  async navigateTo(): Promise<void> {
+    await this.page.goto(LoginPage.baseUrl);
   }
 }
