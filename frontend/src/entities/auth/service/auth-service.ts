@@ -80,6 +80,11 @@ export class AuthService extends BaseService<TAuthEntityName, AuthStateActions> 
   get isLoginLoading() {
     return this.entityActionStateStore.isLoading(this.unAuthUserIdentifier, AuthStateActions.LOGIN);
   }
+
+  get isRegisterLoading() {
+    return this.entityActionStateStore.isLoading(this.unAuthUserIdentifier, AuthStateActions.REGISTER);
+  }
+
   isLogoutLoading(id: number) {
     return this.entityActionStateStore.isLoading(id, AuthStateActions.LOGOUT);
   }

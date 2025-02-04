@@ -15,7 +15,6 @@ services:
 networks:
   backend_net:
     name: backend_net
-    external: true
 
 volumes:
   postgres_data:

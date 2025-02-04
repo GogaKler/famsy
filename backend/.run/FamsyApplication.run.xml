@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="FamsyApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <module name="backend" />
+    <target name="app" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="ru.famsy.backend.FamsyApplication" />
+    <method v="2" />
+  </configuration>
+</component>
