@@ -36,6 +36,7 @@ const auth = async (fields: LoginDTO): Promise<void> => {
         autocomplete="username"
         validation="required"
         placeholder="Email или имя пользователя"
+        data-testid="loginInput"
       />
 
       <FormKit
@@ -45,6 +46,7 @@ const auth = async (fields: LoginDTO): Promise<void> => {
         autocomplete="current-password"
         validation="required"
         placeholder="Введите пароль"
+        data-testid="passwordInput"
       />
 
       <div class="flex items-center justify-between">
@@ -62,6 +64,7 @@ const auth = async (fields: LoginDTO): Promise<void> => {
         class="w-full"
         :loading="isLoading"
         :disabled="isLoading || !valid"
+        data-testid="loginButton"
       >
         Войти
       </FamsyButton>

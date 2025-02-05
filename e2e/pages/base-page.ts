@@ -1,11 +1,12 @@
-import {Page} from "@playwright/test";
+import { Page } from "@playwright/test";
 
 export abstract class BasePage {
-    protected constructor(protected page: Page) {
-        this.page = page;
-    }
+  protected constructor(protected page: Page) {
+    this.page = page;
+  }
 
-    async navigateTo(page: string) {
-        await this.page.goto(page);
-    }
+  async navigateTo(url: string) {
+    await this.page.goto(url);
+  }
+
 }

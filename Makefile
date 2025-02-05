@@ -17,7 +17,7 @@ stop-backend:
 	docker-compose -f backend/docker-compose.yml down
 
 stop-frontend:
-	docker-compose -f frontend/docker/development/docker-compose.yml down
+	docker compose -f frontend/docker/development/docker-compose.yml down
 
 stop-postgres:
 	docker-compose -f postgres/docker-compose.yml down
