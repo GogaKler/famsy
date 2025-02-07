@@ -7,7 +7,7 @@ const setPath = (path: string): string => fileURLToPath(new URL(path, import.met
 export default defineConfig((config): UserConfig => {
   const env = { ...process.env, ...loadEnv(config.mode, process.cwd(), '') };
   const isDev = env.NODE_ENV === 'development';
-  const port = Number(env.VITE_PORT);
+  const port = Number(env.VITE_PORT) || 8069;
 
   return {
     server: {

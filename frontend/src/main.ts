@@ -5,14 +5,13 @@ import { AuthService } from '@entities/auth';
 import { defaultConfig, plugin } from '@formkit/vue';
 import { FsPluginFontawesome } from '@shared/plugins';
 import '@shared/ui/styles/index.scss';
-import { devtools } from '@vue/devtools';
 import { createPinia } from 'pinia';
 import { container } from 'tsyringe';
 import { createApp } from 'vue';
 import formkitConfig from '../formkit.config';
 
 
-async function main() {
+export async function createFamsyApp() {
   const app = createApp(App);
   app.use(FsPluginFontawesome);
   app.use(createPinia());
@@ -23,12 +22,7 @@ async function main() {
     await authService.checkAuth();
   } finally {
     app.use(router);
-    app.mount('#app');
   }
-}
 
-await main();
-
-if (import.meta.env.NODE_ENV === 'development') {
-  devtools.connect();
+  return { app, router };
 }
