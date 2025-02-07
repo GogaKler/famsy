@@ -14,13 +14,13 @@ dev-all: dev-postgres dev-backend dev-frontend
 
 ##### STOP #####
 stop-backend:
-	docker-compose -f backend/docker-compose.yml down
+	docker compose -f backend/docker-compose.yml down
 
 stop-frontend:
 	docker compose -f frontend/docker/development/docker-compose.yml down
 
 stop-postgres:
-	docker-compose -f postgres/docker-compose.yml down
+	docker compose -f postgres/docker-compose.yml down
 
 stop-all: stop-backend stop-frontend stop-postgres
 	@echo "Все сервисы остановлены"
@@ -37,11 +37,11 @@ restart-all: stop-all dev-all
 
 ##### Logs #####
 logs-backend:
-	docker-compose -f backend/docker-compose.yml logs -f
+	docker compose -f backend/docker-compose.yml logs -f
 
 logs-frontend:
-	docker-compose -f frontend/docker/development/docker-compose.yml logs -f
+	docker compose -f frontend/docker/development/docker-compose.yml logs -f
 
 logs-postgres:
-	docker-compose -f postgres/docker-compose.yml logs -f
+	docker compose -f postgres/docker-compose.yml logs -f
 
