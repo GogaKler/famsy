@@ -22,6 +22,11 @@ import {
   faTableColumns,
   faBell,
   faPlus,
+  faPeopleRoof,
+  faFolder,
+  faStore,
+  faFlag,
+  faClockRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 // REGULAR
 import { faLightbulb, faMessage, faMoon, faSquare, faSun } from '@fortawesome/free-regular-svg-icons';
@@ -47,6 +52,11 @@ export const FsPluginFontawesome: Plugin = {
       faBell,
       faPlus,
       faTableColumns,
+      faPeopleRoof,
+      faFolder,
+      faStore,
+      faFlag,
+      faClockRotateLeft,
     );
 
     

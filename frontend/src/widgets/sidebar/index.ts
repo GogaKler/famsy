@@ -1,0 +1,1 @@
+export { default as SidebarRoot } from './SidebarRoot.vue';
