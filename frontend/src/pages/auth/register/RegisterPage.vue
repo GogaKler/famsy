@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LoginForm from './LoginForm.vue';
+import RegisterForm from './RegisterForm.vue';
 import { useBreakpoint } from '@shared/lib';
 import { FamsyButton } from '@shared/ui';
 
@@ -8,45 +8,38 @@ const { isMobile } = useBreakpoint();
 
 <template>
   <div class="
-    w-full
+    w-full 
     sm:bg-surface-primary/80
     sm:backdrop-blur-md
     sm:p-8
     rounded-2xl
     sm:border sm:border-border-disabled
-    relative
-    overflow-hidden
   ">
-    <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-action-default to-transparent opacity-20"></div>
-
-    <div class="text-center mb-6 space-y-2">
+    <div class="text-center mb-8">
       <h2 class="text-2xl font-bold text-text-primary">
-        С возвращением! 👋
+        Добро пожаловать! 🎉
       </h2>
-      <p class="text-md text-text-secondary">
-        Войдите в свой аккаунт для продолжения
-      </p>
     </div>
 
-    <LoginForm />
+    <RegisterForm />
 
-    <div class="mt-6">
+    <div class="mt-4">
       <p v-if="!isMobile" class="text-sm text-text-secondary text-center">
-        Еще нет аккаунта?
+        Уже есть аккаунт?
         <RouterLink 
-          :to="{ name: 'auth-register' }" 
+          :to="{ name: 'auth-login' }" 
           class="text-action-default hover:text-action-hover font-medium ml-1 transition-colors duration-200"
         >
-          Зарегистрироваться
+          Войти
         </RouterLink>
       </p>
       <FamsyButton
         v-else
         class="w-full"
         variant="outline"
-        @click="$router.push({ name: 'auth-register' })"
+        @click="$router.push({ name: 'auth-login' })"
       >
-        Зарегистрироваться
+        Войти в существующий аккаунт
       </FamsyButton>
     </div>
   </div>

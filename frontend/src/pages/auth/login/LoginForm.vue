@@ -15,7 +15,7 @@ useFormKitErrors(authService, authService.unAuthUserIdentifier, AuthStateActions
 const auth = async (fields: LoginDTO): Promise<void> => {
   try {
     await authService.login(fields);
-    await router.push({ name: 'main-root' });
+    await router.push({ name: 'dashboard' });
   } catch {}
 };
 </script>
@@ -24,17 +24,19 @@ const auth = async (fields: LoginDTO): Promise<void> => {
   <FormKit
     :id="AuthStateActions.LOGIN"
     type="form"
-    form-class="w-full"
+    form-class="w-full space-y-5"
     :actions="false"
     @submit="auth">
-    <div class="space-y-4">
+    <template #default="{ state: { valid } }">
       <FormKitMessages />
       <FormKit
         type="text"
         name="login"
         label="Логин"
         autocomplete="username"
+        validation="required"
         placeholder="Email или имя пользователя"
+        data-testid="loginInput"
       />
 
       <FormKit
@@ -42,7 +44,9 @@ const auth = async (fields: LoginDTO): Promise<void> => {
         name="password"
         label="Пароль"
         autocomplete="current-password"
+        validation="required"
         placeholder="Введите пароль"
+        data-testid="passwordInput"
       />
 
       <div class="flex items-center justify-between">
@@ -59,11 +63,12 @@ const auth = async (fields: LoginDTO): Promise<void> => {
         type="submit"
         class="w-full"
         :loading="isLoading"
-        :disabled="isLoading"
+        :disabled="isLoading || !valid"
+        data-testid="loginButton"
       >
         Войти
       </FamsyButton>
-    </div>
+    </template>
   </FormKit>
 </template>
 
