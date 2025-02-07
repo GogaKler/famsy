@@ -6,8 +6,9 @@ export const useTheme = () => {
   const theme: Ref<Theme, Theme> = ref<Theme>('light');
 
   const setTheme = (newTheme: Theme) => {
+    document.documentElement.classList.remove(theme.value);
+    document.documentElement.classList.add(newTheme);
     theme.value = newTheme;
-    document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
   };
 

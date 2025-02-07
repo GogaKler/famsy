@@ -1,6 +1,6 @@
 const LoginPage = () => import('./login/LoginPage.vue');
 const RegisterPage = () => import('./register/RegisterPage.vue');
-const AuthLayout = () => import('@app/layout/AuthLayout.vue');
+const AuthLayout = () => import('@app/layouts/AuthLayout.vue');
 
 export const getAuthRouter = () => [
   {

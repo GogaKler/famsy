@@ -8,7 +8,6 @@ const { isMobile } = useBreakpoint();
 <template>
   <div class="min-h-screen bg-surface-primary relative overflow-hidden">
     <div class="absolute inset-0">
-      <div class="absolute inset-0 bg-gradient-to-br from-surface-primary via-surface-primary to-surface-secondary"></div>
       <div class="absolute inset-0 bg-[size:24px_24px] bg-[radial-gradient(#00000025_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff15_1px,transparent_1px)]"></div>
     </div>
 
@@ -23,15 +22,15 @@ const { isMobile } = useBreakpoint();
             Управляйте финансами<br>всей семьи
           </h1>
           
-          <p class="text-base sm:text-lg text-text-secondary leading-relaxed mb-8 sm:mb-12 max-w-xl">
+          <p class="text-lg text-text-secondary leading-relaxed mb-12">
             FAMSY поможет вам отслеживать доходы, расходы и планировать бюджет.
             Анализируйте свои финансы с помощью удобных графиков и статистики.
           </p>
 
-          <div class="space-y-4 max-w-xl">
-            <div class="p-4 sm:p-6 flex items-center gap-4 rounded-xl hover:bg-surface-secondary transition-colors">
+          <div class="space-y-4">
+            <div class="p-6 flex items-center gap-4 rounded-xl hover:bg-surface-secondary transition-colors">
               <div class="p-3 bg-action-default/10 rounded-lg">
-                <FontAwesomeIcon icon="chart-pie" class="w-5 h-5 sm:w-6 sm:h-6 text-action-default" />
+                <FontAwesomeIcon icon="chart-pie" size="lg" class="text-action-default" />
               </div>
               <div>
                 <h3 class="text-text-primary font-medium text-base sm:text-lg mb-1">
@@ -43,12 +42,12 @@ const { isMobile } = useBreakpoint();
               </div>
             </div>
 
-            <div class="p-4 sm:p-6 flex items-center gap-4 rounded-xl hover:bg-surface-secondary transition-colors">
+            <div class="p-6 flex items-center gap-4 rounded-xl hover:bg-surface-secondary transition-colors">
               <div class="p-3 bg-action-default/10 rounded-lg">
-                <FontAwesomeIcon icon="wallet" class="w-5 h-5 sm:w-6 sm:h-6 text-action-default" />
+                <FontAwesomeIcon icon="wallet" size="lg" class="text-action-default" />
               </div>
               <div>
-                <h3 class="text-text-primary font-medium text-base sm:text-lg mb-1">
+                <h3 class="text-text-primary font-medium text-lg mb-1">
                   Бюджетирование
                 </h3>
                 <p class="text-text-secondary text-sm sm:text-base">
@@ -73,12 +72,6 @@ const { isMobile } = useBreakpoint();
       </div>
 
       <div v-else class="flex flex-col justify-between min-h-screen p-8">
-        <div class="flex justify-center">
-          <div class="w-24">
-            Лого
-          </div>
-        </div>
-
         <div class="
           w-full
           relative

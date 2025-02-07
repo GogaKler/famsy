@@ -30,8 +30,7 @@ const isActive = (tabRouteName: string) => {
           type="button"
           class="
             relative flex items-center gap-2.5 py-1.5 px-2 rounded-md
-            text-sm font-medium
-            hover:bg-surface-secondary
+            hover:bg-surface-tertiary/50
             after:absolute after:bottom-[-9px] after:left-0 after:right-0 after:h-[2px] after:transition-colors
           "
           :class="{ 'after:bg-action-default': isActive(headerTab.routeName) }"

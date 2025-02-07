@@ -3,7 +3,7 @@ import { router } from '@pages';
 import { App } from '@app/ui';
 import { AuthService } from '@entities/auth';
 import { defaultConfig, plugin } from '@formkit/vue';
-import { FsPluginFontawesome } from '@shared/plugins';
+import { FsPluginFontawesome, FsPrimeVuePlugin } from '@shared/plugins';
 import '@shared/ui/styles/index.scss';
 import { devtools } from '@vue/devtools';
 import { createPinia } from 'pinia';
@@ -17,6 +17,7 @@ async function main() {
   app.use(FsPluginFontawesome);
   app.use(createPinia());
   app.use(plugin, defaultConfig(formkitConfig));
+  app.use(FsPrimeVuePlugin);
 
   try {
     const authService: AuthService = container.resolve(AuthService);
