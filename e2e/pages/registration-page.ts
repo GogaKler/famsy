@@ -79,10 +79,10 @@ export class RegistrationPage extends BasePage {
   async triggerInput(element: Locator, text: string = ""): Promise<void> {
     if (text != "") {
       await element.fill(text);
-    }
-    else {
+    } else {
       await element.focus();
     }
+
     await element.blur();
   }
 
