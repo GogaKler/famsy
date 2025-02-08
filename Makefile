@@ -1,7 +1,6 @@
 .PHONY: dev-backend dev-frontend dev-postgres dev-all stop-backend stop-frontend stop-postgres stop-all restart-backend restart-frontend restart-all logs-backend logs-frontend logs-postgres
 
 dev-backend:
-	cd backend && ./mvnw clean package -DskipTests
 	docker compose -f backend/docker-compose.yml up -d --build
 
 dev-frontend:
@@ -12,10 +11,6 @@ dev-postgres:
 
 dev-all: dev-postgres dev-backend dev-frontend
 	@echo "Запущены все сервисы в режиме разработки"
-
-##### BACKEND #####
-dev-backend-migrate:
-	cd backend && ./mvnw liquibase:update
 
 ##### STOP #####
 stop-backend:
