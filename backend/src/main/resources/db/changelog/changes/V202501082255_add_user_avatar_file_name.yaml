@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: V202501082255
+      author: gogakler_dev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: avatar_file_name
+                  type: VARCHAR(255)

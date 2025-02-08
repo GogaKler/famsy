@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: V202501081919-1
+      author: gogakler_dev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: avatar_url
+                  type: TEXT
+
+  - changeSet:
+      id: V202501081919-2
+      author: gogakler_dev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropNotNullConstraint:
+            columnDataType: datetime
+            columnName: created_at
+            tableName: users
+
+  - changeSet:
+      id: V202501081919-3
+      author: gogakler_dev
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropNotNullConstraint:
+            columnDataType: varchar(255)
+            columnName: created_by
+            tableName: users

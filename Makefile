@@ -9,7 +9,10 @@ dev-frontend:
 dev-postgres:
 	docker compose -f postgres/docker-compose.yml up -d
 
-dev-all: dev-postgres dev-backend dev-frontend
+dev-minio:
+	docker compose -f minio/docker-compose.yml up -d
+
+dev-all: dev-postgres dev-backend dev-frontend dev-minio
 	@echo "Запущены все сервисы в режиме разработки"
 
 ##### STOP #####
@@ -22,7 +25,10 @@ stop-frontend:
 stop-postgres:
 	docker compose -f postgres/docker-compose.yml down
 
-stop-all: stop-backend stop-frontend stop-postgres
+stop-minio:
+    docker compose -f minio/docker-compose.yml down
+
+stop-all: stop-backend stop-frontend stop-postgres stop-minio
 	@echo "Все сервисы остановлены"
 
 ##### RESTART #####
@@ -44,4 +50,7 @@ logs-frontend:
 
 logs-postgres:
 	docker compose -f postgres/docker-compose.yml logs -f
+
+logs-minio:
+    docker compose -f minio/docker-compose.yml logs -f
 

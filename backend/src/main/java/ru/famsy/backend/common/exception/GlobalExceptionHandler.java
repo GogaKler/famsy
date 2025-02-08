@@ -90,4 +90,11 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse("Unauthorized", ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
+
+    @ExceptionHandler(MinioException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handleMinioException(MinioException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("Minio exception", ex.getMessage());
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
 }
