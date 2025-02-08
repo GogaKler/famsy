@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: seed-user-famsy-001
+      author: egor.kolesnikov
+
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            sql: "SELECT COUNT(*) FROM users WHERE username = 'famsy'"
+            expectedResult: "0"
+
+      changes:
+        - insert:
+            tableName: users
+            columns:
+             - column:
+                name: created_at
+                defaultValueComputed: CURRENT_TIMESTAMP
+             - column:
+                name: modified_at
+                defaultValueComputed: CURRENT_TIMESTAMP
+             - column:
+                name: created_by
+                value: SYSTEM
+             - column:
+                 name: modified_by
+                 value: SYSTEM
+             - column:
+                  name: username
+                  value: "famsy"
+             - column:
+                  name: email
+                  value: "famsy@famsy.ru"
+             - column:
+                  name: password
+                  value: "$2a$10$j8SxaWvjymc4hfcp86GwwuCF2sfE8P5/Vb3U7JOtP8NDkWOVF1CUm" 

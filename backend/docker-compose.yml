@@ -1,5 +1,6 @@
 services:
   app:
+    container_name: famsy-backend
     build: .
     ports:
       - "8080:8080"
