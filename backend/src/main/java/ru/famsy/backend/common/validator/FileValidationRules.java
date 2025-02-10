@@ -6,8 +6,8 @@ public final class FileValidationRules {
   private final Long maxSizeInBytes;
   private final List<String> allowedMimeTypes;
   private final boolean image;
-  private final int minWidth;
-  private final int minHeight;
+  private final Integer minWidth;
+  private final Integer minHeight;
 
   private FileValidationRules(Builder builder) {
     this.maxSizeInBytes = builder.maxSizeInBytes;
@@ -29,11 +29,11 @@ public final class FileValidationRules {
     return image;
   }
 
-  public int getMinWidth() {
+  public Integer getMinWidth() {
     return minWidth;
   }
 
-  public int getMinHeight() {
+  public Integer getMinHeight() {
     return minHeight;
   }
 
