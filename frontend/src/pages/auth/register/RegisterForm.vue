@@ -3,7 +3,6 @@ import { AuthService, AuthStateActions, type RegisterDTO } from '@entities/auth'
 import { container } from 'tsyringe';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { FamsyButton } from '@shared/ui';
 import { FormKitMessages } from '@formkit/vue';
 import { useFormKitErrors } from '@shared/lib';
 

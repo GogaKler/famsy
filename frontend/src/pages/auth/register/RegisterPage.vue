@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import RegisterForm from './RegisterForm.vue';
 import { useBreakpoint } from '@shared/lib';
-import { FamsyButton } from '@shared/ui';
 
 const { isMobile } = useBreakpoint();
 </script>
@@ -9,11 +8,10 @@ const { isMobile } = useBreakpoint();
 <template>
   <div class="
     w-full 
-    sm:bg-surface-primary/80
+    sm:bg-surface-secondary/30
     sm:backdrop-blur-md
     sm:p-8
     rounded-2xl
-    sm:border sm:border-border-disabled
   ">
     <div class="text-center mb-8">
       <h2 class="text-2xl font-bold text-text-primary">
@@ -36,7 +34,7 @@ const { isMobile } = useBreakpoint();
       <FamsyButton
         v-else
         class="w-full"
-        variant="outline"
+        variant="outlined"
         @click="$router.push({ name: 'auth-login' })"
       >
         Войти в существующий аккаунт

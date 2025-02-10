@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import LoginForm from './LoginForm.vue';
 import { useBreakpoint } from '@shared/lib';
-import { FamsyButton } from '@shared/ui';
 
 const { isMobile } = useBreakpoint();
 </script>
@@ -9,13 +8,10 @@ const { isMobile } = useBreakpoint();
 <template>
   <div class="
     w-full
-    sm:bg-surface-primary/80
+    sm:bg-surface-secondary/30
     sm:backdrop-blur-md
     sm:p-8
     rounded-2xl
-    sm:border sm:border-border-disabled
-    relative
-    overflow-hidden
   ">
     <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-action-default to-transparent opacity-20"></div>
 
@@ -43,7 +39,7 @@ const { isMobile } = useBreakpoint();
       <FamsyButton
         v-else
         class="w-full"
-        variant="outline"
+        variant="outlined"
         @click="$router.push({ name: 'auth-register' })"
       >
         Зарегистрироваться

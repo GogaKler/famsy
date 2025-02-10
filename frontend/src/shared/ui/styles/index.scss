@@ -6,18 +6,9 @@
 @use '../tokens' as tokens;
 @use '../semantic' as semantic;
 @use '../themes' as themes;
+@use 'primeicons/primeicons.css';
 
 // Tailwind
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer base {
-  html {
-    font-family: 'Source Sans Pro', system-ui, sans-serif;
-  }
-  
-  code, pre, kbd {
-    font-family: 'JetBrains Mono', monospace;
-  }
-}
