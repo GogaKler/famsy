@@ -1,4 +1,4 @@
-.PHONY: dev-backend dev-frontend dev-postgres dev-all stop-backend stop-frontend stop-postgres stop-all restart-backend restart-frontend restart-all logs-backend logs-frontend logs-postgres
+.PHONY: dev-backend dev-frontend dev-postgres dev-minio dev-all stop-backend stop-frontend stop-postgres stop-minio stop-all restart-backend restart-frontend restart-all logs-backend logs-frontend logs-postgres logs-minio
 
 dev-backend:
 	docker compose -f backend/docker-compose.yml up -d --build
@@ -26,7 +26,7 @@ stop-postgres:
 	docker compose -f postgres/docker-compose.yml down
 
 stop-minio:
-    docker compose -f minio/docker-compose.yml down
+	docker compose -f minio/docker-compose.yml down
 
 stop-all: stop-backend stop-frontend stop-postgres stop-minio
 	@echo "Все сервисы остановлены"
@@ -52,5 +52,5 @@ logs-postgres:
 	docker compose -f postgres/docker-compose.yml logs -f
 
 logs-minio:
-    docker compose -f minio/docker-compose.yml logs -f
+	docker compose -f minio/docker-compose.yml logs -f
 
