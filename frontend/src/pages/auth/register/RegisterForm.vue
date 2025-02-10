@@ -14,7 +14,7 @@ useFormKitErrors(authService, authService.unAuthUserIdentifier, AuthStateActions
 const register = async (fields: RegisterDTO): Promise<void> => {
   try {
     await authService.register(fields);
-    await router.push({ name: 'main-root' });
+    await router.push({ name: 'dashboard' });
   } catch {}
 };
 </script>
