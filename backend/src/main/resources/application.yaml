@@ -23,6 +23,14 @@ spring:
       host: localhost
       port: 6379
 
+  minio:
+    url: http://localhost:9000
+    access:
+      name: famsyUser
+      secret: famsyPass
+    bucket:
+      name: famsy-bucket
+
 springdoc:
   api-docs:
     path: /api-docs
