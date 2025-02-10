@@ -48,8 +48,12 @@ public class JwtFilter extends OncePerRequestFilter {
                                   FilterChain filterChain) throws ServletException, IOException {
     try {
       String accessToken = jwtCookieService.extractTokenFromCookie(request, "access_token");
+      String refreshToken = jwtCookieService.extractTokenFromCookie(request, "refresh_token");
 
       if (accessToken == null || accessToken.isEmpty()) {
+        if (refreshToken != null && !refreshToken.isEmpty()) {
+          handleTokenRefresh(request, response);
+        }
         filterChain.doFilter(request, response);
         return;
       }

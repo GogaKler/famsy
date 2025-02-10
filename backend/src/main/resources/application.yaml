@@ -56,7 +56,7 @@ famsy:
   security:
     jwt:
       access-token:
-        expiration: 5m
+        expiration: 30m
       refresh-token:
         expiration: 10d
       session:
