@@ -4,6 +4,7 @@
     "src/types/env.d.ts",
     "src/**/*",
     "src/**/*.vue",
+    "server/**/*",
     "./formkit.config.ts",
   ],
   "exclude": ["src/**/__tests__/*"],

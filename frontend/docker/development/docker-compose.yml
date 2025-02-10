@@ -5,9 +5,10 @@ services:
       dockerfile: docker/development/Dockerfile
     ports:
       - "8069:8069"
+      - "24678:24678"
     volumes:
       - ../../:/srv/app
       - /srv/app/node_modules
     env_file:
       - ../../.env.development.local
-    command: npm run dev:web
+    command: npm run dev:server
