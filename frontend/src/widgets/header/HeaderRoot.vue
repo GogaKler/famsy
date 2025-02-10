@@ -5,13 +5,18 @@ import { HeaderTabs } from '@widgets/header-tabs';
 import { FamsyButton } from '@shared/ui';
 import { ref } from 'vue';
 import { SidebarRoot } from '@widgets/sidebar';
+import { UserSidebar } from '@widgets/user-sidebar';
 
 const isSidebarOpen = ref(false);
+const isUserSidebarOpen = ref(false);
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
 };
 
+const toggleUserSidebar = () => {
+  isUserSidebarOpen.value = !isUserSidebarOpen.value;
+};
 </script>
 
 <template>
@@ -43,21 +48,13 @@ const toggleSidebar = () => {
 
     <template #right>
       <div class="flex items-center gap-4">
-        <FamsyButton severity="secondary" text>
-          <template #icon>
-            <FontAwesomeIcon icon="bell" />
-          </template>
+        <FontAwesomeIcon icon="bell" />
+        <FamsyButton size="sm">
+          <FontAwesomeIcon icon="plus" />
         </FamsyButton>
-        <FamsyButton severity="secondary" text>
-          <template #icon>
-            <FontAwesomeIcon icon="plus" />
-          </template>
-        </FamsyButton>
-        <FamsyButton severity="secondary" text>
-          <template #icon>
-            <FontAwesomeIcon icon="user" />
-          </template>
-        </FamsyButton>
+        <button @click="toggleUserSidebar">
+          <FontAwesomeIcon icon="user" />
+        </button>
       </div>
     </template> 
 
@@ -107,4 +104,21 @@ const toggleSidebar = () => {
       </a>
     </section>
   </SidebarRoot>
+
+  <UserSidebar v-model:is-open="isUserSidebarOpen">
+    <section class="space-y-2">
+      <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-surface-primary">
+        <FontAwesomeIcon icon="user" />
+        <span>Профиль</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-surface-primary">
+        <FontAwesomeIcon icon="gear" />
+        <span>Настройки</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-surface-primary">
+        <FontAwesomeIcon icon="arrow-right-from-bracket" />
+        <span>Выйти</span>
+      </a>
+    </section>
+  </UserSidebar>
 </template>
