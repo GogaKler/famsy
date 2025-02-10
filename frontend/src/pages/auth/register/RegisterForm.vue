@@ -3,7 +3,6 @@ import { AuthService, AuthStateActions, type RegisterDTO } from '@entities/auth'
 import { container } from 'tsyringe';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { FamsyButton } from '@shared/ui';
 import { FormKitMessages } from '@formkit/vue';
 import { useFormKitErrors } from '@shared/lib';
 
@@ -15,7 +14,7 @@ useFormKitErrors(authService, authService.unAuthUserIdentifier, AuthStateActions
 const register = async (fields: RegisterDTO): Promise<void> => {
   try {
     await authService.register(fields);
-    await router.push({ name: 'main-root' });
+    await router.push({ name: 'dashboard' });
   } catch {}
 };
 </script>

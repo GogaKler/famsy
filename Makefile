@@ -9,20 +9,26 @@ dev-frontend:
 dev-postgres:
 	docker compose -f postgres/docker-compose.yml up -d
 
-dev-all: dev-postgres dev-backend dev-frontend
+dev-minio:
+	docker compose -f minio/docker-compose.yml up -d
+
+dev-all: dev-postgres dev-backend dev-frontend dev-minio
 	@echo "Запущены все сервисы в режиме разработки"
 
 ##### STOP #####
 stop-backend:
-	docker-compose -f backend/docker-compose.yml down
+	docker compose -f backend/docker-compose.yml down
 
 stop-frontend:
 	docker compose -f frontend/docker/development/docker-compose.yml down
 
 stop-postgres:
-	docker-compose -f postgres/docker-compose.yml down
+	docker compose -f postgres/docker-compose.yml down
 
-stop-all: stop-backend stop-frontend stop-postgres
+stop-minio:
+    docker compose -f minio/docker-compose.yml down
+
+stop-all: stop-backend stop-frontend stop-postgres stop-minio
 	@echo "Все сервисы остановлены"
 
 ##### RESTART #####
@@ -37,11 +43,14 @@ restart-all: stop-all dev-all
 
 ##### Logs #####
 logs-backend:
-	docker-compose -f backend/docker-compose.yml logs -f
+	docker compose -f backend/docker-compose.yml logs -f
 
 logs-frontend:
-	docker-compose -f frontend/docker/development/docker-compose.yml logs -f
+	docker compose -f frontend/docker/development/docker-compose.yml logs -f
 
 logs-postgres:
-	docker-compose -f postgres/docker-compose.yml logs -f
+	docker compose -f postgres/docker-compose.yml logs -f
+
+logs-minio:
+    docker compose -f minio/docker-compose.yml logs -f
 

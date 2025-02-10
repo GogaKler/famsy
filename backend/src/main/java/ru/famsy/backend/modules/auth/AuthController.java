@@ -9,7 +9,6 @@ import org.antlr.v4.runtime.atn.SemanticContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import ru.famsy.backend.common.exception.base.UnauthorizedException;
 import ru.famsy.backend.modules.auth.dto.LoginDTO;
 import ru.famsy.backend.modules.auth.dto.RegisterDTO;
 import ru.famsy.backend.modules.user.UserEntity;
@@ -55,7 +54,6 @@ public class AuthController {
     UserEntity userEntity = authService.login(loginDTO, request, response);
     return ResponseEntity.ok(userMapper.toDTO(userEntity));
   }
-
 
   @Operation(
           summary = "Выход из системы",

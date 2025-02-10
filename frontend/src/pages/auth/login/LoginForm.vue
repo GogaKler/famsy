@@ -3,7 +3,6 @@ import { AuthService, AuthStateActions, type LoginDTO } from '@entities/auth';
 import { container } from 'tsyringe';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { FamsyButton } from '@shared/ui';
 import { FormKitMessages } from '@formkit/vue';
 import { useFormKitErrors } from '@shared/lib';
 
@@ -62,12 +61,11 @@ const auth = async (fields: LoginDTO): Promise<void> => {
       <FamsyButton
         type="submit"
         class="w-full"
+        label="Войти"
         :loading="isLoading"
         :disabled="isLoading || !valid"
         data-testid="loginButton"
-      >
-        Войти
-      </FamsyButton>
+      />
     </template>
   </FormKit>
 </template>

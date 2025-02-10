@@ -3,7 +3,7 @@ import { router } from '@pages';
 import { App } from '@app/ui';
 import { AuthService } from '@entities/auth';
 import { defaultConfig, plugin } from '@formkit/vue';
-import { FsPluginFontawesome } from '@shared/plugins';
+import { FsPluginFontawesome, FsPrimeVuePlugin } from '@shared/plugins';
 import '@shared/ui/styles/index.scss';
 import { createPinia } from 'pinia';
 import { container } from 'tsyringe';
@@ -16,6 +16,7 @@ export async function createFamsyApp() {
   app.use(FsPluginFontawesome);
   app.use(createPinia());
   app.use(plugin, defaultConfig(formkitConfig));
+  app.use(FsPrimeVuePlugin);
 
   try {
     const authService: AuthService = container.resolve(AuthService);

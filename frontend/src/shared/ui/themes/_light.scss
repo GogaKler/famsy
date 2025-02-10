@@ -1,69 +1,156 @@
 @use 'sass:map';
 @use '../tokens' as tokens;
-@use './base' as base;
+@use './_base' as base;
 
-[data-theme="light"] {
+html.light {
   @include base.base-theme;
 
-  // Actions
-  --action-default: #{map.get(tokens.$color-palette, 'primary', 'default')};
-  --action-hover: #{map.get(tokens.$color-palette, 'primary', '600')};
-  --action-active: #{map.get(tokens.$color-palette, 'primary', '700')};
-  --action-focus: #{map.get(tokens.$color-palette, 'primary', '500')};
-  --action-disabled: #{map.get(tokens.$color-palette, 'neutral', '300')};
-  
-  // Neutral Actions
-  --action-neutral: #{map.get(tokens.$color-palette, 'neutral', '500')};
-  --action-neutral-hover: #{map.get(tokens.$color-palette, 'neutral', '400')};
-  --action-neutral-active: #{map.get(tokens.$color-palette, 'neutral', '300')};
-  --action-neutral-disabled: #{map.get(tokens.$color-palette, 'neutral', '600')};
+  // =========================================
+  // Семантическая палитра: PRIMARY (на основе emerald)
+  // =========================================
+  --primary-50:  #{map.get(tokens.$color-palette, 'emerald', '50')};
+  --primary-100: #{map.get(tokens.$color-palette, 'emerald', '100')};
+  --primary-200: #{map.get(tokens.$color-palette, 'emerald', '200')};
+  --primary-300: #{map.get(tokens.$color-palette, 'emerald', '300')};
+  --primary-400: #{map.get(tokens.$color-palette, 'emerald', '400')};
+  --primary-500: #{map.get(tokens.$color-palette, 'emerald', '500')};
+  --primary-600: #{map.get(tokens.$color-palette, 'emerald', '600')};
+  --primary-700: #{map.get(tokens.$color-palette, 'emerald', '700')};
+  --primary-800: #{map.get(tokens.$color-palette, 'emerald', '800')};
+  --primary-900: #{map.get(tokens.$color-palette, 'emerald', '900')};
+  --primary-950: #{map.get(tokens.$color-palette, 'emerald', '950')};
 
-  // Secondary Actions
-  --action-secondary: #{map.get(tokens.$color-palette, 'secondary', 'default')};
-  --action-secondary-hover: #{map.get(tokens.$color-palette, 'secondary', '600')};
-  --action-secondary-active: #{map.get(tokens.$color-palette, 'secondary', '700')};
-  --action-secondary-disabled: #{map.get(tokens.$color-palette, 'neutral', '300')};
+  // =========================================
+  // Семантическая палитра: SECONDARY (на основе blue)
+  // =========================================
+  --secondary-50:  #{map.get(tokens.$color-palette, 'blue', '50')};
+  --secondary-100: #{map.get(tokens.$color-palette, 'blue', '100')};
+  --secondary-200: #{map.get(tokens.$color-palette, 'blue', '200')};
+  --secondary-300: #{map.get(tokens.$color-palette, 'blue', '300')};
+  --secondary-400: #{map.get(tokens.$color-palette, 'blue', '400')};
+  --secondary-500: #{map.get(tokens.$color-palette, 'blue', '500')};
+  --secondary-600: #{map.get(tokens.$color-palette, 'blue', '600')};
+  --secondary-700: #{map.get(tokens.$color-palette, 'blue', '700')};
+  --secondary-800: #{map.get(tokens.$color-palette, 'blue', '800')};
+  --secondary-900: #{map.get(tokens.$color-palette, 'blue', '900')};
+  --secondary-950: #{map.get(tokens.$color-palette, 'blue', '950')};
 
-  // Surfaces
-  --surface-primary: #{map.get(tokens.$color-palette, 'neutral', '50')};
-  --surface-secondary: #{map.get(tokens.$color-palette, 'neutral', '100')};
-  --surface-tertiary: #{map.get(tokens.$color-palette, 'neutral', '200')};
-  --surface-elevated: #{map.get(tokens.$color-palette, 'neutral', '50')};
-  --surface-overlay: #{map.get(tokens.$color-palette, 'neutral', '900'), 0.4};
-  --surface-inverse: #{map.get(tokens.$color-palette, 'neutral', '900')};
+  // =========================================
+  // Семантическая палитра: TERTIARY (на основе amber)
+  // =========================================
+  --tertiary-50:  #{map.get(tokens.$color-palette, 'amber', '50')};
+  --tertiary-100: #{map.get(tokens.$color-palette, 'amber', '100')};
+  --tertiary-200: #{map.get(tokens.$color-palette, 'amber', '200')};
+  --tertiary-300: #{map.get(tokens.$color-palette, 'amber', '300')};
+  --tertiary-400: #{map.get(tokens.$color-palette, 'amber', '400')};
+  --tertiary-500: #{map.get(tokens.$color-palette, 'amber', '500')};
+  --tertiary-600: #{map.get(tokens.$color-palette, 'amber', '600')};
+  --tertiary-700: #{map.get(tokens.$color-palette, 'amber', '700')};
+  --tertiary-800: #{map.get(tokens.$color-palette, 'amber', '800')};
+  --tertiary-900: #{map.get(tokens.$color-palette, 'amber', '900')};
+  --tertiary-950: #{map.get(tokens.$color-palette, 'amber', '950')};
 
-  // Text
-  --text-primary: #{map.get(tokens.$color-palette, 'neutral', '900')};
-  --text-secondary: #{map.get(tokens.$color-palette, 'neutral', '700')};
-  --text-tertiary: #{map.get(tokens.$color-palette, 'neutral', '500')};
-  --text-disabled: #{map.get(tokens.$color-palette, 'neutral', '400')};
-  --text-inverse: #{map.get(tokens.$color-palette, 'neutral', '50')};
+  // =========================================
+  // Семантическая палитра: neutral (на основе neutral)
+  // =========================================
+  --neutral-50:  #{map.get(tokens.$color-palette, 'neutral', '200')};
+  --neutral-100: #{map.get(tokens.$color-palette, 'neutral', '300')};
+  --neutral-200: #{map.get(tokens.$color-palette, 'neutral', '400')};
+  --neutral-300: #{map.get(tokens.$color-palette, 'neutral', '500')};
+  --neutral-400: #{map.get(tokens.$color-palette, 'neutral', '600')};
+  --neutral-500: #{map.get(tokens.$color-palette, 'neutral', '700')};
+  --neutral-600: #{map.get(tokens.$color-palette, 'neutral', '800')};
+  --neutral-700: #{map.get(tokens.$color-palette, 'neutral', '900')};
+  --neutral-800: #{map.get(tokens.$color-palette, 'neutral', '950')};
+  --neutral-900: #{map.get(tokens.$color-palette, 'neutral', '999')};
+  --neutral-950: #{map.get(tokens.$color-palette, 'neutral', '999')};
 
-  // Borders
-  --border-primary: #{map.get(tokens.$color-palette, 'neutral', '200')};
-  --border-hover: #{map.get(tokens.$color-palette, 'neutral', '300')};
-  --border-focus: #{map.get(tokens.$color-palette, 'primary', '500')};
-  --border-error: #{map.get(tokens.$color-palette, 'error', '500')};
-  --border-success: #{map.get(tokens.$color-palette, 'success', '500')};
-  --border-disabled: #{map.get(tokens.$color-palette, 'neutral', '200')};
+  // Семантическая палитра: Error (на основе red)
+  // =========================================
+  --error-50:  #{map.get(tokens.$color-palette, 'red', '50')};
+  --error-100: #{map.get(tokens.$color-palette, 'red', '100')};
+  --error-200: #{map.get(tokens.$color-palette, 'red', '200')};
+  --error-300: #{map.get(tokens.$color-palette, 'red', '300')};
+  --error-400: #{map.get(tokens.$color-palette, 'red', '400')};
+  --error-500: #{map.get(tokens.$color-palette, 'red', '500')};
+  --error-600: #{map.get(tokens.$color-palette, 'red', '600')};
+  --error-700: #{map.get(tokens.$color-palette, 'red', '700')};
+  --error-800: #{map.get(tokens.$color-palette, 'red', '800')};
+  --error-900: #{map.get(tokens.$color-palette, 'red', '900')};
+  --error-950: #{map.get(tokens.$color-palette, 'red', '950')};
 
-  // Status
-  --status-success: #{map.get(tokens.$color-palette, 'success', '600')};
-  --status-warning: #{map.get(tokens.$color-palette, 'warning', '500')};
-  --status-error: #{map.get(tokens.$color-palette, 'error', '500')};
-  --status-info: #{map.get(tokens.$color-palette, 'secondary', '500')};
+  // =========================================
+  // Семантическая палитра: Success (на основе lime)
+  // =========================================
+  --success-50:  #{map.get(tokens.$color-palette, 'lime', '50')};
+  --success-100: #{map.get(tokens.$color-palette, 'lime', '100')};
+  --success-200: #{map.get(tokens.$color-palette, 'lime', '200')};
+  --success-300: #{map.get(tokens.$color-palette, 'lime', '300')};
+  --success-400: #{map.get(tokens.$color-palette, 'lime', '400')};
+  --success-500: #{map.get(tokens.$color-palette, 'lime', '500')};
+  --success-600: #{map.get(tokens.$color-palette, 'lime', '600')};
+  --success-700: #{map.get(tokens.$color-palette, 'lime', '700')};
+  --success-800: #{map.get(tokens.$color-palette, 'lime', '800')};
+  --success-900: #{map.get(tokens.$color-palette, 'lime', '900')};
+  --success-950: #{map.get(tokens.$color-palette, 'lime', '950')};
 
-  // Finance specific
-  --finance-income: #{map.get(tokens.$color-palette, 'success', '600')};
-  --finance-expense: #{map.get(tokens.$color-palette, 'error', '500')};
-  --finance-neutral: #{map.get(tokens.$color-palette, 'secondary', '500')};
+  // =========================================
+  // Семантическая палитра: Warning (на основе amber)
+  // =========================================
+  --warning-50:  #{map.get(tokens.$color-palette, 'amber', '50')};
+  --warning-100: #{map.get(tokens.$color-palette, 'amber', '100')};
+  --warning-200: #{map.get(tokens.$color-palette, 'amber', '200')};
+  --warning-300: #{map.get(tokens.$color-palette, 'amber', '300')};
+  --warning-400: #{map.get(tokens.$color-palette, 'amber', '400')};
+  --warning-500: #{map.get(tokens.$color-palette, 'amber', '500')};
+  --warning-600: #{map.get(tokens.$color-palette, 'amber', '600')};
+  --warning-700: #{map.get(tokens.$color-palette, 'amber', '700')};
+  --warning-800: #{map.get(tokens.$color-palette, 'amber', '800')};
+  --warning-900: #{map.get(tokens.$color-palette, 'amber', '900')};
+  --warning-950: #{map.get(tokens.$color-palette, 'amber', '950')};
 
-  // Charts
-  --chart-primary: #{map.get(tokens.$color-palette, 'secondary', '500')};
-  --chart-secondary: #{map.get(tokens.$color-palette, 'primary', '500')};
-  --chart-tertiary: #{map.get(tokens.$color-palette, 'warning', '500')};
+  // =========================================
+  // Surface: Фоновые цвета (на основе neutral)
+  // =========================================
+  --surface-50:   var(--neutral-50);
+  --surface-100:  var(--neutral-100);
+  --surface-200:  var(--neutral-200);
+  --surface-300:  var(--neutral-300);
+  --surface-400:  var(--neutral-400);
+  --surface-500:  var(--neutral-500);
+  --surface-600:  var(--neutral-600);
+  --surface-700:  var(--neutral-700);
+  --surface-800:  var(--neutral-800);
+  --surface-900:  var(--neutral-900);
+  --surface-950:  var(--neutral-950);
 
-  // Shadows
-  --shadow-focus: 0 0 0 4px #{rgba(map.get(tokens.$color-palette, 'primary', '500'), 0.2)};
-  --shadow-elevated: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  // =========================================
+  // Text: Цвета для текста (на основе neutral)
+  // =========================================
+  --text-50:   var(--neutral-50);
+  --text-100:  var(--neutral-100);
+  --text-200:  var(--neutral-200);
+  --text-300:  var(--neutral-300);
+  --text-400:  var(--neutral-400);
+  --text-500:  var(--neutral-500);
+  --text-600:  var(--neutral-600);
+  --text-700:  var(--neutral-700);
+  --text-800:  var(--neutral-800);
+  --text-900:  var(--neutral-900);
+  --text-950:  var(--neutral-950);
+
+  // =========================================
+  // Border: Бордеры (на основе neutral + акцентов)
+  // =========================================
+  --border-50:  var(--neutral-50);
+  --border-100: var(--neutral-100);
+  --border-200: var(--neutral-200);
+  --border-300: var(--neutral-300);
+  --border-400: var(--neutral-400);
+  --border-500: var(--neutral-500);
+  --border-600: var(--neutral-600);
+  --border-700: var(--neutral-700);
+  --border-800: var(--neutral-800);
+  --border-900: var(--neutral-900);
+  --border-950: var(--neutral-950);
 }

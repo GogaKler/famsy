@@ -1,7 +1,13 @@
 import type { Config } from 'tailwindcss';
 
+
+function prepareColor(color: string) {
+  return `color-mix(in srgb, var(${color}) calc(<alpha-value> * 100%), transparent)`
+}
+
 export default {
-  darkMode: ['class', '[data-theme="dark"]'],
+  darkMode: 'class',
+  // plugins: [require('tailwindcss-primeui')],
   content: [
     './index.html',
     './src/**/*.{vue,js,ts,jsx,tsx}',
@@ -9,66 +15,127 @@ export default {
   ],
   theme: {
     colors: {
-      // Actions
-      'action-default': 'color-mix(in srgb, var(--action-default) calc(<alpha-value> * 100%), transparent)',
-      'action-hover': 'color-mix(in srgb, var(--action-hover) calc(<alpha-value> * 100%), transparent)',
-      'action-active': 'color-mix(in srgb, var(--action-active) calc(<alpha-value> * 100%), transparent)',
-      'action-focus': 'color-mix(in srgb, var(--action-focus) calc(<alpha-value> * 100%), transparent)',
-      'action-disabled': 'color-mix(in srgb, var(--action-disabled) calc(<alpha-value> * 100%), transparent)',
-
-      // Neutral Actions
-      'action-neutral': 'color-mix(in srgb, var(--action-neutral) calc(<alpha-value> * 100%), transparent)',
-      'action-neutral-hover': 'color-mix(in srgb, var(--action-neutral-hover) calc(<alpha-value> * 100%), transparent)',
-      'action-neutral-active': 'color-mix(in srgb, var(--action-neutral-active) calc(<alpha-value> * 100%), transparent)',
-      'action-neutral-disabled': 'color-mix(in srgb, var(--action-neutral-disabled) calc(<alpha-value> * 100%), transparent)',
-
-      'action-secondary': 'color-mix(in srgb, var(--action-secondary) calc(<alpha-value> * 100%), transparent)',
-      'action-secondary-hover': 'color-mix(in srgb, var(--action-secondary-hover) calc(<alpha-value> * 100%), transparent)',
-      'action-secondary-active': 'color-mix(in srgb, var(--action-secondary-active) calc(<alpha-value> * 100%), transparent)',
-      'action-secondary-disabled': 'color-mix(in srgb, var(--action-secondary-disabled) calc(<alpha-value> * 100%), transparent)',
-
-      // Surfaces
-      'surface-primary': 'color-mix(in srgb, var(--surface-primary) calc(<alpha-value> * 100%), transparent)',
-      'surface-secondary': 'color-mix(in srgb, var(--surface-secondary) calc(<alpha-value> * 100%), transparent)',
-      'surface-tertiary': 'color-mix(in srgb, var(--surface-tertiary) calc(<alpha-value> * 100%), transparent)',
-      'surface-elevated': 'color-mix(in srgb, var(--surface-elevated) calc(<alpha-value> * 100%), transparent)',
-      'surface-overlay': 'color-mix(in srgb, var(--surface-overlay) calc(<alpha-value> * 100%), transparent)',
-      'surface-inverse': 'color-mix(in srgb, var(--surface-inverse) calc(<alpha-value> * 100%), transparent)',
-
-      // Text
-      'text-primary': 'color-mix(in srgb, var(--text-primary) calc(<alpha-value> * 100%), transparent)',
-      'text-secondary': 'color-mix(in srgb, var(--text-secondary) calc(<alpha-value> * 100%), transparent)',
-      'text-tertiary': 'color-mix(in srgb, var(--text-tertiary) calc(<alpha-value> * 100%), transparent)',
-      'text-disabled': 'color-mix(in srgb, var(--text-disabled) calc(<alpha-value> * 100%), transparent)',
-      'text-inverse': 'color-mix(in srgb, var(--text-inverse) calc(<alpha-value> * 100%), transparent)',
-
-      // Borders
-      'border-primary': 'color-mix(in srgb, var(--border-primary) calc(<alpha-value> * 100%), transparent)',
-      'border-hover': 'color-mix(in srgb, var(--border-hover) calc(<alpha-value> * 100%), transparent)',
-      'border-focus': 'color-mix(in srgb, var(--border-focus) calc(<alpha-value> * 100%), transparent)',
-      'border-error': 'color-mix(in srgb, var(--border-error) calc(<alpha-value> * 100%), transparent)',
-      'border-success': 'color-mix(in srgb, var(--border-success) calc(<alpha-value> * 100%), transparent)',
-      'border-disabled': 'color-mix(in srgb, var(--border-disabled) calc(<alpha-value> * 100%), transparent)',
-
-      // Status
-      'status-success': 'color-mix(in srgb, var(--status-success) calc(<alpha-value> * 100%), transparent)',
-      'status-warning': 'color-mix(in srgb, var(--status-warning) calc(<alpha-value> * 100%), transparent)',
-      'status-error': 'color-mix(in srgb, var(--status-error) calc(<alpha-value> * 100%), transparent)',
-      'status-info': 'color-mix(in srgb, var(--status-info) calc(<alpha-value> * 100%), transparent)',
-
-      // Finance specific
-      'finance-income': 'color-mix(in srgb, var(--finance-income) calc(<alpha-value> * 100%), transparent)',
-      'finance-expense': 'color-mix(in srgb, var(--finance-expense) calc(<alpha-value> * 100%), transparent)',
-      'finance-neutral': 'color-mix(in srgb, var(--finance-neutral) calc(<alpha-value> * 100%), transparent)',
-
-      // Charts
-      'chart-primary': 'color-mix(in srgb, var(--chart-primary) calc(<alpha-value> * 100%), transparent)',
-      'chart-secondary': 'color-mix(in srgb, var(--chart-secondary) calc(<alpha-value> * 100%), transparent)',
-      'chart-tertiary': 'color-mix(in srgb, var(--chart-tertiary) calc(<alpha-value> * 100%), transparent)',
+      // Семантическая палитра для PRIMARY (оттенки определяются в теме)
+      primary: {
+        DEFAULT: prepareColor('--primary-500'),
+        50: prepareColor('--primary-50'),
+        100: prepareColor('--primary-100'),
+        200: prepareColor('--primary-200'),
+        300: prepareColor('--primary-300'),
+        400: prepareColor('--primary-400'),
+        500: prepareColor('--primary-500'),
+        600: prepareColor('--primary-600'),
+        700: prepareColor('--primary-700'),
+        800: prepareColor('--primary-800'),
+        900: prepareColor('--primary-900'),
+        950: prepareColor('--primary-950'),
+      },
+      // Семантическая палитра для SECONDARY
+      secondary: {
+        DEFAULT: prepareColor('--secondary-500'),
+        50: prepareColor('--secondary-50'),
+        100: prepareColor('--secondary-100'),
+        200: prepareColor('--secondary-200'),
+        300: prepareColor('--secondary-300'),
+        400: prepareColor('--secondary-400'),
+        500: prepareColor('--secondary-500'),
+        600: prepareColor('--secondary-600'),
+        700: prepareColor('--secondary-700'),
+        800: prepareColor('--secondary-800'),
+        900: prepareColor('--secondary-900'),
+        950: prepareColor('--secondary-950'),
+      },
+      // Семантическая палитра для TERTIARY
+      tertiary: {
+        DEFAULT: prepareColor('--tertiary-500'),
+        50: prepareColor('--tertiary-50'),
+        100: prepareColor('--tertiary-100'),
+        200: prepareColor('--tertiary-200'),
+        300: prepareColor('--tertiary-300'),
+        400: prepareColor('--tertiary-400'),
+        500: prepareColor('--tertiary-500'),
+        600: prepareColor('--tertiary-600'),
+        700: prepareColor('--tertiary-700'),
+        800: prepareColor('--tertiary-800'),
+        900: prepareColor('--tertiary-900'),
+        950: prepareColor('--tertiary-950'),
+      },
+      surface: {
+        DEFAULT: prepareColor('--surface-500'),
+        50: prepareColor('--surface-50'),
+        100: prepareColor('--surface-100'),
+        200: prepareColor('--surface-200'),
+        300: prepareColor('--surface-300'),
+        400: prepareColor('--surface-400'),
+        500: prepareColor('--surface-500'),
+        600: prepareColor('--surface-600'),
+        700: prepareColor('--surface-700'),
+        800: prepareColor('--surface-800'),
+        900: prepareColor('--surface-900'),
+        950: prepareColor('--surface-950'),
+        //
+        primary: prepareColor('--surface-50'),
+        secondary: prepareColor('--surface-100'),
+        tertiary: prepareColor('--surface-200'),
+        elevated: prepareColor('--surface-50'),
+        overlay: prepareColor('--surface-900'),
+        inverse: prepareColor('--surface-950'),
+      },
+      neutral: {
+        DEFAULT: prepareColor('--neutral-500'),
+        50: prepareColor('--neutral-50'),
+        100: prepareColor('--neutral-100'),
+        200: prepareColor('--neutral-200'),
+        300: prepareColor('--neutral-300'),
+        400: prepareColor('--neutral-400'),
+        500: prepareColor('--neutral-500'),
+        600: prepareColor('--neutral-600'),
+        700: prepareColor('--neutral-700'),
+        800: prepareColor('--neutral-800'),
+        900: prepareColor('--neutral-900'),
+        950: prepareColor('--neutral-950'),
+      },
+      // Токены для текста
+      text: {
+        primary: prepareColor('--text-900'),
+        secondary: prepareColor('--text-700'),
+        tertiary: prepareColor('--text-500'),
+        disabled: prepareColor('--text-400'),
+        inverse: prepareColor('--text-50'),
+        success: prepareColor('--success-500'),
+        error: prepareColor('--error-500'),
+        warning: prepareColor('--warning-500'),
+      },
+      // Токены для бордеров
+      border: {
+        primary: prepareColor('--border-200'),
+        hover: prepareColor('--border-300'),
+        focus: prepareColor('--primary-500'),
+        disabled: prepareColor('--border-200'),
+        success: prepareColor('--success-500'),
+        error: prepareColor('--error-500'),
+        warning: prepareColor('--warning-500'),
+      },
+      // Токены для интерактивных элементов (Actions)
+      action: {
+        default: prepareColor('--primary-500'),
+        hover: prepareColor('--primary-300'),
+        active: prepareColor('--primary-200'),
+        focus: prepareColor('--primary-700'),
+        disabled: prepareColor('--neutral-700'),
+        neutral: prepareColor('--neutral-500'),
+        'neutral-hover': prepareColor('--neutral-300'),
+        'neutral-active': prepareColor('--neutral-200'),
+        'neutral-disabled': prepareColor('--neutral-700'),
+        secondary: prepareColor('--secondary-500'),
+        'secondary-hover': prepareColor('--secondary-300'),
+        'secondary-active': prepareColor('--secondary-200'),
+        'secondary-disabled': prepareColor('--secondary-700'),
+      },
     },
     boxShadow: {
-      'focus': 'var(--shadow-focus)',
-      'elevated': 'var(--shadow-elevated)',
+      focus: 'var(--shadow-focus)',
+      elevated: 'var(--shadow-elevated)',
     },
     animation: {
       'spin': 'spin 1s linear infinite',
@@ -80,6 +147,5 @@ export default {
       },
     },
   },
-  plugins: [],
 } satisfies Config;
 
