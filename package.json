@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "prepare": "husky"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.7.1",
