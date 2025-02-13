@@ -12,4 +12,4 @@ services:
       - /srv/app/node_modules
     env_file:
       - ../../.env.development.local
-    command: npm run dev:server
+    command: pnpm run dev:server

@@ -4,6 +4,8 @@ WORKDIR /srv/app
 
 COPY ../../package*.json .
 
-RUN npm ci
+RUN npm install -g pnpm@latest-10
+
+RUN pnpm install --frozen-lockfile || pnpm install
 
 COPY ../.. .
