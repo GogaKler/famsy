@@ -20,6 +20,7 @@ coverage
 
 #compiles
 .ts_compiles
+.pnpm-store
 
 # Editor directories and files
 .vscode/*
