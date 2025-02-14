@@ -12,4 +12,6 @@ services:
       - /srv/app/node_modules
     env_file:
       - ../../.env.development.local
-    command: pnpm run dev:server
+    environment:
+      - NODE_ENV=development
+    command: ["pnpm", "run", "dev:server"]

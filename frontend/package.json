@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "dev:web": "vite --host",
-    "dev:server": "tsx server/server.ts",
+    "dev:server": "pnpm dlx tsx server/server.ts",
     "docker:dev": "docker compose -f docker/development/docker-compose.yml up --build",
     "docker:dev:build": "docker compose -f docker/development/docker-compose.yml build --no-cache",
     "vue-devtools": "../../node_modules/.bin/vue-devtools",
@@ -22,7 +22,9 @@
     "generate:api-types": "npx openapi-typescript http://localhost:3000/api/docs-json -o src/shared/api/api.d.ts"
   },
   "dependencies": {
+    "@formkit/i18n": "^1.6.9",
     "@formkit/icons": "^1.6.9",
+    "@formkit/themes": "^1.6.9",
     "@formkit/vue": "^1.6.9",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",

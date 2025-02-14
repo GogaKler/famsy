@@ -1,11 +1,13 @@
-FROM node:22 as build
-
-WORKDIR /srv/app
-
-COPY ../../package*.json .
+FROM node:22-slim
 
 RUN npm install -g pnpm@latest-10
 
-RUN pnpm install --frozen-lockfile || pnpm install
+WORKDIR /srv/app
+
+COPY package.json pnpm-lock.yaml ./
+
+RUN pnpm install --frozen-lockfile
 
 COPY ../.. .
+
+CMD ["pnpm", "run", "dev:server"]
