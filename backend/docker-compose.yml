@@ -16,7 +16,6 @@ services:
       - SERVER_SHUTDOWN=graceful
     volumes:
       - .:/app
-      - maven-cache:/root/.m2
     networks:
       - backend_net
     healthcheck:
@@ -25,9 +24,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-
-volumes:
-  maven-cache:
 
 networks:
   backend_net:
