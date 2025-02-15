@@ -1,7 +1,12 @@
 services:
   app:
     container_name: famsy-backend
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - USER_ID=${UID:-1000}
+        - GROUP_ID=${GID:-1000}
     ports:
       - "8080:8080"
       - "5005:5005"
@@ -14,8 +19,10 @@ services:
       - SERVER_SERVLET_CONTEXT_PATH=/api/v1
       - FAMSY_SECURITY_JWT_COOKIE_DOMAIN=localhost
       - SERVER_SHUTDOWN=graceful
+      - MAVEN_CONFIG=/home/spring/.m2
     volumes:
       - .:/app
+      - maven-cache:/home/spring/.m2
     networks:
       - backend_net
     healthcheck:
@@ -29,3 +36,6 @@ networks:
   backend_net:
     name: backend_net
     external: true
+
+volumes:
+  maven-cache:

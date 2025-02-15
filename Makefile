@@ -1,6 +1,8 @@
 .PHONY: dev-backend dev-frontend dev-postgres dev-minio dev-all stop-backend stop-frontend stop-postgres stop-minio stop-all restart-backend restart-frontend restart-all logs-backend logs-frontend logs-postgres logs-minio
 
 dev-backend:
+	export UID=$(id -u)
+	export GID=$(id -g)
 	docker compose -f backend/docker-compose.yml up -d --build
 
 dev-frontend:
