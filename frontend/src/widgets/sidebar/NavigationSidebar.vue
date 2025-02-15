@@ -11,7 +11,7 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
-const sidebarFlag = (value: boolean) => {
+const toggleSidebar = (value: boolean) => {
   emit('update:visible', value);
 };
 
@@ -21,17 +21,15 @@ const sidebarFlag = (value: boolean) => {
   <FamsyDrawer 
     :visible="visible"
     class="!w-full md:!w-80 lg:!w-[23rem]"
-    header="ФИНАНСЫ"
+    header="FAMSY"
     position="left" 
-    @update:visible="sidebarFlag"
+    @update:visible="toggleSidebar"
   >
     <div class="space-y-9">
-      <section class="space-y-2">
-        <RouterLink v-for="userRoute in userRoutes" :key="userRoute.routeName" :to="{ name: userRoute.routeName }" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-surface-primary">
-          <FontAwesomeIcon :icon="userRoute.icon" />
-          <span>{{ userRoute.title }}</span>
-        </RouterLink>
-      </section>
+      <RouterLink v-for="userRoute in userRoutes" :key="userRoute.routeName" :to="{ name: userRoute.routeName }" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-surface-tertiary/50">
+        <FontAwesomeIcon :icon="userRoute.icon" />
+        <span>{{ userRoute.title }}</span>
+      </RouterLink>
     </div>
   </FamsyDrawer>
 </template>

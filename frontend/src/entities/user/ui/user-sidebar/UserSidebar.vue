@@ -3,6 +3,7 @@ import { AuthService } from '@entities/auth';
 import { container } from 'tsyringe';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { UserAvatar } from '@entities/user';
 
 interface Props {
   visible: boolean;
@@ -15,13 +16,13 @@ const router = useRouter();
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
-const sidebarFlag = (value: boolean) => {
+function toggleSidebar(value: boolean) {
   emit('update:visible', value);
-};
+}
 
 const authService: AuthService = container.resolve(AuthService);
 const isLogoutLoading = computed(() => authService.isLogoutLoading);
-const userName = authService.authStore;
+const currentUser = authService.authStore.currentUser;
 
 async function handleLogout() {
   await authService.logout();
@@ -34,31 +35,29 @@ async function handleLogout() {
   <FamsyDrawer
     :visible="visible"
     class="!w-full md:!w-80 lg:!w-[23rem]"
-    :header="userName.user?.username"
+    :header="currentUser?.username"
     position="right" 
-    @update:visible="sidebarFlag"
+    @update:visible="toggleSidebar"
   >
     <template #header>
       <div class="flex items-center gap-2">
-        <FamsyAvatar :label="userName.user?.id" shape="circle" />
-        <span class="font-bold">{{ userName.user?.username }}</span>
+        <UserAvatar />
+        <span class="font-bold">{{ currentUser?.username }}</span>
       </div>
     </template>
-    <nav class="p-4 space-y-6  border-t">
+    <nav class="p-4 space-y-6 border-t">
       <section class="space-y-2">
-        <RouterLink to="/dashboard" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-surface-primary">
-          <FontAwesomeIcon icon="user" />
+        <RouterLink :to="{ name: 'dashboard' }" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-surface-tertiary/50">
+          <FontAwesomeIcon icon="table-columns" />
           <span>Дашборд</span>
         </RouterLink>
-        <div class="flex justify-end">
-          <FamsyButton
-            :disabled="isLogoutLoading"
-            :loading="isLogoutLoading"
-            @click="handleLogout"
-          >
-            Выйти
-          </FamsyButton>
-        </div>
+        <FamsyButton
+          :disabled="isLogoutLoading"
+          :loading="isLogoutLoading"
+          @click="handleLogout"
+        >
+          Выйти
+        </FamsyButton>
       </section>
     </nav>
   </FamsyDrawer>

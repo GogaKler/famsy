@@ -3,8 +3,7 @@ import HeaderLayout from './HeaderLayout.vue';
 import { HeaderTabs } from '@widgets/header-tabs';
 import { ref } from 'vue';
 import { NavigationSidebar } from '@widgets/sidebar';
-import { UserSidebar } from '@entities/user/ui/user-sidebar';
-import { UserAvatar } from '@entities/user/ui/user-avatar';
+import { UserSidebar, UserAvatar } from '@entities/user';
 
 
 const isSidebarOpen = ref(false);
@@ -39,7 +38,7 @@ const toggleUserSidebar = () => {
       </div>
 
       <div class="flex items-center gap-4 font-medium">
-        <RouterLink :to="{name: 'profile'}" class="text-text-secondary hover:text-action-default transition-colors duration-200">
+        <RouterLink :to="{name: 'profile'}" class="text-text-secondary hover:text-action-default">
           Личный кабинет
         </RouterLink>
       </div>
@@ -54,6 +53,6 @@ const toggleUserSidebar = () => {
     </template>
   </HeaderLayout>
 
-  <NavigationSidebar :visible="isSidebarOpen" @update:visible="toggleSidebar" />
+  <NavigationSidebar v-model:visible="isSidebarOpen" />
   <UserSidebar :visible="isUserSidebarOpen" @update:visible="toggleUserSidebar" />
 </template>
