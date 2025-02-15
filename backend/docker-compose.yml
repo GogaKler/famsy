@@ -14,16 +14,20 @@ services:
       - SERVER_SERVLET_CONTEXT_PATH=/api/v1
       - FAMSY_SECURITY_JWT_COOKIE_DOMAIN=localhost
       - SERVER_SHUTDOWN=graceful
+    volumes:
+      - .:/app
+      - maven-cache:/root/.m2
     networks:
       - backend_net
-    stop_signal: SIGTERM
-    stop_grace_period: 30s
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/api/v1/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
+
+volumes:
+  maven-cache:
 
 networks:
   backend_net:

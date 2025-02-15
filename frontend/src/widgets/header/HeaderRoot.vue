@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import HeaderLayout from './HeaderLayout.vue';
 import { HeaderTabs } from '@widgets/header-tabs';
-
-import { FamsyButton } from '@shared/ui';
 import { ref } from 'vue';
 import { SidebarRoot } from '@widgets/sidebar';
 
