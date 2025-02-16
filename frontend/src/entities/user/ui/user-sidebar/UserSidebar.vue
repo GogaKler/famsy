@@ -22,7 +22,7 @@ function toggleSidebar(value: boolean) {
 
 const authService: AuthService = container.resolve(AuthService);
 const isLogoutLoading = computed(() => authService.isLogoutLoading);
-const currentUser = authService.authStore.currentUser?.usernameInitials ;
+const usernameInitials = authService.authStore.currentUser?.usernameInitials ;
 
 async function handleLogout() {
   await authService.logout();
@@ -41,7 +41,7 @@ async function handleLogout() {
     <template #header>
       <div class="flex items-center gap-2">
         <UserAvatar />
-        <span class="font-bold">{{ currentUser }}</span>
+        <span class="font-bold">{{ usernameInitials }}</span>
       </div>
     </template>
     <nav class="p-4 space-y-6 border-t">
