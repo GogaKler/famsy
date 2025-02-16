@@ -5,6 +5,8 @@ interface AuthState {
   user: UserEntity | null;
 }
 
+const unAuthUserId = 0;
+
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
     user: null,
@@ -13,11 +15,11 @@ export const useAuthStore = defineStore('auth', {
   getters: {
     isAuth: (state) => !!state.user,
     currentUser: (state) => state.user,
+    currentUserId: (state) => state.user?.id || unAuthUserId,
   },
 
   actions: {
     setUser(user: UserEntity | null) {
-      console.log('setUser', user);
       this.user = user;
     },
 

@@ -9,7 +9,7 @@ import { useFormKitErrors } from '@shared/lib';
 const router = useRouter();
 const authService: AuthService = container.resolve(AuthService);
 const isLoading = computed(() => authService.isLoginLoading);
-useFormKitErrors(authService, authService.unAuthUserIdentifier, AuthStateActions.LOGIN);
+useFormKitErrors(authService, authService.authStore.currentUserId, AuthStateActions.LOGIN);
 
 const auth = async (fields: LoginDTO): Promise<void> => {
   try {

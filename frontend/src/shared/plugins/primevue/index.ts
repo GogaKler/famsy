@@ -3,6 +3,8 @@ import { definePreset } from '@primevue/themes';
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
 import Button from 'primevue/button';
+import Drawer from 'primevue/drawer';
+import Avatar from 'primevue/avatar';
 
 const FamsyPreset = definePreset(Aura, {
   semantic: {
@@ -105,5 +107,7 @@ export const FsPrimeVuePlugin: Plugin = {
     });
 
     app.component('FamsyButton', Button);
+    app.component('FamsyDrawer', Drawer);
+    app.component('FamsyAvatar', Avatar);
   },
 };

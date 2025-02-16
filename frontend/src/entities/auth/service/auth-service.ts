@@ -9,7 +9,6 @@ type TAuthEntityName = 'auth';
 
 @injectable()
 export class AuthService extends BaseService<TAuthEntityName, AuthStateActions> {
-  public readonly unAuthUserIdentifier: number = 0;
   public readonly authStore: ReturnType<typeof useAuthStore>;
 
   constructor(
@@ -21,7 +20,7 @@ export class AuthService extends BaseService<TAuthEntityName, AuthStateActions> 
 
   async login(loginDTO: LoginDTO): Promise<UserEntity> {
     return this.executeAction(
-      this.unAuthUserIdentifier,
+      this.authStore.currentUserId,
       AuthStateActions.LOGIN,
       async () => {
         const responseUser: AxiosResponse<UserDTO> = await this.authApi.login(loginDTO);
@@ -35,7 +34,7 @@ export class AuthService extends BaseService<TAuthEntityName, AuthStateActions> 
 
   async register(registerDTO: RegisterDTO): Promise<UserEntity> {
     return this.executeAction(
-      this.unAuthUserIdentifier,
+      this.authStore.currentUserId,
       AuthStateActions.REGISTER,
       async () => {
         const responseUser: AxiosResponse<UserDTO> = await this.authApi.register(registerDTO);
@@ -47,9 +46,9 @@ export class AuthService extends BaseService<TAuthEntityName, AuthStateActions> 
     );
   }
 
-  async logout(id: number): Promise<void> {
+  async logout(): Promise<void> {
     return this.executeAction(
-      id,
+      this.authStore.currentUserId,
       AuthStateActions.LOGOUT,
       async () => {
         await this.authApi.logout();
@@ -60,7 +59,7 @@ export class AuthService extends BaseService<TAuthEntityName, AuthStateActions> 
 
   async checkAuth(): Promise<UserEntity | null> {
     return this.executeAction(
-      this.unAuthUserIdentifier,
+      this.authStore.currentUserId,
       AuthStateActions.CHECK_AUTH,
       async () => {
         const userResponse: AxiosResponse<UserDTO> = await this.authApi.checkAuth();
@@ -78,14 +77,14 @@ export class AuthService extends BaseService<TAuthEntityName, AuthStateActions> 
   
   
   get isLoginLoading() {
-    return this.entityActionStateStore.isLoading(this.unAuthUserIdentifier, AuthStateActions.LOGIN);
+    return this.entityActionStateStore.isLoading(this.authStore.currentUserId, AuthStateActions.LOGIN);
   }
 
   get isRegisterLoading() {
-    return this.entityActionStateStore.isLoading(this.unAuthUserIdentifier, AuthStateActions.REGISTER);
+    return this.entityActionStateStore.isLoading(this.authStore.currentUserId, AuthStateActions.REGISTER);
   }
 
-  isLogoutLoading(id: number) {
-    return this.entityActionStateStore.isLoading(id, AuthStateActions.LOGOUT);
-  }
+  get isLogoutLoading() {
+    return this.entityActionStateStore.isLoading(this.authStore.currentUserId, AuthStateActions.LOGOUT);
+  }  
 }
