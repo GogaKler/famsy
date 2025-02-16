@@ -22,7 +22,7 @@ function toggleSidebar(value: boolean) {
 
 const authService: AuthService = container.resolve(AuthService);
 const isLogoutLoading = computed(() => authService.isLogoutLoading);
-const usernameInitials = authService.authStore.currentUser?.usernameInitials ;
+const usernameInitials = authService.authStore.currentUser?.usernameInitials;
 
 async function handleLogout() {
   await authService.logout();
