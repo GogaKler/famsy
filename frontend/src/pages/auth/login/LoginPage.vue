@@ -16,10 +16,10 @@ const { isMobile } = useBreakpoint();
     <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-action-default to-transparent opacity-20"></div>
 
     <div class="text-center mb-6 space-y-2">
-      <h2 class="text-2xl font-bold text-text-primary">
+      <h2 class="text-2xl font-bold text-text-primary cursor-default">
         С возвращением! 👋
       </h2>
-      <p class="text-md text-text-secondary">
+      <p class="text-md text-text-secondary cursor-default">
         Войдите в свой аккаунт для продолжения
       </p>
     </div>
@@ -27,7 +27,7 @@ const { isMobile } = useBreakpoint();
     <LoginForm />
 
     <div class="mt-6">
-      <p v-if="!isMobile" class="text-sm text-text-secondary text-center">
+      <p v-if="!isMobile" class="text-sm text-text-secondary text-center cursor-default">
         Еще нет аккаунта?
         <RouterLink 
           :to="{ name: 'auth-register' }" 
