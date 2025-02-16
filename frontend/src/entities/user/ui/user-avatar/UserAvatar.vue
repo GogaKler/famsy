@@ -3,10 +3,10 @@ import { AuthService } from '@entities/auth';
 import { container } from 'tsyringe';
 import { computed } from 'vue';
 const authService: AuthService = container.resolve(AuthService);
-const currentUser = authService.authStore.currentUser;
+const currentUser = authService.authStore.currentUser?.usernameInitials;
 
 const initials = computed(() => {
-  return `${currentUser?.username[0]}${currentUser?.username[1]}`.toUpperCase();
+  return `${currentUser}`.toUpperCase();
 });
 </script>
 

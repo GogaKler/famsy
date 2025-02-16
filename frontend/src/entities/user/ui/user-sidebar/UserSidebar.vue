@@ -22,7 +22,7 @@ function toggleSidebar(value: boolean) {
 
 const authService: AuthService = container.resolve(AuthService);
 const isLogoutLoading = computed(() => authService.isLogoutLoading);
-const currentUser = authService.authStore.currentUser;
+const currentUser = authService.authStore.currentUser?.usernameInitials ;
 
 async function handleLogout() {
   await authService.logout();
@@ -35,14 +35,13 @@ async function handleLogout() {
   <FamsyDrawer
     :visible="visible"
     class="!w-full md:!w-80 lg:!w-[23rem]"
-    :header="currentUser?.username"
     position="right" 
     @update:visible="toggleSidebar"
   >
     <template #header>
       <div class="flex items-center gap-2">
         <UserAvatar />
-        <span class="font-bold">{{ currentUser?.username }}</span>
+        <span class="font-bold">{{ currentUser }}</span>
       </div>
     </template>
     <nav class="p-4 space-y-6 border-t">

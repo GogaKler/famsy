@@ -86,9 +86,5 @@ export class AuthService extends BaseService<TAuthEntityName, AuthStateActions> 
 
   get isLogoutLoading() {
     return this.entityActionStateStore.isLoading(this.authStore.currentUserId, AuthStateActions.LOGOUT);
-  }
-  
-  get usernameInitials(): string {
-    return `${this.authStore.currentUser?.username[0]}${this.authStore.currentUser?.username[1]}`.toUpperCase();
-  }
+  }  
 }

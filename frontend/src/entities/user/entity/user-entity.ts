@@ -10,4 +10,7 @@ export class UserEntity extends BaseEntity {
     this.username = dto.username;
     this.email = dto.email;
   }
+  get usernameInitials(): string {
+    return `${this.username[0]}${this.username[1]}`.toUpperCase();
+  }
 }

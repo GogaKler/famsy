@@ -54,5 +54,5 @@ const toggleUserSidebar = () => {
   </HeaderLayout>
 
   <NavigationSidebar v-model:visible="isSidebarOpen" />
-  <UserSidebar :visible="isUserSidebarOpen" @update:visible="toggleUserSidebar" />
+  <UserSidebar v-model:visible="isUserSidebarOpen" />
 </template>
