@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { UserAvatar } from '@entities/user';
-
+import { storeToRefs } from 'pinia';
 interface Props {
   visible: boolean;
 }
@@ -22,7 +22,7 @@ function toggleSidebar(value: boolean) {
 
 const authService: AuthService = container.resolve(AuthService);
 const isLogoutLoading = computed(() => authService.isLogoutLoading);
-const usernameInitials = authService.authStore.currentUser?.usernameInitials;
+const { currentUser } = storeToRefs(authService.authStore);
 
 async function handleLogout() {
   await authService.logout();
@@ -41,7 +41,7 @@ async function handleLogout() {
     <template #header>
       <div class="flex items-center gap-2">
         <UserAvatar />
-        <span class="font-bold">{{ usernameInitials }}</span>
+        <span class="font-bold">{{ currentUser?.usernameInitials }}</span>
       </div>
     </template>
     <nav class="p-4 space-y-6 border-t">
