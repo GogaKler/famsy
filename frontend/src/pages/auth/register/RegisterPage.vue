@@ -14,7 +14,7 @@ const { isMobile } = useBreakpoint();
     rounded-2xl
   ">
     <div class="text-center mb-8">
-      <h2 class="text-2xl font-bold text-text-primary">
+      <h2 class="text-2xl font-bold text-text-primary cursor-default">
         Добро пожаловать! 🎉
       </h2>
     </div>
@@ -22,7 +22,7 @@ const { isMobile } = useBreakpoint();
     <RegisterForm />
 
     <div class="mt-4">
-      <p v-if="!isMobile" class="text-sm text-text-secondary text-center">
+      <p v-if="!isMobile" class="text-sm text-text-secondary text-center cursor-default">
         Уже есть аккаунт?
         <RouterLink 
           :to="{ name: 'auth-login' }" 

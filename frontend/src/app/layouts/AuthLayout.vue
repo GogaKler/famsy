@@ -14,15 +14,15 @@ const { isMobile } = useBreakpoint();
     <div class="min-h-screen w-full flex flex-col relative z-10">
       <div v-if="!isMobile" class="flex flex-row items-center justify-center min-h-screen px-6 lg:px-16">
         <div class="w-full lg:w-[55%] lg:pr-16 xl:pr-20 max-w-2xl">
-          <div class="w-32 sm:w-40 mb-8 sm:mb-12">
+          <div class="w-32 sm:w-40 mb-8 sm:mb-12 cursor-default">
             Лого
           </div>
           
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary mb-4 sm:mb-6 leading-tight">
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary mb-4 sm:mb-6 leading-tight cursor-default">
             Управляйте финансами<br>всей семьи
           </h1>
-          
-          <p class="text-lg text-text-secondary leading-relaxed mb-12">
+
+          <p class="text-lg text-text-secondary leading-relaxed mb-12 cursor-default">
             FAMSY поможет вам отслеживать доходы, расходы и планировать бюджет.
             Анализируйте свои финансы с помощью удобных графиков и статистики.
           </p>
@@ -33,10 +33,10 @@ const { isMobile } = useBreakpoint();
                 <FontAwesomeIcon icon="chart-pie" size="lg" class="text-action-default" />
               </div>
               <div>
-                <h3 class="text-text-primary font-medium text-base sm:text-lg mb-1">
+                <h3 class="text-text-primary font-medium text-base sm:text-lg mb-1 cursor-default">
                   Аналитика
                 </h3>
-                <p class="text-text-secondary text-sm sm:text-base">
+                <p class="text-text-secondary text-sm sm:text-base cursor-default">
                   Детальные отчеты и графики
                 </p>
               </div>
@@ -47,10 +47,10 @@ const { isMobile } = useBreakpoint();
                 <FontAwesomeIcon icon="wallet" size="lg" class="text-action-default" />
               </div>
               <div>
-                <h3 class="text-text-primary font-medium text-lg mb-1">
+                <h3 class="text-text-primary font-medium text-lg mb-1 cursor-default">
                   Бюджетирование
                 </h3>
-                <p class="text-text-secondary text-sm sm:text-base">
+                <p class="text-text-secondary text-sm sm:text-base cursor-default">
                   Планирование расходов
                 </p>
               </div>
@@ -65,7 +65,7 @@ const { isMobile } = useBreakpoint();
             </Transition>
           </RouterView>
 
-          <div class="mt-6 text-center text-sm text-text-tertiary">
+          <div class="mt-6 text-center text-sm text-text-tertiary cursor-default">
             <p>© 2025 FAMSY. Все права защищены.</p>
           </div>
         </div>
@@ -84,7 +84,7 @@ const { isMobile } = useBreakpoint();
           </RouterView>
         </div>
 
-        <div class="mt-6 text-center text-xs sm:text-sm text-text-tertiary">
+        <div class="mt-6 text-center text-xs sm:text-sm text-text-tertiary cursor-default">
           <p>© 2025 FAMSY. Все права защищены.</p>
         </div>
       </div>
