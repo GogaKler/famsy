@@ -35,6 +35,7 @@ const register = async (fields: RegisterDTO): Promise<void> => {
         autocomplete="username"
         validation="required"
         placeholder="Введите имя пользователя"
+        data-testid="userNameInput"
       />
 
       <FormKit
@@ -44,6 +45,7 @@ const register = async (fields: RegisterDTO): Promise<void> => {
         autocomplete="email"
         validation="required|email"
         placeholder="Введите email"
+        data-testid="emailInput"
       />
 
       <FormKit
@@ -53,6 +55,7 @@ const register = async (fields: RegisterDTO): Promise<void> => {
         autocomplete="current-password"
         placeholder="Введите пароль"
         validation="required"
+        data-testid="passwordInput"
       />
 
       <FormKit
@@ -61,6 +64,7 @@ const register = async (fields: RegisterDTO): Promise<void> => {
         label="Подтверждение пароля"
         placeholder="Введите пароль еще раз"
         validation="required|confirm"
+        data-testid="confirmPasswordInput"
       />
 
       <FamsyButton
@@ -68,6 +72,7 @@ const register = async (fields: RegisterDTO): Promise<void> => {
         class="w-full"
         :loading="isLoading"
         :disabled="isLoading || !valid"
+        data-testid="registrationButton"
       >
         Зарегистрироваться
       </FamsyButton>
