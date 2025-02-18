@@ -4,14 +4,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        - USER_ID=${UID:-1000}
-        - GROUP_ID=${GID:-1000}
     ports:
       - "8080:8080"
       - "5005:5005"
     environment:
       - SPRING_PROFILES_ACTIVE=dev
+      - JAVA_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/famsy
       - SPRING_DATASOURCE_USERNAME=famsyUser
       - SPRING_DATASOURCE_PASSWORD=famsyPass
@@ -19,10 +17,8 @@ services:
       - SERVER_SERVLET_CONTEXT_PATH=/api/v1
       - FAMSY_SECURITY_JWT_COOKIE_DOMAIN=localhost
       - SERVER_SHUTDOWN=graceful
-      - MAVEN_CONFIG=/home/spring/.m2
     volumes:
       - .:/app
-      - maven-cache:/home/spring/.m2
     networks:
       - backend_net
     healthcheck:
@@ -36,6 +32,3 @@ networks:
   backend_net:
     name: backend_net
     external: true
-
-volumes:
-  maven-cache:
