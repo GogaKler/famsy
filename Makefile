@@ -38,6 +38,9 @@ restart-backend: stop-backend dev-backend
 restart-frontend: stop-frontend dev-frontend
 	@echo "Frontend сервис перезапущен"
 
+restart-minio: stop-minio dev-minio
+	@echo "Minio сервис перезапущен"
+
 restart-all: stop-all dev-all
 	@echo "Все сервисы перезапущены"
 
