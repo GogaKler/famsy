@@ -1,5 +1,7 @@
 package ru.famsy.backend.modules.account;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +14,7 @@ import ru.famsy.backend.modules.user.UserService;
 import ru.famsy.backend.modules.user.dto.UserDTO;
 import ru.famsy.backend.modules.user.mapper.UserMapper;
 
+@Tag(name = "account", description = "API для управления аккаунтом пользователя")
 @RestController
 @RequestMapping("/account")
 public class AccountController {
@@ -23,6 +26,10 @@ public class AccountController {
     this.userMapper = userMapper;
   }
 
+  @Operation(
+      summary = "Загрузка аватара",
+      description = "Позволяет загрузить новый аватар для авторизованного пользователя."
+  )
   @PostMapping("/avatar")
   public ResponseEntity<UserDTO> uploadAvatar(
           @AuthenticationPrincipal UserEntity userEntity,
@@ -32,6 +39,10 @@ public class AccountController {
     return ResponseEntity.ok(userMapper.toDTO(updatedUserEntity));
   }
 
+  @Operation(
+      summary = "Удаление аватара",
+      description = "Удаляет аватар для авторизованного пользователя."
+  )
   @DeleteMapping("/avatar")
   public ResponseEntity<UserDTO> deleteAvatar(@AuthenticationPrincipal UserEntity userEntity) {
     UserEntity updatedUserEntity = userService.deleteAvatar(userEntity.getId());

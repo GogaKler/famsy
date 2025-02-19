@@ -9,7 +9,6 @@ import ru.famsy.backend.common.validator.FileValidationRules;
 import ru.famsy.backend.common.validator.FileValidator;
 import ru.famsy.backend.modules.files.MinioFileStorageService;
 import ru.famsy.backend.modules.files.dto.FileUploadResponseDTO;
-import ru.famsy.backend.modules.user.dto.UserCreateDTO;
 import ru.famsy.backend.modules.user.dto.UserUpdateDTO;
 import ru.famsy.backend.modules.user.exception.UserNotFoundException;
 import ru.famsy.backend.modules.user.mapper.UserMapper;
@@ -37,25 +36,16 @@ public class UserService {
     this.fileValidator = fileValidator;
   }
 
-  public UserEntity saveUser(UserCreateDTO user) {
-    UserEntity userEntity = userMapper.toCreateEntity(user);
-
-    userEntity.setPassword(hashPassword(user.getPassword()));
-    userEntity = userRepository.save(userEntity);
-    return userEntity;
-  }
-
   public UserEntity updateUser(Long id, UserUpdateDTO userUpdateDTO) {
     UserEntity userEntity = findUserById(id);
     userMapper.updateUser(userUpdateDTO, userEntity);
-    userEntity = userRepository.save(userEntity);
-    return userEntity;
+    return userRepository.save(userEntity);
   }
 
   public UserEntity patchUser(Long id, UserUpdateDTO userUpdateDTO) {
     UserEntity userEntity = findUserById(id);
     userMapper.patchUser(userUpdateDTO, userEntity);
-    return userEntity;
+    return userRepository.save(userEntity);
   }
 
   public List<UserEntity> findAllUsers() {
