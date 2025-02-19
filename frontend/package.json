@@ -7,7 +7,6 @@
   "author": "gogakler.development@gmail.com",
   "license": "MIT",
   "scripts": {
-    "dev:web": "vite --host",
     "dev:server": "pnpm dlx tsx server/server.ts",
     "docker:dev": "docker compose -f docker/development/docker-compose.yml up --build",
     "docker:dev:build": "docker compose -f docker/development/docker-compose.yml build --no-cache",
