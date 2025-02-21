@@ -17,6 +17,9 @@ import ru.famsy.backend.modules.auth.exception.AuthAlreadyException;
 import ru.famsy.backend.modules.auth.exception.AuthValidationException;
 import ru.famsy.backend.modules.jwt.JwtCookieService;
 import ru.famsy.backend.modules.jwt.JwtTokenService;
+import ru.famsy.backend.modules.space.SpaceService;
+import ru.famsy.backend.modules.space.constants.SpaceType;
+import ru.famsy.backend.modules.space.dto.SpaceCreateDTO;
 import ru.famsy.backend.modules.user.UserEntity;
 import ru.famsy.backend.modules.user.UserRepository;
 import ru.famsy.backend.modules.user_session.UserSessionEntity;
@@ -31,16 +34,18 @@ public class AuthService {
   private final UserSessionService userSessionService;
   private final JwtTokenService jwtTokenService;
   private final JwtCookieService jwtCookieService;
+  private final SpaceService spaceService;
 
   AuthService(
           UserRepository userRepository,
           UserSessionService userSessionService,
           JwtTokenService jwtTokenService,
-          JwtCookieService jwtCookieService) {
+          JwtCookieService jwtCookieService, SpaceService spaceService) {
     this.userRepository = userRepository;
     this.userSessionService = userSessionService;
     this.jwtTokenService = jwtTokenService;
     this.jwtCookieService = jwtCookieService;
+    this.spaceService = spaceService;
   }
 
   @Transactional
@@ -65,6 +70,11 @@ public class AuthService {
     userRepository.save(userEntity);
 
     UserSessionEntity userSession = userSessionService.createOrUpdateSession(userEntity, request);
+
+    SpaceCreateDTO spaceCreateDTO = new SpaceCreateDTO();
+    spaceCreateDTO.setName("Личное пространство");
+    spaceCreateDTO.setType(SpaceType.PERSONAL);
+    spaceService.createSpace(spaceCreateDTO, userEntity);
 
     TokenPairDTO tokenPairDTO = jwtTokenService.generateTokenPair(userSession);
 

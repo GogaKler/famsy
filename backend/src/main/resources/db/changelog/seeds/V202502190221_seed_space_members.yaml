@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: V202502190221-seed-space-members
+      author: gogakler-dev
+      comment: "Начальное заполнение таблицы space_members для пользователя famsy и пространства '[FAMSY][SEED] Famsy Main Space'"
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            sql: "SELECT COUNT(*) FROM space_members WHERE user_id = 1 AND space_id = 1"
+            expectedResult: "0"
+      changes:
+        - insert:
+            tableName: space_members
+            columns:
+              - column:
+                  name: space_id
+                  valueNumeric: 1
+              - column:
+                  name: user_id
+                  valueNumeric: 1
+              - column:
+                  name: role
+                  value: "OWNER"
+              - column:
+                  name: status
+                  value: "APPROVED"
+              - column:
+                  name: created_at
+                  valueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: modified_at
+                  valueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: created_by
+                  value: "SYSTEM"
+              - column:
+                  name: modified_by
+                  value: "SYSTEM"

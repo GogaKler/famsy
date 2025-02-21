@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - changeSet:
+      id: V202502161742-1
+      author: gogakler_dev
+      comment: "Создание таблицы участников пространства."
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            tableName: space_members
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_spacemembers
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: space_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: role
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(255)
+              - column:
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  name: modified_at
+                  type: DATETIME
+              - column:
+                  name: created_by
+                  type: VARCHAR(255)
+              - column:
+                  name: modified_by
+                  type: VARCHAR(255)
+
+  - changeSet:
+      id: V202502161742-2
+      author: gogakler_dev
+      comment: "Внешняя связь с пространством."
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: space_id
+            baseTableName: space_members
+            constraintName: FK_SPACEMEMBERS_ON_SPACE
+            referencedColumnNames: id
+            referencedTableName: spaces
+
+  - changeSet:
+      id: V202502161742-3
+      author: gogakler_dev
+      comment: "Внешняя связь с пользователем."
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: space_members
+            constraintName: FK_SPACEMEMBERS_ON_USER
+            referencedColumnNames: id
+            referencedTableName: users

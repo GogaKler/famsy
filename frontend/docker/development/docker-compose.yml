@@ -14,4 +14,3 @@ services:
       - ../../.env.development.local
     environment:
       - NODE_ENV=development
-    command: ["pnpm", "run", "dev:server"]

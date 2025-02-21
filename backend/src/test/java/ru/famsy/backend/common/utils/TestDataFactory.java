@@ -3,7 +3,6 @@ package ru.famsy.backend.common.utils;
 import ru.famsy.backend.modules.auth.dto.LoginDTO;
 import ru.famsy.backend.modules.auth.dto.RegisterDTO;
 import ru.famsy.backend.modules.user.UserEntity;
-import ru.famsy.backend.modules.user.dto.UserCreateDTO;
 import ru.famsy.backend.modules.user_session.UserSessionEntity;
 
 import java.time.LocalDateTime;
@@ -57,14 +56,5 @@ public class TestDataFactory {
     session.setRegion("Test Region");
     session.setTimezone("UTC");
     return session;
-  }
-
-  public static UserCreateDTO createUserCreateDTO() {
-    String uuid = UUID.randomUUID().toString().substring(0, 8);
-    UserCreateDTO dto = new UserCreateDTO();
-    dto.setEmail("test" + uuid + "@example.com");
-    dto.setUsername("testUser" + uuid);
-    dto.setPassword("Password123");
-    return dto;
   }
 } 

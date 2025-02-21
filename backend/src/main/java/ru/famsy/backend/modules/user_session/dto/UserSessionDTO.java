@@ -1,86 +1,100 @@
 package ru.famsy.backend.modules.user_session.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import ru.famsy.backend.common.dto.BaseDTO;
+
 import java.time.LocalDateTime;
 
-public class UserSessionDTO {
-  private Long id;
-  private String deviceFingerprint;
-  private String deviceType;
-  private String browser;
-  private String os;
-  private String deviceModel;
-  private String ip;
-  private String city;
-  private String country;
-  private LocalDateTime lastActivityAt;
+@Schema(description = "DTO для представления данных сессии пользователя")
+public class UserSessionDTO extends BaseDTO {
 
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
+    @Schema(description = "Отпечаток устройства", example = "fingerprint_abc123")
+    private String deviceFingerprint;
 
-  public String getDeviceType() {
-    return deviceType;
-  }
-  public void setDeviceType(String deviceType) {
-    this.deviceType = deviceType;
-  }
+    @Schema(description = "Тип устройства", example = "Desktop")
+    private String deviceType;
 
-  public String getBrowser() {
-    return browser;
-  }
-  public void setBrowser(String browser) {
-    this.browser = browser;
-  }
+    @Schema(description = "Браузер устройства", example = "Chrome")
+    private String browser;
 
-  public String getOs() {
-    return os;
-  }
-  public void setOs(String os) {
-    this.os = os;
-  }
+    @Schema(description = "Операционная система", example = "Windows 10")
+    private String os;
 
-  public String getDeviceModel() {
-    return deviceModel;
-  }
-  public void setDeviceModel(String deviceModel) {
-    this.deviceModel = deviceModel;
-  }
+    @Schema(description = "Модель устройства", example = "Dell XPS 15")
+    private String deviceModel;
 
-  public String getIp() {
-    return ip;
-  }
-  public void setIp(String ip) {
-    this.ip = ip;
-  }
+    @Schema(description = "IP адрес", example = "192.168.0.1")
+    private String ip;
 
-  public String getCity() {
-    return city;
-  }
-  public void setCity(String city) {
-    this.city = city;
-  }
+    @Schema(description = "Город", example = "Москва")
+    private String city;
 
-  public String getCountry() {
-    return country;
-  }
-  public void setCountry(String country) {
-    this.country = country;
-  }
+    @Schema(description = "Страна", example = "Россия")
+    private String country;
 
-  public LocalDateTime getLastActivityAt() {
-    return lastActivityAt;
-  }
-  public void setLastActivityAt(LocalDateTime lastActivityAt) {
-    this.lastActivityAt = lastActivityAt;
-  }
+    @Schema(description = "Время последней активности", example = "2023-10-27T12:00:00")
+    private LocalDateTime lastActivityAt;
 
-  public String getDeviceFingerprint() {
-    return deviceFingerprint;
-  }
-  public void setDeviceFingerprint(String deviceFingerprint) {
-    this.deviceFingerprint = deviceFingerprint;
-  }
+    public String getDeviceFingerprint() {
+        return deviceFingerprint;
+    }
+    public void setDeviceFingerprint(String deviceFingerprint) {
+        this.deviceFingerprint = deviceFingerprint;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public String getBrowser() {
+        return browser;
+    }
+    public void setBrowser(String browser) {
+        this.browser = browser;
+    }
+
+    public String getOs() {
+        return os;
+    }
+    public void setOs(String os) {
+        this.os = os;
+    }
+
+    public String getDeviceModel() {
+        return deviceModel;
+    }
+    public void setDeviceModel(String deviceModel) {
+        this.deviceModel = deviceModel;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public String getCity() {
+        return city;
+    }
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public LocalDateTime getLastActivityAt() {
+        return lastActivityAt;
+    }
+    public void setLastActivityAt(LocalDateTime lastActivityAt) {
+        this.lastActivityAt = lastActivityAt;
+    }
 }

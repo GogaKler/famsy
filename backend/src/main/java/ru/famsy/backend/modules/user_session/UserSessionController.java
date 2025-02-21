@@ -1,8 +1,9 @@
 package ru.famsy.backend.modules.user_session;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.famsy.backend.common.exception.base.UnauthorizedException;
@@ -14,6 +15,7 @@ import ru.famsy.backend.modules.user_session.mapper.UserSessionMapper;
 
 import java.util.List;
 
+@Tag(name = "sessions", description = "API для управления сессиями пользователя")
 @RestController
 @RequestMapping("/sessions")
 public class UserSessionController {
@@ -29,14 +31,22 @@ public class UserSessionController {
     this.jwtTokenService = jwtTokenService;
   }
 
+  @Operation(
+      summary = "Получение сессий пользователя",
+      description = "Возвращает список сессий, принадлежащих авторизованному пользователю."
+  )
   @GetMapping
-  public ResponseEntity<List<UserSessionDTO>> getUserSessions(
+  public List<UserSessionDTO> getUserSessions(
           @AuthenticationPrincipal UserEntity user
   ) {
     List<UserSessionEntity> sessions = userSessionService.getUserSessions(user);
-    return ResponseEntity.ok(userSessionMapper.toDTOList(sessions));
+    return userSessionMapper.toDTOList(sessions);
   }
 
+  @Operation(
+      summary = "Завершение сессии по ID",
+      description = "Завершает выбранную сессию пользователя по её идентификатору."
+  )
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void terminateSession(
@@ -46,6 +56,10 @@ public class UserSessionController {
     userSessionService.deleteUserSession(id, user);
   }
 
+  @Operation(
+      summary = "Завершение всех сессий кроме текущей",
+      description = "Завершает все сессии пользователя, кроме текущей, определяемой по refresh-токену, извлечённому из cookie."
+  )
   @DeleteMapping
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void terminateAllSessions(

@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: V202502190217-seed-spaces
+      author: gogakler-dev
+      comment: "Начальное заполнение таблицы spaces для пользователя famsy"
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            sql: "SELECT COUNT(*) FROM spaces WHERE name = '[FAMSY][SEED] Famsy Main Space'"
+            expectedResult: "0"
+      changes:
+        - insert:
+            tableName: spaces
+            columns:
+              - column:
+                  name: name
+                  value: "[FAMSY][SEED] Famsy Main Space"
+              - column:
+                  name: description
+                  value: "Пространство по умолчанию для пользователя famsy"
+              - column:
+                  name: owner_id
+                  valueNumeric: 1
+              - column:
+                  name: type
+                  value: "PUBLIC"
+              - column:
+                  name: status
+                  value: "ACTIVE"
+              - column:
+                  name: created_at
+                  valueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: modified_at
+                  valueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: created_by
+                  value: "SYSTEM"
+              - column:
+                  name: modified_by
+                  value: "SYSTEM"
