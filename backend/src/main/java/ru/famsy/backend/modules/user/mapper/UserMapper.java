@@ -17,10 +17,6 @@ public interface UserMapper {
     List<UserDTO> toDTOs(List<UserEntity> users);
     List<UserEntity> toEntities(List<UserDTO> userDTOs);
 
-    @Named("toUpdateDTO")
-    UserUpdateDTO toUpdateDTO(UserEntity user);
-    UserEntity toUpdateEntity(UserUpdateDTO userUpdateDTO);
-
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void patchUser(UserUpdateDTO userUpdateDTO, @MappingTarget UserEntity userEntity);
 

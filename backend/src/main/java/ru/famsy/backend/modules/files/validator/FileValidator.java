@@ -1,9 +1,9 @@
-package ru.famsy.backend.common.validator;
+package ru.famsy.backend.modules.files.validator;
 
 import org.apache.tika.Tika;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import ru.famsy.backend.common.validator.exception.FileValidationException;
+import ru.famsy.backend.modules.files.exception.FileValidationException;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

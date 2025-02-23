@@ -1,51 +1,30 @@
 package ru.famsy.backend.modules.user;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.famsy.backend.common.exception.base.MinioException;
-import ru.famsy.backend.common.validator.FileValidationRules;
-import ru.famsy.backend.common.validator.FileValidator;
 import ru.famsy.backend.modules.files.MinioFileStorageService;
 import ru.famsy.backend.modules.files.dto.FileUploadResponseDTO;
-import ru.famsy.backend.modules.user.dto.UserUpdateDTO;
+import ru.famsy.backend.modules.files.validator.FileValidationRules;
+import ru.famsy.backend.modules.files.validator.FileValidator;
 import ru.famsy.backend.modules.user.exception.UserNotFoundException;
-import ru.famsy.backend.modules.user.mapper.UserMapper;
 
 import java.util.List;
 
 @Service
 public class UserService {
-  private final UserMapper userMapper;
   private final UserRepository userRepository;
-  private final PasswordEncoder passwordEncoder;
   private final MinioFileStorageService minioFileStorageService;
   private final FileValidator fileValidator;
 
   UserService(
           UserRepository userRepository,
-          UserMapper userMapper,
           MinioFileStorageService minioFileStorageService,
           FileValidator fileValidator
   ) {
     this.userRepository = userRepository;
-    this.userMapper = userMapper;
-    this.passwordEncoder = new BCryptPasswordEncoder();
     this.minioFileStorageService = minioFileStorageService;
     this.fileValidator = fileValidator;
-  }
-
-  public UserEntity updateUser(Long id, UserUpdateDTO userUpdateDTO) {
-    UserEntity userEntity = findUserById(id);
-    userMapper.updateUser(userUpdateDTO, userEntity);
-    return userRepository.save(userEntity);
-  }
-
-  public UserEntity patchUser(Long id, UserUpdateDTO userUpdateDTO) {
-    UserEntity userEntity = findUserById(id);
-    userMapper.patchUser(userUpdateDTO, userEntity);
-    return userRepository.save(userEntity);
   }
 
   public List<UserEntity> findAllUsers() {
@@ -65,10 +44,6 @@ public class UserService {
   public UserEntity findUserByUsername(String username) {
     return userRepository.findByUsername(username)
             .orElseThrow(() -> UserNotFoundException.notFound());
-  }
-
-  public void deleteUser(Long id) {
-    userRepository.deleteById(id);
   }
 
   public UserEntity uploadAvatar(Long id, MultipartFile file) {
@@ -114,9 +89,5 @@ public class UserService {
     } catch (Exception e) {
       throw new MinioException(e.getMessage());
     }
-  }
-
-  private String hashPassword(String password) {
-    return passwordEncoder.encode(password);
   }
 }

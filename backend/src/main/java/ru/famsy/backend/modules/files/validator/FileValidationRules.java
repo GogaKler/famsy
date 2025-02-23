@@ -1,4 +1,4 @@
-package ru.famsy.backend.common.validator;
+package ru.famsy.backend.modules.files.validator;
 
 import java.util.List;
 

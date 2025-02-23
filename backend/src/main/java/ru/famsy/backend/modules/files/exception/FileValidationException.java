@@ -1,4 +1,4 @@
-package ru.famsy.backend.common.validator.exception;
+package ru.famsy.backend.modules.files.exception;
 
 public class FileValidationException extends RuntimeException {
   public FileValidationException(String message) {
