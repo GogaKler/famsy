@@ -23,7 +23,7 @@ databaseChangeLog:
                   valueNumeric: 1
               - column:
                   name: type
-                  value: "PUBLIC"
+                  value: "PERSONAL"
               - column:
                   name: status
                   value: "ACTIVE"
