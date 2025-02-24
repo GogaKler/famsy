@@ -23,7 +23,7 @@ databaseChangeLog:
                   value: "OWNER"
               - column:
                   name: status
-                  value: "APPROVED"
+                  value: "ACTIVE"
               - column:
                   name: created_at
                   valueComputed: CURRENT_TIMESTAMP

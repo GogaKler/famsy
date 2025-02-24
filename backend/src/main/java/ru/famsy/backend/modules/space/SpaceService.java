@@ -2,19 +2,16 @@ package ru.famsy.backend.modules.space;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import ru.famsy.backend.common.exception.base.NotFoundException;
 import ru.famsy.backend.modules.space.constants.SpaceStatus;
 import ru.famsy.backend.modules.space.dto.SpaceCreateDTO;
 import ru.famsy.backend.modules.space.dto.SpaceUpdateDTO;
 import ru.famsy.backend.modules.space.exception.SpaceForbiddenException;
 import ru.famsy.backend.modules.space.mapper.SpaceMapper;
-import ru.famsy.backend.modules.user.UserEntity;
 import ru.famsy.backend.modules.space_member.SpaceMemberEntity;
 import ru.famsy.backend.modules.space_member.constants.SpaceMemberRole;
 import ru.famsy.backend.modules.space_member.constants.SpaceMemberStatus;
-
-import java.util.List;
+import ru.famsy.backend.modules.user.UserEntity;
 
 @Service
 public class SpaceService {
@@ -46,10 +43,6 @@ public class SpaceService {
   public SpaceEntity findSpaceByIdAndCurrentUser(Long id, UserEntity currentUser) {
     return spaceRepository.findByIdAndMemberId(id, currentUser.getId())
             .orElseThrow(() -> new NotFoundException("Пространство не найдено"));
-  }
-
-  public List<SpaceEntity> findSpacesByCurrentUser(UserEntity currentUser) {
-    return spaceRepository.findAllSpacesByMemberId(currentUser.getId());
   }
 
   @Transactional

@@ -1,53 +1,49 @@
 package ru.famsy.backend.common.exception;
 
+import org.springframework.core.convert.ConversionFailedException;
+import org.springframework.core.convert.ConverterNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.support.MethodArgumentTypeMismatchException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.famsy.backend.common.exception.base.*;
 import ru.famsy.backend.common.exception.dto.ErrorResponse;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage())
         );
-        return ResponseEntity.badRequest().body(errors);
+        return errors;
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+    public ErrorResponse handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         String message = ex.getMostSpecificCause().getMessage();
 
         // TODO: Написать нормальную логику обработки.
         if (message.contains("violates foreign key constraint")) {
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(new ErrorResponse("Foreign key violation", "Невозможно удалить запись, так как существуют связанные данные"));
+            return new ErrorResponse("Foreign key violation", "Невозможно удалить запись, так как существуют связанные данные");
         }
 
         if (message.contains("unique constraint") || message.contains("duplicate key")) {
             String fieldName = extractFieldNameFromMessage(message);
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(new ErrorResponse("UniqueConstraintViolation", "Поле '" + fieldName + "' должно быть уникальным"));
+            return new ErrorResponse("UniqueConstraintViolation", "Поле '" + fieldName + "' должно быть уникальным");
         }
 
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(new ErrorResponse("Data Integrity Violation", "Нарушение целостности данных"));
+        return new ErrorResponse("Data Integrity Violation", "Нарушение целостности данных");
     }
 
     private String extractFieldNameFromMessage(String message) {
@@ -58,43 +54,47 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponse> handleValidationException(ValidationException ex) {
-        ErrorResponse errorResponse = new ErrorResponse("Validation exception", ex.getMessage());
-        return ResponseEntity.badRequest().body(errorResponse);
+    public ErrorResponse handleValidationException(ValidationException ex) {
+      return new ErrorResponse("Validation exception", ex.getMessage());
     }
 
     @ExceptionHandler(ConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<ErrorResponse> handleConflictException(ConflictException ex) {
-        ErrorResponse errorResponse = new ErrorResponse("Conflict", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    public ErrorResponse handleConflictException(ConflictException ex) {
+      return new ErrorResponse("Conflict", ex.getMessage());
     }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(ex.getClass().getSimpleName(), ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    public ErrorResponse handleNotFoundException(NotFoundException ex) {
+      return new ErrorResponse(ex.getClass().getSimpleName(), ex.getMessage());
     }
 
     @ExceptionHandler(ForbiddenException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ResponseEntity<ErrorResponse> handleForbiddenException(ForbiddenException ex) {
-        ErrorResponse errorResponse = new ErrorResponse("Forbidden", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+    public ErrorResponse handleForbiddenException(ForbiddenException ex) {
+      return new ErrorResponse("Forbidden", ex.getMessage());
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException ex) {
-        ErrorResponse errorResponse = new ErrorResponse("Unauthorized", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+    public ErrorResponse handleUnauthorizedException(UnauthorizedException ex) {
+      return new ErrorResponse("Unauthorized", ex.getMessage());
     }
 
     @ExceptionHandler(MinioException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponse> handleMinioException(MinioException ex) {
-        ErrorResponse errorResponse = new ErrorResponse("Minio exception", ex.getMessage());
-        return ResponseEntity.badRequest().body(errorResponse);
+    public ErrorResponse handleMinioException(MinioException ex) {
+      return new ErrorResponse("Minio exception", ex.getMessage());
+    }
+
+    @ExceptionHandler({
+        ConverterNotFoundException.class,
+        ConversionFailedException.class,
+        MethodArgumentTypeMismatchException.class
+    })
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleConversionExceptions(Exception ex) {
+      return new ErrorResponse("Bad Request", "Некорректные параметры запроса: " + ex.getCause().getMessage());
     }
 }
