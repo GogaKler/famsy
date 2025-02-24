@@ -36,7 +36,7 @@ module.exports = {
         'selfClosingTag': 'always',
       },
     ],
-    'vue/attribute-hyphenation': ['error', 'always'], // Дефисы в атрибутах
+    'vue/attribute-hyphenation': ['error', 'never'], // Запрещаем дефисы в атрибутах
     'vue/attributes-order': [
       'error', { // Порядок атрибутов
         'order': [
