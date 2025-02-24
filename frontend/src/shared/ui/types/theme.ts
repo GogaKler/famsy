@@ -32,4 +32,8 @@ export type ColorToken =
   | 'status-error'
   | 'status-info';
 
-export type Theme = 'light' | 'dark'; 
+export enum FamsyTheme {
+  LIGHT = 'light',
+  DARK = 'dark',
+  CONTRAST = 'contrast',
+}

@@ -3,7 +3,8 @@ import HeaderLayout from './HeaderLayout.vue';
 import { HeaderTabs } from '@widgets/header-tabs';
 import { ref } from 'vue';
 import { NavigationSidebar } from '@widgets/sidebar';
-import { UserSidebar, UserAvatar } from '@entities/user';
+import { UserAvatar, UserSidebar } from '@entities/user';
+import { FamsyThemeSwitcher } from '@features/theme-switcher';
 
 
 const isSidebarOpen = ref(false);
@@ -45,6 +46,7 @@ const toggleUserSidebar = () => {
     </template> 
 
     <template #right>
+      <FamsyThemeSwitcher />
       <UserAvatar @click="toggleUserSidebar" />
     </template> 
 

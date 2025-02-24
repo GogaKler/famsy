@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTheme } from '@shared/ui';
+import { useTheme } from '@features/theme-switcher';
 import { RouterView } from 'vue-router';
 
 useTheme();

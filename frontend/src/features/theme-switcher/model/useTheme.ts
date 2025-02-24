@@ -1,11 +1,10 @@
 import { onMounted, ref, type Ref } from 'vue';
-
-type Theme = 'light' | 'dark' | 'contrast';
+import { FamsyTheme } from '@shared/ui';
 
 export const useTheme = () => {
-  const theme: Ref<Theme, Theme> = ref<Theme>('light');
+  const theme: Ref<FamsyTheme, FamsyTheme> = ref<FamsyTheme>(FamsyTheme.LIGHT);
 
-  const setTheme = (newTheme: Theme) => {
+  const setTheme = (newTheme: FamsyTheme) => {
     document.documentElement.classList.remove(theme.value);
     document.documentElement.classList.add(newTheme);
     theme.value = newTheme;
@@ -13,19 +12,19 @@ export const useTheme = () => {
   };
 
   const toggleTheme = () => {
-    const newTheme = theme.value === 'light' ? 'dark' : 'light';
+    const newTheme = theme.value === FamsyTheme.LIGHT ? FamsyTheme.DARK : FamsyTheme.LIGHT;
     setTheme(newTheme);
   };
 
   onMounted(() => {
-    const savedTheme: Theme = localStorage.getItem('theme') as Theme;
+    const savedTheme: FamsyTheme = localStorage.getItem('theme') as FamsyTheme;
     if (savedTheme) {
       setTheme(savedTheme);
       return;
     }
 
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setTheme(prefersDark ? 'dark' : 'light');
+    setTheme(prefersDark ? FamsyTheme.DARK : FamsyTheme.LIGHT);
   });
 
   return {
@@ -33,4 +32,4 @@ export const useTheme = () => {
     setTheme,
     toggleTheme,
   };
-}; 
+};
