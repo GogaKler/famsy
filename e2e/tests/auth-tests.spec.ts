@@ -44,19 +44,22 @@ test.describe("Валидации формы логина", ()=>{
 test.describe("Авторизованный пользователь", ()=>{
   let loginPage : LoginPage;
 
+  const login: string = process.env.USER_NAME;
+  const password: string = process.env.USER_PASSWORD
+
   test.beforeEach(async ({ page })=>{
     loginPage = new LoginPage(page);
     await loginPage.navigateTo();
   });
 
   test("Пользователь может авторизоваться с корректными кредами", async ({ page })=>{
-    await loginPage.login("test", "test1234");
+    await loginPage.login(login, password);
 
     await page.waitForURL(DashboardPage.baseUrl);
   });
 
   test("Авторизованный пользователь не может перейти /auth/login", async ({ page })=>{
-    await loginPage.login("test", "test1234");
+    await loginPage.login(login, password);
     await page.waitForURL(DashboardPage.baseUrl);
 
     await loginPage.navigateTo();
